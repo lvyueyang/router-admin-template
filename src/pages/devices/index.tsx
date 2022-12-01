@@ -1,16 +1,22 @@
 import { PageContainer } from '@ant-design/pro-layout';
-import {
-  ProTable,
-  ProColumns,
-  ActionType,
-  ProCard,
-  StatisticCard,
-} from '@ant-design/pro-components';
+import { ProTable, ProColumns, ActionType, ProCard } from '@ant-design/pro-components';
 import { getInvitationList } from '@/services';
 import { transformPagination } from '@/utils';
 import { CreateInvitationBody, InvitationItem } from '@/services/interface';
-import { useRef } from 'react';
-import { Button, Col, Drawer, Dropdown, Menu, Row, Space, Statistic, Tooltip } from 'antd';
+import { useRef, useState } from 'react';
+import {
+  Button,
+  Drawer,
+  Dropdown,
+  Empty,
+  Input,
+  Menu,
+  Row,
+  Space,
+  Statistic,
+  Tag,
+  Tooltip,
+} from 'antd';
 import Header from '@/components/Header';
 import { useDetailModal } from '@/hooks/useDetailModal';
 import { ArrowUpOutlined, DownOutlined, PoweroffOutlined, SyncOutlined } from '@ant-design/icons';
@@ -21,16 +27,9 @@ type FormValue = CreateInvitationBody;
 export default function Devices() {
   const tableRef = useRef<ActionType>();
   const { detailModal, detailModalShow, detailModalClose } = useDetailModal<FormValue>();
+  const [searchParams, setSearchParams] = useState({ search_keywords: '' });
 
   const columns: ProColumns<TableItem>[] = [
-    {
-      hideInTable: true,
-      key: 'search_keywords',
-      dataIndex: 'search_keywords',
-      fieldProps: {
-        placeholder: '请输入主机名搜索',
-      },
-    },
     {
       dataIndex: 'code',
       title: '主机名',
@@ -81,15 +80,33 @@ export default function Devices() {
           columns={columns}
           rowKey="code"
           bordered
-          request={({ search_keywords, ...params }) => {
+          search={false}
+          request={({ ...params }) => {
             return getInvitationList({
               ...transformPagination(params),
-              search_keywords: search_keywords?.trim(),
+              ...searchParams,
             }).then(({ data }) => {
               return { data: data.data.list || [], total: data.data.total };
             });
           }}
           actionRef={tableRef}
+          headerTitle={
+            <Input.Search
+              value={searchParams.search_keywords}
+              onChange={(e) => {
+                setSearchParams((state) => ({
+                  ...state,
+                  search_keywords: e.target.value.trim(),
+                }));
+              }}
+              style={{ width: 400 }}
+              placeholder="请输入主机名搜索"
+              enterButton={<>搜索</>}
+              onSearch={() => {
+                tableRef.current?.reload();
+              }}
+            />
+          }
         />
         <Drawer
           open={detailModal.open}
@@ -171,6 +188,69 @@ export default function Devices() {
               <ProCard>
                 <Statistic title="网关地址" value={80.0} />
               </ProCard>
+            </ProCard>
+            {/* 硬盘 */}
+            <ProCard
+              type="inner"
+              bordered
+              title={
+                <>
+                  硬盘1 <Tag color="red">休眠</Tag>
+                </>
+              }
+              size="small"
+              extra={
+                <Space>
+                  <Tooltip title="智能预测">
+                    <Button type="primary" ghost>
+                      智能预测
+                    </Button>
+                  </Tooltip>
+                  <Tooltip title="备份扇区">
+                    <Button type="primary" ghost>
+                      备份扇区
+                    </Button>
+                  </Tooltip>
+                  <Tooltip title="格式化 (ext4)">
+                    <Button type="primary" danger ghost>
+                      格式化 (ext4)
+                    </Button>
+                  </Tooltip>
+                </Space>
+              }
+            >
+              <Row justify="center">错误日志信息</Row>
+            </ProCard>
+            <ProCard
+              type="inner"
+              bordered
+              title={
+                <>
+                  硬盘2 <Tag color="blue">待机</Tag>
+                </>
+              }
+              size="small"
+              extra={
+                <Space>
+                  <Tooltip title="智能预测">
+                    <Button type="primary" ghost>
+                      智能预测
+                    </Button>
+                  </Tooltip>
+                  <Tooltip title="备份扇区">
+                    <Button type="primary" ghost>
+                      备份扇区
+                    </Button>
+                  </Tooltip>
+                  <Tooltip title="格式化 (ext4)">
+                    <Button type="primary" danger ghost>
+                      格式化 (ext4)
+                    </Button>
+                  </Tooltip>
+                </Space>
+              }
+            >
+              <Row justify="center">暂无错误日志</Row>
             </ProCard>
             {/* 服务进程与时钟 */}
             <ProCard

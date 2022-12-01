@@ -1,2 +1,20 @@
 .container {
+  :global {
+    .ant-tabs-card .ant-tabs-content {
+      height: 120px;
+      margin-top: -16px;
+    }
+    .ant-tabs-card .ant-tabs-content > .ant-tabs-tabpane {
+      padding: 16px;
+      background: #fff;
+    }
+    .ant-tabs-card .ant-tabs-tab {
+      background: transparent;
+      border-color: transparent;
+    }
+    .ant-tabs-card .ant-tabs-tab-active {
+      background: #fff;
+      border-color: #fff;
+    }
+  }
 }
