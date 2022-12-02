@@ -1,33 +1,17 @@
-import { PageContainer } from '@ant-design/pro-layout';
-import { ProTable, ProColumns, ActionType, ProCard } from '@ant-design/pro-components';
+import PageContainer from '@/components/PageContainer';
+import { ProTable, ProColumns, ActionType } from '@ant-design/pro-components';
 import { getInvitationList } from '@/services';
 import { transformPagination } from '@/utils';
-import { CreateInvitationBody, InvitationItem } from '@/services/interface';
+import { InvitationItem } from '@/services/interface';
 import { useRef, useState } from 'react';
-import {
-  Button,
-  Drawer,
-  Dropdown,
-  Empty,
-  Input,
-  Menu,
-  Row,
-  Space,
-  Statistic,
-  Tag,
-  Tooltip,
-} from 'antd';
+import { Input } from 'antd';
 import Header from '@/components/Header';
-import { useDetailModal } from '@/hooks/useDetailModal';
-import { ArrowUpOutlined, DownOutlined, PoweroffOutlined, SyncOutlined } from '@ant-design/icons';
 import { Link } from 'umi';
 
 type TableItem = InvitationItem;
-type FormValue = CreateInvitationBody;
 
 export default function Devices() {
   const tableRef = useRef<ActionType>();
-  const { detailModal, detailModalShow, detailModalClose } = useDetailModal<FormValue>();
   const [searchParams, setSearchParams] = useState({ search_keywords: '' });
 
   const columns: ProColumns<TableItem>[] = [
@@ -68,6 +52,7 @@ export default function Devices() {
       <Header />
       <PageContainer>
         <ProTable<TableItem>
+          size="small"
           columns={columns}
           rowKey="code"
           bordered

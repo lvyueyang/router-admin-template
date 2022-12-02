@@ -1,5 +1,5 @@
 import Header from '@/components/Header';
-import { PageContainer } from '@ant-design/pro-layout';
+import PageContainer from '@/components/PageContainer';
 import { Tabs, Button } from 'antd';
 import styles from './index.module.less';
 

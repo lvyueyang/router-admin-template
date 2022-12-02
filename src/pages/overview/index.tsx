@@ -1,5 +1,5 @@
 import Header from '@/components/Header';
-import { PageContainer } from '@ant-design/pro-layout';
+import PageContainer from '@/components/PageContainer';
 import { StatisticCard } from '@ant-design/pro-components';
 
 export default function Overview() {

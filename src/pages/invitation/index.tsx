@@ -1,4 +1,4 @@
-import { PageContainer } from '@ant-design/pro-layout';
+import PageContainer from '@/components/PageContainer';
 import { ProTable, ProColumns, ActionType } from '@ant-design/pro-components';
 import { createInvitation, getInvitationList } from '@/services';
 import { transformPagination } from '@/utils';

@@ -1,5 +1,14 @@
 .container {
   :global {
+    .ant-tabs-nav {
+      margin-bottom: 16px;
+      &::before {
+        display: none !important;
+      }
+    }
+    .ant-tabs-tab-active {
+      font-weight: 700;
+    }
     .ant-tabs-card .ant-tabs-content {
       height: 120px;
       margin-top: -16px;

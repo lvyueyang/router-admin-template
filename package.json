@@ -17,15 +17,15 @@
     "**/*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
-    "@ant-design/icons": "^4.7.0",
-    "@ant-design/pro-card": "^2.0.4",
-    "@ant-design/pro-components": "^2.3.7",
-    "@ant-design/pro-layout": "^7.0.4",
+    "@ant-design/icons": "^4.8.0",
+    "@ant-design/pro-card": "^2.1.1",
+    "@ant-design/pro-components": "^2.3.39",
+    "@ant-design/pro-layout": "^7.3.3",
     "ahooks": "^3.6.2",
-    "antd": "^4.22.0",
+    "antd": "^5.0.3",
     "axios": "^0.27.2",
     "js-cookie": "^3.0.1",
-    "umi": "^4.0.30"
+    "umi": "^4.0.34"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",

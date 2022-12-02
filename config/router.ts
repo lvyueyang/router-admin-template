@@ -1,4 +1,12 @@
-import { FundOutlined, HddOutlined, ClusterOutlined, CodeOutlined } from '@ant-design/icons';
+import {
+  FundOutlined,
+  HddOutlined,
+  ClusterOutlined,
+  CodeOutlined,
+  FundFilled,
+  HddFilled,
+  CodeFilled,
+} from '@ant-design/icons';
 
 const router = {
   routes: [
@@ -12,13 +20,13 @@ const router = {
           path: '/overview',
           component: 'overview',
           title: '概览',
-          icon: FundOutlined,
+          icon: FundFilled,
         },
         {
           path: '/devices',
           component: 'devices',
           title: '设备管理',
-          icon: HddOutlined,
+          icon: HddFilled,
         },
         {
           path: '/devices/:id',
@@ -42,7 +50,7 @@ const router = {
           path: '/logger',
           component: 'logger',
           title: '日志',
-          icon: CodeOutlined,
+          icon: CodeFilled,
         },
       ],
     },

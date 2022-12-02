@@ -1,10 +1,10 @@
-import { PageContainer } from '@ant-design/pro-layout';
-import { ProTable, ProColumns, ActionType, ProCard } from '@ant-design/pro-components';
+import PageContainer from '@/components/PageContainer';
+import { ProTable, ProColumns, ActionType } from '@ant-design/pro-components';
 import { getInvitationList } from '@/services';
 import { transformPagination } from '@/utils';
-import { CreateInvitationBody, InvitationItem } from '@/services/interface';
+import { InvitationItem } from '@/services/interface';
 import { useRef, useState } from 'react';
-import { Button, Input } from 'antd';
+import { Input } from 'antd';
 import Header from '@/components/Header';
 import { Link } from 'umi';
 
@@ -52,6 +52,7 @@ export default function Devices() {
       <Header />
       <PageContainer>
         <ProTable<TableItem>
+          size="small"
           columns={columns}
           rowKey="code"
           bordered
