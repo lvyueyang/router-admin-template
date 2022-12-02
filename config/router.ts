@@ -21,10 +21,22 @@ const router = {
           icon: HddOutlined,
         },
         {
+          path: '/devices/:id',
+          component: 'devices/detail',
+          title: '设备详情',
+          hideMenu: true,
+        },
+        {
           path: '/cluster',
           component: 'cluster',
           title: '集群管理',
           icon: ClusterOutlined,
+        },
+        {
+          path: '/cluster/:id',
+          component: 'cluster/detail',
+          title: '集群详情',
+          hideMenu: true,
         },
         {
           path: '/logger',

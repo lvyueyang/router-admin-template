@@ -20,6 +20,7 @@ import {
 import Header from '@/components/Header';
 import { useDetailModal } from '@/hooks/useDetailModal';
 import { ArrowUpOutlined, DownOutlined, PoweroffOutlined, SyncOutlined } from '@ant-design/icons';
+import { Link } from 'umi';
 
 type TableItem = InvitationItem;
 type FormValue = CreateInvitationBody;
@@ -56,18 +57,8 @@ export default function Devices() {
       dataIndex: 'operate',
       title: '操作',
       hideInSearch: true,
-      render: (_, row) => {
-        return (
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              detailModalShow(row);
-            }}
-          >
-            操作
-          </Button>
-        );
+      render: () => {
+        return <Link to={`/devices/123`}>查看</Link>;
       },
     },
   ];
@@ -108,191 +99,6 @@ export default function Devices() {
             />
           }
         />
-        <Drawer
-          open={detailModal.open}
-          title={detailModal.data?.desc}
-          onClose={detailModalClose}
-          width={800}
-          maskClosable={false}
-        >
-          <ProCard gutter={[0, 16]} ghost direction="column">
-            {/* 主机信息 */}
-            <ProCard
-              type="inner"
-              bordered
-              title="主机信息"
-              size="small"
-              extra={
-                <Tooltip title="刷新">
-                  <Button type="primary" ghost icon={<SyncOutlined />}>
-                    刷新
-                  </Button>
-                </Tooltip>
-              }
-            >
-              <ProCard>
-                <Statistic title="CPU 占用" value={80.0} />
-              </ProCard>
-              <ProCard.Divider />
-              <ProCard>
-                <Statistic title="CPU 温度" value={80.0} />
-              </ProCard>
-              <ProCard.Divider />
-              <ProCard>
-                <Statistic title="内存" value={80.0} />
-              </ProCard>
-            </ProCard>
-            {/* 操作系统 */}
-            <ProCard
-              type="inner"
-              bordered
-              title="操作系统"
-              size="small"
-              extra={
-                <Space>
-                  <Tooltip title="升级">
-                    <Button type="primary" danger ghost icon={<ArrowUpOutlined />}>
-                      升级
-                    </Button>
-                  </Tooltip>
-                  <Tooltip title="重启">
-                    <Button type="primary" ghost icon={<PoweroffOutlined />}>
-                      重启
-                    </Button>
-                  </Tooltip>
-                </Space>
-              }
-            >
-              <ProCard>
-                <Statistic title="运行时长" value={80.0} />
-              </ProCard>
-              <ProCard.Divider />
-              <ProCard>
-                <Statistic title="版本号" value={80.0} />
-              </ProCard>
-              <ProCard.Divider />
-              <ProCard>
-                <Statistic title="运行系统的分区" value={80.0} />
-              </ProCard>
-            </ProCard>
-            {/* 网络 */}
-            <ProCard type="inner" bordered title="网络" size="small">
-              <ProCard>
-                <Statistic title="通断状态" value={'正常'} />
-              </ProCard>
-              <ProCard.Divider />
-              <ProCard>
-                <Statistic title="IP 地址" value={80.0} />
-              </ProCard>
-              <ProCard.Divider />
-              <ProCard>
-                <Statistic title="网关地址" value={80.0} />
-              </ProCard>
-            </ProCard>
-            {/* 硬盘 */}
-            <ProCard
-              type="inner"
-              bordered
-              title={
-                <>
-                  硬盘1 <Tag color="red">休眠</Tag>
-                </>
-              }
-              size="small"
-              extra={
-                <Space>
-                  <Tooltip title="智能预测">
-                    <Button type="primary" ghost>
-                      智能预测
-                    </Button>
-                  </Tooltip>
-                  <Tooltip title="备份扇区">
-                    <Button type="primary" ghost>
-                      备份扇区
-                    </Button>
-                  </Tooltip>
-                  <Tooltip title="格式化 (ext4)">
-                    <Button type="primary" danger ghost>
-                      格式化 (ext4)
-                    </Button>
-                  </Tooltip>
-                </Space>
-              }
-            >
-              <Row justify="center">错误日志信息</Row>
-            </ProCard>
-            <ProCard
-              type="inner"
-              bordered
-              title={
-                <>
-                  硬盘2 <Tag color="blue">待机</Tag>
-                </>
-              }
-              size="small"
-              extra={
-                <Space>
-                  <Tooltip title="智能预测">
-                    <Button type="primary" ghost>
-                      智能预测
-                    </Button>
-                  </Tooltip>
-                  <Tooltip title="备份扇区">
-                    <Button type="primary" ghost>
-                      备份扇区
-                    </Button>
-                  </Tooltip>
-                  <Tooltip title="格式化 (ext4)">
-                    <Button type="primary" danger ghost>
-                      格式化 (ext4)
-                    </Button>
-                  </Tooltip>
-                </Space>
-              }
-            >
-              <Row justify="center">暂无错误日志</Row>
-            </ProCard>
-            {/* 服务进程与时钟 */}
-            <ProCard
-              bordered
-              title="服务进程与时钟"
-              size="small"
-              type="inner"
-              extra={
-                <Space>
-                  <Dropdown
-                    overlay={
-                      <Menu
-                        items={[
-                          { label: '启动', key: '1' },
-                          { label: '停止', key: '2' },
-                          { label: '重启', key: '3' },
-                        ]}
-                      ></Menu>
-                    }
-                  >
-                    <Button type="primary" ghost>
-                      服务操作 <DownOutlined />
-                    </Button>
-                  </Dropdown>
-                  <Button type="primary" ghost>
-                    修改时钟
-                  </Button>
-                </Space>
-              }
-            >
-              <ProCard>
-                <Statistic title="服务状态" value={'正常'} />
-              </ProCard>
-              <ProCard.Divider />
-              <ProCard>
-                <Statistic title="始终" value={'12:00:00'} />
-              </ProCard>
-            </ProCard>
-            {/* 上传/下载文件 */}
-            <ProCard bordered title="上传/下载文件" size="small" type="inner"></ProCard>
-          </ProCard>
-        </Drawer>
       </PageContainer>
     </>
   );

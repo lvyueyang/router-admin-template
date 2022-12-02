@@ -13,6 +13,7 @@ interface RouterItem {
   icon?: React.ForwardRefExoticComponent<any>;
   title: string;
   routes?: RouterItem[];
+  hideMenu?: boolean;
 }
 
 interface Item {
@@ -26,6 +27,7 @@ function routers2menu(routers: RouterItem[]) {
   let menuList: Item[] = [];
   function loop(menus: Item[], children: RouterItem[]) {
     children.forEach((route) => {
+      if (route.hideMenu) return;
       const Icon = route.icon;
       const item: Item = {
         label: route.title,
