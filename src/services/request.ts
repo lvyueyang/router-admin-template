@@ -33,7 +33,7 @@ request.interceptors.response.use(
       }
       // 是否忽略身份过期跳转登录页
       if (!config.ignoreLogin && data.code === 40001 && history.location.pathname !== '/login') {
-        history.push('/login');
+        // history.push('/login');
       }
       return Promise.reject(response);
     }

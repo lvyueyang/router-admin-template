@@ -92,3 +92,13 @@ export interface SystemConfigItem {
   updated_at: string;
 }
 export type SystemConfigBody = Pick<SystemConfigItem, 'key' | 'name' | 'value' | 'desc'>;
+
+/** 概览数据 */
+export interface OverFlowDataResult {
+  /** 总数量 */
+  total_equipment: number;
+  /** 在线数量 */
+  up_equipment: number;
+  /** 离线数量 */
+  down_equipment: number;
+}

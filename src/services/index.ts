@@ -3,6 +3,7 @@ import {
   CreateInvitationBody,
   InvitationItem,
   ListResult,
+  OverFlowDataResult,
   Pagination,
   Result,
   SuperAdminInfo,
@@ -70,4 +71,11 @@ export const createSystemConfig = (body: SystemConfigBody) => {
 /** 更新配置 */
 export const updateSystemConfig = (body: SystemConfigBody) => {
   return request.post(`${AIP_FIX}/user/UpdateConfigInfo`, body);
+};
+
+/** NEW  */
+
+/** 概览数据 */
+export const getOverflowData = () => {
+  return request.post<Result<OverFlowDataResult>>(`${AIP_FIX}/dashboard/info`);
 };

@@ -5,7 +5,7 @@ export default defineConfig({
   npmClient: 'yarn',
   proxy: {
     '/admin-api': {
-      target: 'https://test-manage.kube.ucas',
+      target: 'http://192.168.61.242:8085',
       changeOrigin: true,
       secure: false,
     },
