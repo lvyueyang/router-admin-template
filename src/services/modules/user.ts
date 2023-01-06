@@ -9,5 +9,5 @@ export const login = ({ user_name, password }: LoginBody) => {
 
 /** 获取当前登录用户信息 */
 export const getUserInfo = () => {
-  return request.get<Result<UserInfo>>(`${AIP_FIX}/user/AdminUserInfo`, { ignoreNotice: true });
+  return request.post<Result<UserInfo>>(`${AIP_FIX}/user/userInfo`, { ignoreNotice: true });
 };

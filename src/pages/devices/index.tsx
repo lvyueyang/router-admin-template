@@ -1,48 +1,57 @@
 import PageContainer from '@/components/PageContainer';
 import { ProTable, ProColumns, ActionType } from '@ant-design/pro-components';
-import { getInvitationList } from '@/services';
-import { transformPagination } from '@/utils';
-import { InvitationItem } from '@/services/interface';
+import { DeviceItemResult, getDevicesList } from './module';
 import { useRef, useState } from 'react';
-import { Input } from 'antd';
+import { Input, Tag } from 'antd';
 import Header from '@/components/Header';
 import { Link } from 'umi';
 
-type TableItem = InvitationItem;
+type TableItem = DeviceItemResult;
 
 export default function Devices() {
   const tableRef = useRef<ActionType>();
-  const [searchParams, setSearchParams] = useState({ search_keywords: '' });
+  const [searchParams, setSearchParams] = useState({ keywords: '' });
 
   const columns: ProColumns<TableItem>[] = [
     {
-      dataIndex: 'code',
+      dataIndex: 'host_name',
       title: '主机名',
       hideInSearch: true,
-      width: 330,
       copyable: true,
     },
     {
-      dataIndex: 'status',
+      dataIndex: 'ip',
+      title: '设备 IP',
+      hideInSearch: true,
+      copyable: true,
+    },
+    {
+      dataIndex: 'system_info',
       title: '操作系统',
       hideInSearch: true,
     },
     {
-      dataIndex: 'bind_uuid',
+      dataIndex: 'network_status',
       title: '网络状态',
       hideInSearch: true,
+      render: (_, row) => {
+        return row.network_status ? <Tag color="green">正常</Tag> : <Tag color="red">异常</Tag>;
+      },
     },
     {
-      dataIndex: 'desc',
+      dataIndex: 'service_status',
       title: '服务状态',
       hideInSearch: true,
+      render: (_, row) => {
+        return row.network_status ? <Tag color="green">正常</Tag> : <Tag color="red">异常</Tag>;
+      },
     },
     {
       dataIndex: 'operate',
       title: '操作',
       hideInSearch: true,
-      render: () => {
-        return <Link to={`/devices/123`}>查看</Link>;
+      render: (_, { ip }) => {
+        return <Link to={`/devices/${ip}`}>查看</Link>;
       },
     },
   ];
@@ -54,25 +63,22 @@ export default function Devices() {
         <ProTable<TableItem>
           size="small"
           columns={columns}
-          rowKey="code"
+          rowKey="ip"
           bordered
           search={false}
-          request={({ ...params }) => {
-            return getInvitationList({
-              ...transformPagination(params),
-              ...searchParams,
-            }).then(({ data }) => {
+          request={() => {
+            return getDevicesList(searchParams.keywords).then(({ data }) => {
               return { data: data.data.list || [], total: data.data.total };
             });
           }}
           actionRef={tableRef}
           headerTitle={
             <Input.Search
-              value={searchParams.search_keywords}
+              value={searchParams.keywords}
               onChange={(e) => {
                 setSearchParams((state) => ({
                   ...state,
-                  search_keywords: e.target.value.trim(),
+                  keywords: e.target.value.trim(),
                 }));
               }}
               style={{ width: 400 }}

@@ -21,8 +21,8 @@
     "@ant-design/pro-card": "^2.1.1",
     "@ant-design/pro-components": "^2.3.39",
     "@ant-design/pro-layout": "^7.3.3",
-    "ahooks": "^3.6.2",
-    "antd": "^5.0.3",
+    "ahooks": "^3.7.4",
+    "antd": "^5.1.2",
     "axios": "^0.27.2",
     "js-cookie": "^3.0.1",
     "umi": "^4.0.34"

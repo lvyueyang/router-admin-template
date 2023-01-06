@@ -1,14 +1,12 @@
 import PageContainer from '@/components/PageContainer';
 import { ProTable, ProColumns, ActionType } from '@ant-design/pro-components';
-import { getInvitationList } from '@/services';
-import { transformPagination } from '@/utils';
-import { InvitationItem } from '@/services/interface';
+import { ClusterItemResult, getClusterList } from './module';
 import { useRef, useState } from 'react';
-import { Input } from 'antd';
+import { Input, Tag } from 'antd';
 import Header from '@/components/Header';
 import { Link } from 'umi';
 
-type TableItem = InvitationItem;
+type TableItem = ClusterItemResult;
 
 export default function Devices() {
   const tableRef = useRef<ActionType>();
@@ -16,26 +14,22 @@ export default function Devices() {
 
   const columns: ProColumns<TableItem>[] = [
     {
-      dataIndex: 'code',
+      dataIndex: 'name',
       title: '集群名称',
       hideInSearch: true,
-      width: 330,
-      copyable: true,
     },
     {
-      dataIndex: 'desc',
-      title: '集群状态',
+      dataIndex: 'port',
+      title: '端口',
       hideInSearch: true,
     },
     {
       dataIndex: 'status',
-      title: '对象存储数量',
+      title: '状态',
       hideInSearch: true,
-    },
-    {
-      dataIndex: 'bind_uuid',
-      title: '文件存储数量',
-      hideInSearch: true,
+      render: (_, row) => {
+        return row.status ? <Tag color="green">正常</Tag> : <Tag color="red">异常</Tag>;
+      },
     },
     {
       dataIndex: 'operate',
@@ -57,12 +51,9 @@ export default function Devices() {
           rowKey="code"
           bordered
           search={false}
-          request={({ ...params }) => {
-            return getInvitationList({
-              ...transformPagination(params),
-              ...searchParams,
-            }).then(({ data }) => {
-              return { data: data.data.list || [], total: data.data.total };
+          request={() => {
+            return getClusterList().then(({ data }) => {
+              return { data: data.data || [], total: data.data.length };
             });
           }}
           actionRef={tableRef}

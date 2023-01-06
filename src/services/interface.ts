@@ -102,3 +102,16 @@ export interface OverFlowDataResult {
   /** 离线数量 */
   down_equipment: number;
 }
+
+export interface DeviceItemResult {
+  /** 设备ip */
+  ip: string;
+  /** 主机名称 */
+  host_name: string;
+  /** 操作系统 */
+  system_info: string;
+  /** 网络状态 true 正常 false 异常 */
+  network_status: boolean;
+  /** 服务状态 true 正常 false 异常 */
+  service_status: boolean;
+}
