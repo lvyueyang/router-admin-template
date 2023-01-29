@@ -79,8 +79,28 @@ export default function DeviceDetailPage() {
             </ProCard>
           </ProCard>
         </Col>
-        {/* 操作系统 */}
+        {/* 网络 */}
         <Col {...colSpan}>
+          <ProCard {...cardProps} title="网络">
+            <ProCard>
+              <Statistic
+                title="通断状态"
+                value={info?.on_off_status ? '已连接' : '已断开'}
+                valueStyle={{ color: info?.on_off_status ? colorSuccess : colorError }}
+              />
+            </ProCard>
+            <ProCard.Divider />
+            <ProCard>
+              <Statistic title="IP 地址" value={info?.ip} />
+            </ProCard>
+            <ProCard.Divider />
+            <ProCard>
+              <Statistic title="网关地址" value={info?.gateway_ip || '-'} />
+            </ProCard>
+          </ProCard>
+        </Col>
+        {/* 操作系统 */}
+        <Col {...colSpan} lg={24}>
           <ProCard
             {...cardProps}
             title="操作系统"
@@ -108,16 +128,24 @@ export default function DeviceDetailPage() {
             </ProCard>
             <ProCard.Divider />
             <ProCard>
-              <Statistic title="版本号" value={info?.system_version || '-'} />
+              <Statistic
+                title="版本号"
+                value={info?.system_version || '-'}
+                valueStyle={{ fontSize: 18 }}
+              />
             </ProCard>
             <ProCard.Divider />
             <ProCard>
-              <Statistic title="运行系统的分区" value={info?.system_partition || '-'} />
+              <Statistic
+                title="运行系统的分区"
+                value={info?.system_partition || '-'}
+                valueStyle={{ fontSize: 18 }}
+              />
             </ProCard>
           </ProCard>
         </Col>
         {/* 服务进程与时钟 */}
-        <Col {...colSpan}>
+        <Col {...colSpan} lg={24}>
           <ProCard
             {...cardProps}
             title="服务进程与时钟"
@@ -151,30 +179,13 @@ export default function DeviceDetailPage() {
             </ProCard>
             <ProCard.Divider />
             <ProCard>
-              <Statistic title="时钟" value={info?.time_string || '-'} />
+              <Tooltip title={info?.time_string} placement="topLeft">
+                <Statistic title="时钟" value={info?.time_string ? info?.time_string : '-'} />
+              </Tooltip>
             </ProCard>
           </ProCard>
         </Col>
-        {/* 网络 */}
-        <Col {...colSpan}>
-          <ProCard {...cardProps} title="网络">
-            <ProCard>
-              <Statistic
-                title="通断状态"
-                value={info?.on_off_status ? '已连接' : '已断开'}
-                valueStyle={{ color: info?.on_off_status ? colorSuccess : colorError }}
-              />
-            </ProCard>
-            <ProCard.Divider />
-            <ProCard>
-              <Statistic title="IP 地址" value={info?.ip} />
-            </ProCard>
-            <ProCard.Divider />
-            <ProCard>
-              <Statistic title="网关地址" value={info?.gateway_ip || '-'} />
-            </ProCard>
-          </ProCard>
-        </Col>
+
         {/* 硬盘 */}
         {info?.disk_list?.map((disk) => {
           return (
