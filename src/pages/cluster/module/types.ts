@@ -1,6 +1,7 @@
 export interface ClusterItemResult {
+  id: string;
   name: string;
-  port: number;
+  device_list: string[];
   status: boolean;
 }
 
@@ -30,4 +31,15 @@ export interface ClusterDetailResult {
   service_status: boolean;
   time_string: string;
   system_disk_use: number;
+}
+
+export interface CreateClusterBody {
+  name: string;
+  device_list: string[];
+}
+
+export interface DeviceItem {
+  host_name: string;
+  ip: string;
+  mac_add_str: string;
 }

@@ -18,7 +18,7 @@ class FormModal {
 }
 
 interface Options<FormValue> {
-  submit?: (values: FormValue, modal: FormModal) => Promise<void>;
+  submit?: (values: FormValue, modal: FormModal) => Promise<any>;
 }
 
 export function useFormModal<FormValue>(options?: Options<FormValue>) {

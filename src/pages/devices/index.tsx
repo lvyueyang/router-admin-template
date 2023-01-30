@@ -26,6 +26,12 @@ export default function Devices() {
       copyable: true,
     },
     {
+      dataIndex: 'mac_add_str',
+      title: 'MAC 地址',
+      hideInSearch: true,
+      copyable: true,
+    },
+    {
       dataIndex: 'system_info',
       title: '操作系统',
       hideInSearch: true,
@@ -50,8 +56,8 @@ export default function Devices() {
       dataIndex: 'operate',
       title: '操作',
       hideInSearch: true,
-      render: (_, { ip }) => {
-        return <Link to={`/devices/${ip}`}>查看</Link>;
+      render: (_, { mac_add_str }) => {
+        return <Link to={`/devices/${mac_add_str}`}>查看</Link>;
       },
     },
   ];

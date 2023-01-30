@@ -1,6 +1,5 @@
 import Header from '@/components/Header';
 import { ProCard } from '@ant-design/pro-components';
-import { Alert, Space } from 'antd';
 
 export default function ClusterDetailPage() {
   return (

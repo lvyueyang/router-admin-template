@@ -142,13 +142,17 @@ export default function DeviceDetailPage() {
                 valueStyle={{ fontSize: 18 }}
               />
             </ProCard>
+            <ProCard.Divider />
+            <ProCard>
+              <Statistic title="系统盘容量" value={'10/100'} valueStyle={{ fontSize: 18 }} />
+            </ProCard>
           </ProCard>
         </Col>
-        {/* 服务进程与时钟 */}
+        {/* 服务进程 */}
         <Col {...colSpan} lg={24}>
           <ProCard
             {...cardProps}
-            title="服务进程与时钟"
+            title="服务进程"
             extra={
               <Space>
                 <Dropdown
@@ -164,9 +168,6 @@ export default function DeviceDetailPage() {
                     服务操作 <DownOutlined />
                   </Button>
                 </Dropdown>
-                <Button type="primary" ghost>
-                  修改时钟
-                </Button>
               </Space>
             }
           >
@@ -177,15 +178,28 @@ export default function DeviceDetailPage() {
                 valueStyle={{ color: info?.service_status ? colorSuccess : colorError }}
               />
             </ProCard>
-            <ProCard.Divider />
+          </ProCard>
+        </Col>
+        {/* 时钟 */}
+        <Col {...colSpan} lg={24}>
+          <ProCard
+            {...cardProps}
+            title="时钟"
+            extra={
+              <Space>
+                <Button type="primary" ghost>
+                  修改时钟
+                </Button>
+              </Space>
+            }
+          >
             <ProCard>
               <Tooltip title={info?.time_string} placement="topLeft">
-                <Statistic title="时钟" value={info?.time_string ? info?.time_string : '-'} />
+                <Statistic title="" value={info?.time_string ? info?.time_string : '-'} />
               </Tooltip>
             </ProCard>
           </ProCard>
         </Col>
-
         {/* 硬盘 */}
         {info?.disk_list?.map((disk) => {
           return (

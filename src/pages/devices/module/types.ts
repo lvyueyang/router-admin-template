@@ -3,6 +3,8 @@ export interface DeviceItemResult {
   ip: string;
   /** 主机名称 */
   host_name: string;
+  /** MAC地址 */
+  mac_add_str: string;
   /** 操作系统 */
   system_info: string;
   /** 网络状态 true 正常 false 异常 */
