@@ -163,6 +163,7 @@ export default function Devices() {
           </Form.Item>
           <Form.Item name="cluster_type" label="集群类型" rules={[{ required: true }]}>
             <Select
+              disabled={formModal.type === ModalType.UPDATE}
               options={Object.values(CLUSTER_TYPE).map((item) => ({
                 value: item.id,
                 label: item.label,
