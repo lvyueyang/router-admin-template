@@ -2,6 +2,7 @@ import { AIP_FIX } from '@/constants';
 import { ListResult, Result } from '@/types';
 import { DeviceDetailResult, DeviceItemResult, ServiceItem } from './types';
 import request from '@/services/request';
+import { DEVICE_SERVICE_STATUS_ENUM } from './constants';
 
 /** 设备列表 */
 export const getDevicesList = (keywords = '') => {
@@ -68,5 +69,18 @@ export const getDownloadFilePath = (mac_address: string, path: string) => {
 export const rebootDevice = (mac_address: string) => {
   return request.post<Result<void>>(`${AIP_FIX}/dashboard/RebootDevice`, {
     mac_address,
+  });
+};
+
+/** 更改服务状态 */
+export const updateServiceStatus = (
+  mac_address: string,
+  service_name: string,
+  status: DEVICE_SERVICE_STATUS_ENUM,
+) => {
+  return request.post<Result<void>>(`${AIP_FIX}/dashboard/UpServiceStatus`, {
+    mac_address,
+    service_name,
+    status,
   });
 };

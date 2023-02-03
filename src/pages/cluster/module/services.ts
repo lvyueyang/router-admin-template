@@ -27,6 +27,11 @@ export const updateCluster = (body: CreateClusterBody & { id: string }) => {
   return request.post<void>(`${AIP_FIX}/dashboard/UpdateClusterInfo`, body);
 };
 
+/** 删除集群 */
+export const deleteCluster = (id: string) => {
+  return request.post<void>(`${AIP_FIX}/dashboard/RemoveClusterInfo`, { id });
+};
+
 /** 获取未绑定集群的设备 */
 export const getDevicesList = () => {
   return request.get<Result<DeviceItem[]>>(`${AIP_FIX}/dashboard/GetNoBindClusterDeviceList`);

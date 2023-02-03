@@ -2,8 +2,9 @@ import { useThemeToken } from '@/hooks/useThemeToken';
 import { DownOutlined } from '@ant-design/icons';
 import ProCard from '@ant-design/pro-card';
 import { useRequest } from 'ahooks';
-import { Button, Col, Dropdown, Space, Statistic } from 'antd';
-import { getServiceList } from '../../services';
+import { Button, Col, Dropdown, message, Space, Statistic } from 'antd';
+import { DEVICE_SERVICE_STATUS, DEVICE_SERVICE_STATUS_ENUM } from '../../constants';
+import { getServiceList, updateServiceStatus } from '../../services';
 
 interface ServiceListProps {
   id?: string;
@@ -29,11 +30,27 @@ export function ServiceList({ id }: ServiceListProps) {
                 <Space>
                   <Dropdown
                     menu={{
-                      items: [
-                        { label: '启动', key: '1' },
-                        { label: '停止', key: '2' },
-                        { label: '重启', key: '3' },
-                      ],
+                      items: Object.values(DEVICE_SERVICE_STATUS).map((item) => ({
+                        label: item.label,
+                        key: item.id,
+                      })),
+                      onClick: (e) => {
+                        const cname =
+                          Object.values(DEVICE_SERVICE_STATUS).find((item) => item.id === e.key)
+                            ?.label || '操作';
+                        const close = message.loading(cname + '中...', 0);
+                        updateServiceStatus(
+                          id!,
+                          info.service_name,
+                          e.key as DEVICE_SERVICE_STATUS_ENUM,
+                        )
+                          .then(() => {
+                            message.success(cname + '成功');
+                          })
+                          .finally(() => {
+                            close();
+                          });
+                      },
                     }}
                   >
                     <Button type="primary" ghost>

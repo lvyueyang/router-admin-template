@@ -7,9 +7,10 @@ import {
   getClusterList,
   SelectDevices,
   updateCluster,
+  deleteCluster,
 } from './module';
 import { useRef } from 'react';
-import { Button, Form, Input, Modal, Select, Space, Tag } from 'antd';
+import { Button, Form, Input, message, Modal, Popconfirm, Select, Space, Tag } from 'antd';
 import Header from '@/components/Header';
 import { Link } from 'umi';
 import { ModalType, useFormModal } from '@/hooks/useFormModal';
@@ -91,6 +92,17 @@ export default function Devices() {
             >
               编辑
             </a>
+            <Popconfirm
+              title="确定要删除这个集群吗？"
+              onConfirm={() => {
+                deleteCluster(id).then(() => {
+                  message.success('删除成功');
+                  tableRef.current?.reload();
+                });
+              }}
+            >
+              <a>删除</a>
+            </Popconfirm>
             {/* <Link to={`/cluster/132`}>查看</Link> */}
           </Space>
         );
@@ -105,7 +117,7 @@ export default function Devices() {
         <ProTable<TableItem>
           size="small"
           columns={columns}
-          rowKey="code"
+          rowKey="id"
           bordered
           search={false}
           request={() => {
@@ -146,6 +158,7 @@ export default function Devices() {
         />
       </PageContainer>
       <Modal
+        maskClosable={false}
         open={formModal.open}
         title={`${formModalTitle}集群`}
         onCancel={formModalClose}
