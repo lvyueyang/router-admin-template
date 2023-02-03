@@ -31,3 +31,12 @@ export const copyText = (text: string) => {
     }
   });
 };
+
+export function downloadFile(url: string, name: string) {
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = name;
+  a.target = '_blank';
+  a.click();
+  a.remove();
+}

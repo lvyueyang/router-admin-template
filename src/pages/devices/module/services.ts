@@ -55,3 +55,18 @@ export const updateClock = (id: string, date: string) => {
     date,
   });
 };
+
+/** 获取下载文件地址 */
+export const getDownloadFilePath = (mac_address: string, path: string) => {
+  return request.post<Result<string>>(`${AIP_FIX}/dashboard/DownloadFile`, {
+    mac_address,
+    path,
+  });
+};
+
+/** 重启设备 */
+export const rebootDevice = (mac_address: string) => {
+  return request.post<Result<void>>(`${AIP_FIX}/dashboard/RebootDevice`, {
+    mac_address,
+  });
+};

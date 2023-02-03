@@ -1,15 +1,32 @@
 import Header from '@/components/Header';
 import { ProCard, ProCardProps } from '@ant-design/pro-components';
-import { Button, Row, Col, Space, Statistic, Tag, Tooltip, message, Input, DatePicker } from 'antd';
+import {
+  Button,
+  Row,
+  Col,
+  Space,
+  Statistic,
+  Tag,
+  Tooltip,
+  message,
+  Input,
+  DatePicker,
+  Popconfirm,
+} from 'antd';
 import {
   ArrowUpOutlined,
   DownloadOutlined,
-  DownOutlined,
   PoweroffOutlined,
   SyncOutlined,
 } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
-import { CmdInput, getDeviceDetail, updateClock } from './module';
+import {
+  CmdInput,
+  getDeviceDetail,
+  getDownloadFilePath,
+  rebootDevice,
+  updateClock,
+} from './module';
 import { useParams } from 'umi';
 import dayjs from 'dayjs';
 import styles from './index.module.less';
@@ -18,6 +35,7 @@ import { useThemeToken } from '@/hooks/useThemeToken';
 import PollingSelect, { usePollingInterval } from '@/components/PollingSelect';
 import { DragUpload } from './module/components/DragUpload';
 import { ServiceList } from './module/components/ServiceList';
+import { downloadFile } from '@/utils';
 
 const colSpan = { md: 24, lg: 12 };
 
@@ -121,13 +139,56 @@ export default function DeviceDetailPage() {
                     升级
                   </Button>
                 </Tooltip>
-                <Tooltip title="重启">
+                <Popconfirm
+                  title="确定要重启吗？"
+                  onConfirm={() => {
+                    const close = message.loading('重启中...', 0);
+                    rebootDevice(id!)
+                      .then(() => {
+                        message.success('重启成功');
+                        runAsync();
+                      })
+                      .finally(() => {
+                        close();
+                      });
+                  }}
+                >
                   <Button type="primary" ghost icon={<PoweroffOutlined />}>
                     重启
                   </Button>
-                </Tooltip>
+                </Popconfirm>
                 <Tooltip title="下载证书">
-                  <Button type="primary" ghost icon={<DownloadOutlined />}>
+                  <Button
+                    type="primary"
+                    ghost
+                    icon={<DownloadOutlined />}
+                    onClick={() => {
+                      getDownloadFilePath(id!, '/etc/ssl/glusterfs.pem').then((res) => {
+                        const p = res.data.data;
+                        let url = p;
+                        if (process.env.NODE_ENV === 'development') {
+                          url = `http://192.168.31.16:8085/${p}`;
+                        }
+                        downloadFile(url, 'glusterfs.pem');
+                      });
+                      getDownloadFilePath(id!, '/etc/ssl/glusterfs.key').then((res) => {
+                        const p = res.data.data;
+                        let url = p;
+                        if (process.env.NODE_ENV === 'development') {
+                          url = `http://192.168.31.16:8085/${p}`;
+                        }
+                        downloadFile(url, 'glusterfs.key');
+                      });
+                      getDownloadFilePath(id!, '/etc/ssl/glusterfs.ca').then((res) => {
+                        const p = res.data.data;
+                        let url = p;
+                        if (process.env.NODE_ENV === 'development') {
+                          url = `http://192.168.31.16:8085/${p}`;
+                        }
+                        downloadFile(url, 'glusterfs.ca');
+                      });
+                    }}
+                  >
                     下载证书
                   </Button>
                 </Tooltip>

@@ -9,10 +9,11 @@ import {
   updateCluster,
 } from './module';
 import { useRef } from 'react';
-import { Button, Form, Input, Modal, Space, Tag } from 'antd';
+import { Button, Form, Input, Modal, Select, Space, Tag } from 'antd';
 import Header from '@/components/Header';
 import { Link } from 'umi';
 import { ModalType, useFormModal } from '@/hooks/useFormModal';
+import { CLUSTER_TYPE } from '@/constants';
 
 type TableItem = ClusterItemResult;
 
@@ -43,6 +44,16 @@ export default function Devices() {
       hideInSearch: true,
     },
     {
+      dataIndex: 'cluster_type',
+      title: '集群类型',
+      hideInSearch: true,
+    },
+    {
+      dataIndex: 'cluster_url',
+      title: '集群地址',
+      hideInSearch: true,
+    },
+    {
       dataIndex: 'device_list',
       title: '设备数',
       hideInSearch: true,
@@ -63,7 +74,7 @@ export default function Devices() {
       title: '操作',
       hideInSearch: true,
       width: 160,
-      render: (_, { name, device_list, id }) => {
+      render: (_, { name, device_list, id, cluster_type, cluster_url }) => {
         return (
           <Space>
             <a
@@ -72,13 +83,15 @@ export default function Devices() {
                   name,
                   device_list,
                   id,
+                  cluster_type,
+                  cluster_url,
                 });
                 formModalShow(ModalType.UPDATE);
               }}
             >
               编辑
             </a>
-            <Link to={`/cluster/132`}>查看</Link>
+            {/* <Link to={`/cluster/132`}>查看</Link> */}
           </Space>
         );
       },
@@ -146,6 +159,17 @@ export default function Devices() {
             </Form.Item>
           )}
           <Form.Item name="name" label="集群名称" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="cluster_type" label="集群类型" rules={[{ required: true }]}>
+            <Select
+              options={Object.values(CLUSTER_TYPE).map((item) => ({
+                value: item.id,
+                label: item.label,
+              }))}
+            ></Select>
+          </Form.Item>
+          <Form.Item name="cluster_url" label="集群地址" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
           <Form.Item

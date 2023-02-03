@@ -1,8 +1,12 @@
+import { CLUSTER_TYPE_ENUM } from '@/constants';
+
 export interface ClusterItemResult {
   id: string;
   name: string;
   device_list: string[];
   status: boolean;
+  cluster_url: string;
+  cluster_type: CLUSTER_TYPE_ENUM;
 }
 
 interface Disk {
@@ -36,6 +40,8 @@ export interface ClusterDetailResult {
 export interface CreateClusterBody {
   name: string;
   device_list: string[];
+  cluster_url: string;
+  cluster_type: CLUSTER_TYPE_ENUM;
 }
 
 export interface DeviceItem {
