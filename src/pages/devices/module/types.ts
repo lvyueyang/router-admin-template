@@ -39,4 +39,15 @@ export interface DeviceDetailResult {
   service_status: boolean;
   time_string: string;
   system_disk_use: number;
+  /** 内核日志 */
+  log_dmesg: string;
+  /** 系统日志 */
+  system_log: string;
+}
+
+export interface ServiceItem {
+  /** 服务名称 */
+  service_name: string;
+  /** 状态 */
+  status: boolean;
 }

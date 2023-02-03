@@ -1,18 +1,28 @@
 import Header from '@/components/Header';
 import { ProCard, ProCardProps } from '@ant-design/pro-components';
-import { Button, Dropdown, Row, Col, Space, Statistic, Tag, Tooltip, message } from 'antd';
-import { ArrowUpOutlined, DownOutlined, PoweroffOutlined, SyncOutlined } from '@ant-design/icons';
-import { useEffect } from 'react';
-import { getDeviceDetail } from './module';
+import { Button, Row, Col, Space, Statistic, Tag, Tooltip, message, Input, DatePicker } from 'antd';
+import {
+  ArrowUpOutlined,
+  DownloadOutlined,
+  DownOutlined,
+  PoweroffOutlined,
+  SyncOutlined,
+} from '@ant-design/icons';
+import { useEffect, useState } from 'react';
+import { CmdInput, getDeviceDetail, updateClock } from './module';
 import { useParams } from 'umi';
+import dayjs from 'dayjs';
 import styles from './index.module.less';
 import { useRequest } from 'ahooks';
 import { useThemeToken } from '@/hooks/useThemeToken';
 import PollingSelect, { usePollingInterval } from '@/components/PollingSelect';
+import { DragUpload } from './module/components/DragUpload';
+import { ServiceList } from './module/components/ServiceList';
 
 const colSpan = { md: 24, lg: 12 };
 
 export default function DeviceDetailPage() {
+  const [customPath, setCustomPath] = useState('');
   const { id } = useParams();
   const pollingInterval = usePollingInterval();
   const { colorSuccess, colorError } = useThemeToken();
@@ -116,6 +126,11 @@ export default function DeviceDetailPage() {
                     重启
                   </Button>
                 </Tooltip>
+                <Tooltip title="下载证书">
+                  <Button type="primary" ghost icon={<DownloadOutlined />}>
+                    下载证书
+                  </Button>
+                </Tooltip>
               </Space>
             }
           >
@@ -149,37 +164,7 @@ export default function DeviceDetailPage() {
           </ProCard>
         </Col>
         {/* 服务进程 */}
-        <Col {...colSpan} lg={24}>
-          <ProCard
-            {...cardProps}
-            title="服务进程"
-            extra={
-              <Space>
-                <Dropdown
-                  menu={{
-                    items: [
-                      { label: '启动', key: '1' },
-                      { label: '停止', key: '2' },
-                      { label: '重启', key: '3' },
-                    ],
-                  }}
-                >
-                  <Button type="primary" ghost>
-                    服务操作 <DownOutlined />
-                  </Button>
-                </Dropdown>
-              </Space>
-            }
-          >
-            <ProCard>
-              <Statistic
-                title="服务状态"
-                value={info?.service_status ? '在线' : '离线'}
-                valueStyle={{ color: info?.service_status ? colorSuccess : colorError }}
-              />
-            </ProCard>
-          </ProCard>
-        </Col>
+        <ServiceList id={id} />
         {/* 时钟 */}
         <Col {...colSpan} lg={24}>
           <ProCard
@@ -187,9 +172,22 @@ export default function DeviceDetailPage() {
             title="时钟"
             extra={
               <Space>
-                <Button type="primary" ghost>
-                  修改时钟
-                </Button>
+                <div className={styles.updateClock}>
+                  <Button type="primary" ghost>
+                    修改时钟
+                  </Button>
+                  <DatePicker
+                    showTime
+                    className={styles.clockInput}
+                    value={dayjs(info?.time_string)}
+                    onChange={(e) => {
+                      updateClock(id!, e!.format('YYYY-MM-DD HH:mm:ss')).then(() => {
+                        message.success('更新完成');
+                        runAsync();
+                      });
+                    }}
+                  />
+                </div>
               </Space>
             }
           >
@@ -219,7 +217,7 @@ export default function DeviceDetailPage() {
                 }
                 extra={
                   <Space>
-                    <Tooltip title="智能预测">
+                    {/* <Tooltip title="智能预测">
                       <Button type="primary" ghost>
                         智能预测
                       </Button>
@@ -233,7 +231,7 @@ export default function DeviceDetailPage() {
                       <Button type="primary" danger ghost>
                         格式化 (ext4)
                       </Button>
-                    </Tooltip>
+                    </Tooltip> */}
                   </Space>
                 }
               >
@@ -243,9 +241,49 @@ export default function DeviceDetailPage() {
           );
         })}
 
-        {/* 上传/下载文件 */}
+        {/* 上传 */}
         <Col {...colSpan} lg={24}>
-          <ProCard {...cardProps} title="上传/下载文件"></ProCard>
+          <ProCard {...cardProps} title="上传系统镜像文件">
+            <DragUpload id={id!} path="/opt" desc="请上传符合要求的系统镜像文件" />
+          </ProCard>
+        </Col>
+        {/* 自定义上传文件 */}
+        <Col {...colSpan} lg={24}>
+          <ProCard
+            {...cardProps}
+            title={
+              <Space>
+                <span>自定义上传文件</span>
+                <Input
+                  style={{ width: 300 }}
+                  placeholder="请输入要上传的目标路径"
+                  value={customPath}
+                  onChange={(e) => {
+                    setCustomPath(e.target.value.trim());
+                  }}
+                />
+              </Space>
+            }
+          >
+            <DragUpload id={id!} path={customPath} />
+          </ProCard>
+        </Col>
+        <Col {...colSpan} lg={24}>
+          <CmdInput id={id!} />
+        </Col>
+        <Col {...colSpan} lg={24}>
+          <ProCard {...cardProps} title="内核日志" collapsible>
+            <ProCard>
+              <code dangerouslySetInnerHTML={{ __html: info?.log_dmesg || '' }}></code>
+            </ProCard>
+          </ProCard>
+        </Col>
+        <Col {...colSpan} lg={24}>
+          <ProCard {...cardProps} title="系统日志" collapsible>
+            <ProCard>
+              <code dangerouslySetInnerHTML={{ __html: info?.system_log || '' }}></code>
+            </ProCard>
+          </ProCard>
         </Col>
       </Row>
     </>
