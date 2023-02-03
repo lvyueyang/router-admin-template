@@ -26,6 +26,7 @@ import {
   getDownloadFilePath,
   rebootDevice,
   updateClock,
+  upgradeSystem,
 } from './module';
 import { useParams } from 'umi';
 import dayjs from 'dayjs';
@@ -134,11 +135,23 @@ export default function DeviceDetailPage() {
             title="操作系统"
             extra={
               <Space>
-                <Tooltip title="升级">
+                <Popconfirm
+                  title="确定要进行系统升级吗？"
+                  onConfirm={() => {
+                    const close = message.loading('升级中...', 0);
+                    upgradeSystem(id!)
+                      .then(() => {
+                        message.success('操作完成，升级中');
+                      })
+                      .finally(() => {
+                        close();
+                      });
+                  }}
+                >
                   <Button type="primary" danger ghost icon={<ArrowUpOutlined />}>
                     升级
                   </Button>
-                </Tooltip>
+                </Popconfirm>
                 <Popconfirm
                   title="确定要重启吗？"
                   onConfirm={() => {
@@ -335,14 +348,18 @@ export default function DeviceDetailPage() {
         <Col {...colSpan} lg={24}>
           <ProCard {...cardProps} title="内核日志" collapsible>
             <ProCard>
-              <code dangerouslySetInnerHTML={{ __html: info?.log_dmesg || '' }}></code>
+              <pre>
+                <code dangerouslySetInnerHTML={{ __html: info?.log_dmesg || '' }}></code>
+              </pre>
             </ProCard>
           </ProCard>
         </Col>
         <Col {...colSpan} lg={24}>
           <ProCard {...cardProps} title="系统日志" collapsible>
             <ProCard>
-              <code dangerouslySetInnerHTML={{ __html: info?.system_log || '' }}></code>
+              <pre>
+                <code dangerouslySetInnerHTML={{ __html: info?.system_log || '' }}></code>
+              </pre>
             </ProCard>
           </ProCard>
         </Col>

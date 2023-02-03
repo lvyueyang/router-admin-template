@@ -57,7 +57,11 @@ export function CmdInput({ id }: { id?: string }) {
             <List.Item style={{ paddingLeft: 5, paddingRight: 5 }}>
               <List.Item.Meta
                 title={item.cmd}
-                description={<code dangerouslySetInnerHTML={{ __html: item.value }}></code>}
+                description={
+                  <pre>
+                    <code dangerouslySetInnerHTML={{ __html: item.value }}></code>
+                  </pre>
+                }
               />
             </List.Item>
           );

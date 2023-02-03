@@ -84,3 +84,10 @@ export const updateServiceStatus = (
     status,
   });
 };
+
+/** 升级 */
+export const upgradeSystem = (mac_address: string) => {
+  return request.post<Result<void>>(`${AIP_FIX}/dashboard/UpgradeSystem`, {
+    mac_address,
+  });
+};
