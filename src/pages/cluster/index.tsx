@@ -103,7 +103,7 @@ export default function Devices() {
             >
               <a>删除</a>
             </Popconfirm>
-            {/* <Link to={`/cluster/132`}>查看</Link> */}
+            <Link to={`/cluster/${id}`}>查看</Link>
           </Space>
         );
       },

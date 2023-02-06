@@ -16,25 +16,19 @@ interface Disk {
 }
 
 export interface ClusterDetailResult {
-  host_name: string;
-  ip: string;
-  ip_str: string;
+  id: string;
+  name: string;
   status: boolean;
-  system_info: string;
-  cpu_use_rate: number;
-  cpu_temperature: number;
-  main_board_temperature: number;
-  memory_usage_rate: number;
-  voltage: number;
-  system_running_time: number;
-  system_version: string;
-  system_partition: string;
-  on_off_status: boolean;
-  gateway_ip: string;
-  disk_list: Disk[];
-  service_status: boolean;
-  time_string: string;
-  system_disk_use: number;
+  capacity: string;
+  cluster_type: string;
+  cluster_url: string;
+  device_list: string[];
+  cluster_id: string;
+  EC_MINIO_ACCESS_KEY: string;
+  EC_MINIO_SECRET_KEY: string;
+  EC_HOME: string;
+  EC_MINIO_STORAGE_CLASS_STANDARD: string;
+  EC_MINIO_STORAGE_CLASS_RRS: string;
 }
 
 export interface CreateClusterBody {
@@ -48,4 +42,13 @@ export interface DeviceItem {
   host_name: string;
   ip: string;
   mac_add_str: string;
+}
+
+export interface UpdateECConfigBody {
+  cluster_id: string;
+  EC_MINIO_ACCESS_KEY: string;
+  EC_MINIO_SECRET_KEY: string;
+  EC_HOME: string;
+  EC_MINIO_STORAGE_CLASS_STANDARD: string;
+  EC_MINIO_STORAGE_CLASS_RRS: string;
 }

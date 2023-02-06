@@ -16,6 +16,7 @@ import {
 import {
   ArrowUpOutlined,
   DownloadOutlined,
+  EditOutlined,
   PoweroffOutlined,
   SyncOutlined,
 } from '@ant-design/icons';
@@ -29,7 +30,6 @@ import {
   upgradeSystem,
 } from './module';
 import { useParams } from 'umi';
-import dayjs from 'dayjs';
 import styles from './index.module.less';
 import { useRequest } from 'ahooks';
 import { useThemeToken } from '@/hooks/useThemeToken';
@@ -37,6 +37,7 @@ import PollingSelect, { usePollingInterval } from '@/components/PollingSelect';
 import { DragUpload } from './module/components/DragUpload';
 import { ServiceList } from './module/components/ServiceList';
 import { downloadFile } from '@/utils';
+import EditPopover from '@/components/EditPopover';
 
 const colSpan = { md: 24, lg: 12 };
 
@@ -93,7 +94,7 @@ export default function DeviceDetailPage() {
       </Header>
       <Row gutter={[16, 16]} style={{ maxWidth: 1200 }}>
         {/* 主机信息 */}
-        <Col {...colSpan}>
+        <Col {...colSpan} lg={24}>
           <ProCard {...cardProps} title="主机信息">
             <ProCard>
               <Statistic title="CPU 占用" value={info?.cpu_use_rate} suffix={<small>%</small>} />
@@ -106,10 +107,19 @@ export default function DeviceDetailPage() {
             <ProCard>
               <Statistic title="内存" value={info?.memory_usage_rate} suffix={<small>%</small>} />
             </ProCard>
+            <ProCard>
+              <Statistic title="电流" value={info?.electric_current} suffix={<small>%</small>} />
+            </ProCard>
+            <ProCard>
+              <Statistic title="电压" value={info?.voltage} suffix={<small>%</small>} />
+            </ProCard>
+            <ProCard>
+              <Statistic title="功率" value={info?.power} suffix={<small>%</small>} />
+            </ProCard>
           </ProCard>
         </Col>
         {/* 网络 */}
-        <Col {...colSpan}>
+        <Col {...colSpan} lg={24}>
           <ProCard {...cardProps} title="网络">
             <ProCard>
               <Statistic
@@ -120,11 +130,51 @@ export default function DeviceDetailPage() {
             </ProCard>
             <ProCard.Divider />
             <ProCard>
-              <Statistic title="IP 地址" value={info?.ip} />
+              <Statistic
+                title={
+                  <>
+                    IP 地址{' '}
+                    <EditPopover
+                      value={info?.ip}
+                      title="修改IP 地址"
+                      trigger={['click']}
+                      inputStyle={{ width: 300 }}
+                      onConfirm={(value) => {
+                        console.log(value);
+                      }}
+                    >
+                      <a onClick={() => {}}>
+                        <EditOutlined />
+                      </a>
+                    </EditPopover>
+                  </>
+                }
+                value={info?.ip}
+              ></Statistic>
             </ProCard>
             <ProCard.Divider />
             <ProCard>
-              <Statistic title="网关地址" value={info?.gateway_ip || '-'} />
+              <Statistic
+                title={
+                  <>
+                    网关地址{' '}
+                    <EditPopover
+                      value={info?.gateway_ip}
+                      title="修改网关地址"
+                      trigger={['click']}
+                      inputStyle={{ width: 300 }}
+                      onConfirm={(value) => {
+                        console.log(value);
+                      }}
+                    >
+                      <a onClick={() => {}}>
+                        <EditOutlined />
+                      </a>
+                    </EditPopover>
+                  </>
+                }
+                value={info?.gateway_ip || '-'}
+              />
             </ProCard>
           </ProCard>
         </Col>
@@ -253,7 +303,6 @@ export default function DeviceDetailPage() {
                   <DatePicker
                     showTime
                     className={styles.clockInput}
-                    value={dayjs(info?.time_string)}
                     onChange={(e) => {
                       updateClock(id!, e!.format('YYYY-MM-DD HH:mm:ss')).then(() => {
                         message.success('更新完成');

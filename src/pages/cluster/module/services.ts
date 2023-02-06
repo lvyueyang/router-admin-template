@@ -1,6 +1,12 @@
 import { AIP_FIX } from '@/constants';
 import { Result } from '@/types';
-import { ClusterDetailResult, ClusterItemResult, CreateClusterBody, DeviceItem } from './types';
+import {
+  ClusterDetailResult,
+  ClusterItemResult,
+  CreateClusterBody,
+  DeviceItem,
+  UpdateECConfigBody,
+} from './types';
 import request from '@/services/request';
 
 /** 集群列表 */
@@ -11,9 +17,9 @@ export const getClusterList = (keywords = '') => {
 };
 
 /** 详情 */
-export const getClusterDetail = (ip: string) => {
-  return request.post<Result<ClusterDetailResult>>(`${AIP_FIX}/dashboard/GetDeviceInfo`, {
-    ip,
+export const getClusterDetail = (cluster_id: string) => {
+  return request.post<Result<ClusterDetailResult>>(`${AIP_FIX}/dashboard/ClusterInfoDetail`, {
+    cluster_id,
   });
 };
 
@@ -35,4 +41,14 @@ export const deleteCluster = (id: string) => {
 /** 获取未绑定集群的设备 */
 export const getDevicesList = () => {
   return request.get<Result<DeviceItem[]>>(`${AIP_FIX}/dashboard/GetNoBindClusterDeviceList`);
+};
+
+/** 更新EC参数 */
+export const updateECConfig = (body: UpdateECConfigBody) => {
+  return request.post<void>(`${AIP_FIX}/dashboard/UpEcData`, body);
+};
+
+/** 更新EC参数 */
+export const restartCluster = (cluster_id: string) => {
+  return request.post<void>(`${AIP_FIX}/dashboard/RestartCluster`, { cluster_id });
 };

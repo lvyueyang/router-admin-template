@@ -39,6 +39,8 @@ export interface DeviceDetailResult {
   service_status: boolean;
   time_string: string;
   system_disk_use: number;
+  power: number;
+  electric_current: number;
   /** 内核日志 */
   log_dmesg: string;
   /** 系统日志 */
