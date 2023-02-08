@@ -1,6 +1,13 @@
 import { AIP_FIX } from '@/constants';
 import { ListResult, Result } from '@/types';
-import { DeviceDetailResult, DeviceItemResult, ServiceItem } from './types';
+import {
+  DeviceDetailBaseInfo,
+  DeviceDiskItemResult,
+  DeviceItemResult,
+  DeviceLogResult,
+  ServiceItem,
+  UpdateIpGateWayBody,
+} from './types';
 import request from '@/services/request';
 import { DEVICE_SERVICE_STATUS_ENUM } from './constants';
 
@@ -11,14 +18,30 @@ export const getDevicesList = (keywords = '') => {
   });
 };
 
-/** 详情 */
-export const getDeviceDetail = (ip: string) => {
-  return request.post<Result<DeviceDetailResult>>(`${AIP_FIX}/dashboard/GetDeviceInfo`, {
-    ip,
+/** 详情-指标数据 */
+export const getDeviceBaseInfo = (mac_address: string) => {
+  return request.post<Result<DeviceDetailBaseInfo>>(`${AIP_FIX}/dashboard/GetDeviceDetailData`, {
+    mac_address,
   });
 };
 
-/** 详情 */
+/** 详情-磁盘列表 */
+export const getDeviceDiskList = (mac_address: string) => {
+  return request.post<Result<DeviceDiskItemResult[]>>(
+    `${AIP_FIX}/dashboard/GetDeviceDetailDiskList`,
+    {
+      mac_address,
+    },
+  );
+};
+/** 详情-日志*/
+export const getDeviceLog = (mac_address: string) => {
+  return request.post<Result<DeviceLogResult>>(`${AIP_FIX}/dashboard/GetDeviceDetailLog`, {
+    mac_address,
+  });
+};
+
+/** 执行命令 */
 export const runCmd = (mac_address: string, cmd: string) => {
   return request.post<Result<string>>(`${AIP_FIX}/dashboard/RunShellCmd`, {
     mac_address,
@@ -86,8 +109,13 @@ export const updateServiceStatus = (
 };
 
 /** 升级 */
-export const upgradeSystem = (mac_address: string) => {
+export const updateSystem = (mac_address: string) => {
   return request.post<Result<void>>(`${AIP_FIX}/dashboard/UpgradeSystem`, {
     mac_address,
   });
+};
+
+/** 修改IP和网关 */
+export const updateIpGateWay = (body: UpdateIpGateWayBody) => {
+  return request.post<Result<void>>(`${AIP_FIX}/dashboard/UpIpGateWay`, body);
 };

@@ -12,10 +12,12 @@ import {
   Input,
   DatePicker,
   Popconfirm,
+  Dropdown,
 } from 'antd';
 import {
   ArrowUpOutlined,
   DownloadOutlined,
+  DownOutlined,
   EditOutlined,
   PoweroffOutlined,
   SyncOutlined,
@@ -23,11 +25,18 @@ import {
 import { useEffect, useState } from 'react';
 import {
   CmdInput,
-  getDeviceDetail,
+  DEVICE_SERVICE_STATUS,
+  DEVICE_SERVICE_STATUS_ENUM,
+  getDeviceBaseInfo,
+  getDeviceDiskList,
+  getDeviceLog,
   getDownloadFilePath,
+  getServiceList,
   rebootDevice,
   updateClock,
-  upgradeSystem,
+  updateIpGateWay,
+  updateServiceStatus,
+  updateSystem,
 } from './module';
 import { useParams } from 'umi';
 import styles from './index.module.less';
@@ -35,11 +44,192 @@ import { useRequest } from 'ahooks';
 import { useThemeToken } from '@/hooks/useThemeToken';
 import PollingSelect, { usePollingInterval } from '@/components/PollingSelect';
 import { DragUpload } from './module/components/DragUpload';
-import { ServiceList } from './module/components/ServiceList';
 import { downloadFile } from '@/utils';
 import EditPopover from '@/components/EditPopover';
+import LogView from '@/components/LogView';
 
 const colSpan = { md: 24, lg: 12 };
+const cardProps: ProCardProps = {
+  type: 'inner',
+  size: 'small',
+  bordered: true,
+  className: styles.card,
+};
+
+interface ServiceListProps {
+  id?: string;
+}
+
+function ServiceList({ id }: ServiceListProps) {
+  const { colorSuccess, colorError } = useThemeToken();
+  const { data, loading, run } = useRequest(() => {
+    return getServiceList(id!).then((res) => res.data.data);
+  });
+  if (!id) return null;
+  return (
+    <Col lg={24}>
+      <ProCard
+        title="服务进程"
+        gutter={[10, 10]}
+        {...cardProps}
+        loading={loading}
+        extra={
+          <Button type="primary" ghost onClick={run}>
+            刷新
+          </Button>
+        }
+      >
+        {data?.map((info) => {
+          return (
+            <ProCard
+              key={info.service_name}
+              type="inner"
+              size="small"
+              bordered
+              title={`${info.service_name} 进程`}
+              extra={
+                <Space>
+                  <Dropdown
+                    menu={{
+                      items: Object.values(DEVICE_SERVICE_STATUS).map((item) => ({
+                        label: item.label,
+                        key: item.id,
+                      })),
+                      onClick: (e) => {
+                        const cname =
+                          Object.values(DEVICE_SERVICE_STATUS).find((item) => item.id === e.key)
+                            ?.label || '操作';
+                        const close = message.loading(cname + '中...', 0);
+                        updateServiceStatus(
+                          id!,
+                          info.service_name,
+                          e.key as DEVICE_SERVICE_STATUS_ENUM,
+                        )
+                          .then(() => {
+                            message.success(cname + '成功');
+                          })
+                          .finally(() => {
+                            close();
+                          });
+                      },
+                    }}
+                  >
+                    <Button type="primary" ghost>
+                      服务操作 <DownOutlined />
+                    </Button>
+                  </Dropdown>
+                </Space>
+              }
+            >
+              <ProCard>
+                <Statistic
+                  title="服务状态"
+                  value={info?.status ? '在线' : '离线'}
+                  valueStyle={{ color: info?.status ? colorSuccess : colorError }}
+                />
+              </ProCard>
+            </ProCard>
+          );
+        })}
+      </ProCard>
+    </Col>
+  );
+}
+
+function DiskList({ id }: { id: string }) {
+  const { data, loading, run } = useRequest(() => {
+    return getDeviceDiskList(id).then((res) => res.data.data);
+  });
+  return (
+    <Col lg={24}>
+      <ProCard
+        {...cardProps}
+        direction="column"
+        title="硬盘信息"
+        extra={
+          <Button type="primary" ghost onClick={run}>
+            刷新
+          </Button>
+        }
+      >
+        {data?.map((disk) => {
+          return (
+            <ProCard
+              {...cardProps}
+              style={{ marginBlockEnd: 8 }}
+              wrap
+              key={disk.hard_disk_name}
+              loading={loading}
+              title={
+                <Space>
+                  {/* <span>硬盘{index + 1}</span> */}
+                  <Tag color="blue">{disk.hard_disk_name}</Tag>
+                  <Tag>
+                    {disk.hard_disk_heat}
+                    <small> ℃</small>
+                  </Tag>
+                  <Tag color="red">{disk.hard_disk_status}</Tag>
+                </Space>
+              }
+              extra={
+                <Space>
+                  {/* <Tooltip title="智能预测">
+                    <Button type="primary" ghost>
+                      智能预测
+                    </Button>
+                  </Tooltip>
+                  <Tooltip title="备份扇区">
+                    <Button type="primary" ghost>
+                      备份扇区
+                    </Button>
+                  </Tooltip>
+                  <Tooltip title="格式化 (ext4)">
+                    <Button type="primary" danger ghost>
+                      格式化 (ext4)
+                    </Button>
+                  </Tooltip> */}
+                </Space>
+              }
+            >
+              <Row>
+                <LogView value={disk.hard_disk_error_log} />
+              </Row>
+            </ProCard>
+          );
+        })}
+      </ProCard>
+    </Col>
+  );
+}
+
+function LogInfo({ id }: { id: string }) {
+  const { data, run } = useRequest(() => {
+    return getDeviceLog(id).then((res) => res.data.data);
+  });
+  return (
+    <>
+      <Col {...colSpan} lg={24}>
+        <ProCard
+          {...cardProps}
+          title="内核日志"
+          collapsible
+          extra={
+            <Button ghost type="primary" onClick={run}>
+              刷新
+            </Button>
+          }
+        >
+          <LogView value={data?.log_dmesg} />
+        </ProCard>
+      </Col>
+      <Col {...colSpan} lg={24}>
+        <ProCard {...cardProps} title="系统日志" collapsible>
+          <LogView value={data?.system_log} />
+        </ProCard>
+      </Col>
+    </>
+  );
+}
 
 export default function DeviceDetailPage() {
   const [customPath, setCustomPath] = useState('');
@@ -52,7 +242,7 @@ export default function DeviceDetailPage() {
     runAsync,
   } = useRequest(
     () => {
-      return getDeviceDetail(id!).then((res) => {
+      return getDeviceBaseInfo(id!).then((res) => {
         return res.data.data;
       });
     },
@@ -64,12 +254,7 @@ export default function DeviceDetailPage() {
   useEffect(() => {
     runAsync();
   }, [id]);
-  const cardProps: ProCardProps = {
-    type: 'inner',
-    size: 'small',
-    bordered: true,
-    className: styles.card,
-  };
+
   return (
     <>
       <Header title="设备详情">
@@ -101,20 +286,24 @@ export default function DeviceDetailPage() {
             </ProCard>
             <ProCard.Divider />
             <ProCard>
-              <Statistic title="CPU 温度" value={info?.cpu_temperature} suffix={<small>℃</small>} />
+              <Statistic title="CPU 温度" value={info?.cpu_tem} />
             </ProCard>
             <ProCard.Divider />
             <ProCard>
-              <Statistic title="内存" value={info?.memory_usage_rate} suffix={<small>%</small>} />
+              <Statistic
+                title="内存"
+                value={(info?.memory_use_rate || 0) * 100}
+                suffix={<small>%</small>}
+              />
             </ProCard>
             <ProCard>
-              <Statistic title="电流" value={info?.electric_current} suffix={<small>%</small>} />
+              <Statistic title="电流" value={info?.electric_current} suffix={<small>A</small>} />
             </ProCard>
             <ProCard>
-              <Statistic title="电压" value={info?.voltage} suffix={<small>%</small>} />
+              <Statistic title="电压" value={info?.voltage} suffix={<small>V</small>} />
             </ProCard>
             <ProCard>
-              <Statistic title="功率" value={info?.power} suffix={<small>%</small>} />
+              <Statistic title="功率" value={info?.power} suffix={<small>W</small>} />
             </ProCard>
           </ProCard>
         </Col>
@@ -122,11 +311,7 @@ export default function DeviceDetailPage() {
         <Col {...colSpan} lg={24}>
           <ProCard {...cardProps} title="网络">
             <ProCard>
-              <Statistic
-                title="通断状态"
-                value={info?.on_off_status ? '已连接' : '已断开'}
-                valueStyle={{ color: info?.on_off_status ? colorSuccess : colorError }}
-              />
+              <Statistic title="通断状态" value={'已连接'} valueStyle={{ color: colorSuccess }} />
             </ProCard>
             <ProCard.Divider />
             <ProCard>
@@ -140,7 +325,19 @@ export default function DeviceDetailPage() {
                       trigger={['click']}
                       inputStyle={{ width: 300 }}
                       onConfirm={(value) => {
-                        console.log(value);
+                        const close = message.loading('IP 修改中', 0);
+                        updateIpGateWay({
+                          mac_address: id!,
+                          new_ip: value,
+                          new_gateway: info?.gateway_ip || '',
+                        })
+                          .then(() => {
+                            message.success('修改完成');
+                            runAsync();
+                          })
+                          .finally(() => {
+                            close();
+                          });
                       }}
                     >
                       <a onClick={() => {}}>
@@ -164,7 +361,19 @@ export default function DeviceDetailPage() {
                       trigger={['click']}
                       inputStyle={{ width: 300 }}
                       onConfirm={(value) => {
-                        console.log(value);
+                        const close = message.loading('网关地址修改中', 0);
+                        updateIpGateWay({
+                          mac_address: id!,
+                          new_ip: info?.ip || '',
+                          new_gateway: value,
+                        })
+                          .then(() => {
+                            message.success('修改完成');
+                            runAsync();
+                          })
+                          .finally(() => {
+                            close();
+                          });
                       }}
                     >
                       <a onClick={() => {}}>
@@ -189,7 +398,7 @@ export default function DeviceDetailPage() {
                   title="确定要进行系统升级吗？"
                   onConfirm={() => {
                     const close = message.loading('升级中...', 0);
-                    upgradeSystem(id!)
+                    updateSystem(id!)
                       .then(() => {
                         message.success('操作完成，升级中');
                       })
@@ -259,11 +468,7 @@ export default function DeviceDetailPage() {
             }
           >
             <ProCard>
-              <Statistic
-                title="运行时长"
-                value={info?.system_running_time}
-                suffix={<small>小时</small>}
-              />
+              <Statistic title="运行时长" value={info?.system_running_time} />
             </ProCard>
             <ProCard.Divider />
             <ProCard>
@@ -322,47 +527,7 @@ export default function DeviceDetailPage() {
           </ProCard>
         </Col>
         {/* 硬盘 */}
-        {info?.disk_list?.map((disk) => {
-          return (
-            <Col {...colSpan} lg={24} key={disk.hard_disk_name}>
-              <ProCard
-                {...cardProps}
-                title={
-                  <Space>
-                    <span>硬盘</span>
-                    <Tag color="blue">{disk.hard_disk_name}</Tag>
-                    <Tag>
-                      {disk.hard_disk_heat}
-                      <small> ℃</small>
-                    </Tag>
-                    <Tag color="red">{disk.hard_disk_status}</Tag>
-                  </Space>
-                }
-                extra={
-                  <Space>
-                    {/* <Tooltip title="智能预测">
-                      <Button type="primary" ghost>
-                        智能预测
-                      </Button>
-                    </Tooltip>
-                    <Tooltip title="备份扇区">
-                      <Button type="primary" ghost>
-                        备份扇区
-                      </Button>
-                    </Tooltip>
-                    <Tooltip title="格式化 (ext4)">
-                      <Button type="primary" danger ghost>
-                        格式化 (ext4)
-                      </Button>
-                    </Tooltip> */}
-                  </Space>
-                }
-              >
-                <Row justify="center">错误日志信息</Row>
-              </ProCard>
-            </Col>
-          );
-        })}
+        <DiskList id={id!} />
 
         {/* 上传 */}
         <Col {...colSpan} lg={24}>
@@ -394,24 +559,7 @@ export default function DeviceDetailPage() {
         <Col {...colSpan} lg={24}>
           <CmdInput id={id!} />
         </Col>
-        <Col {...colSpan} lg={24}>
-          <ProCard {...cardProps} title="内核日志" collapsible>
-            <ProCard>
-              <pre>
-                <code dangerouslySetInnerHTML={{ __html: info?.log_dmesg || '' }}></code>
-              </pre>
-            </ProCard>
-          </ProCard>
-        </Col>
-        <Col {...colSpan} lg={24}>
-          <ProCard {...cardProps} title="系统日志" collapsible>
-            <ProCard>
-              <pre>
-                <code dangerouslySetInnerHTML={{ __html: info?.system_log || '' }}></code>
-              </pre>
-            </ProCard>
-          </ProCard>
-        </Col>
+        <LogInfo id={id!} />
       </Row>
     </>
   );

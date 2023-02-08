@@ -19,32 +19,34 @@ interface Disk {
   hard_disk_heat: number;
 }
 
-export interface DeviceDetailResult {
-  host_name: string;
-  ip: string;
-  ip_str: string;
-  status: boolean;
-  system_info: string;
-  cpu_use_rate: number;
-  cpu_temperature: number;
-  main_board_temperature: number;
-  memory_usage_rate: number;
-  voltage: number;
-  system_running_time: number;
-  system_version: string;
-  system_partition: string;
-  on_off_status: boolean;
-  gateway_ip: string;
-  disk_list: Disk[];
-  service_status: boolean;
-  time_string: string;
-  system_disk_use: number;
-  power: number;
-  electric_current: number;
-  /** 内核日志 */
-  log_dmesg: string;
-  /** 系统日志 */
-  system_log: string;
+export interface DeviceDetailBaseInfo {
+  ip: string; //设备ip
+  gateway_ip: string; //网关地址
+  mac_add_str: string; //mac地址
+  cpu_use_rate: number; //cpu使用率
+  cpu_tem: string; //CPU温度
+  memory_use_rate: number; //内存使用率
+  electric_current: number; //电流
+  voltage: number; //电压
+  power: number; //功率
+  temperature: number; //主板温度
+  system_version: string; //系统运行版本号
+  system_partition: string; //当前系统分区
+  system_disk_use: string; //系统使用量
+  time_string: string; //时钟
+  system_running_time: string; // 运行时常
+}
+
+export interface DeviceDiskItemResult {
+  hard_disk_name: string; //路径
+  hard_disk_status: string; //状态
+  hard_disk_heat: string; //温度
+  hard_disk_error_log: string; //错误日志
+}
+
+export interface DeviceLogResult {
+  log_dmesg: string; //内核日志
+  system_log: string; //系统日志
 }
 
 export interface ServiceItem {
@@ -52,4 +54,10 @@ export interface ServiceItem {
   service_name: string;
   /** 状态 */
   status: boolean;
+}
+
+export interface UpdateIpGateWayBody {
+  mac_address: string; //mac地址
+  new_ip: string; //新ip
+  new_gateway: string; //新网关
 }
