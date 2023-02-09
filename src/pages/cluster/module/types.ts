@@ -29,6 +29,7 @@ export interface ClusterDetailResult {
   EC_HOME: string;
   EC_MINIO_STORAGE_CLASS_STANDARD: string;
   EC_MINIO_STORAGE_CLASS_RRS: string;
+  EC_RUN_CMD: string;
 }
 
 export interface CreateClusterBody {
@@ -51,4 +52,5 @@ export interface UpdateECConfigBody {
   EC_HOME: string;
   EC_MINIO_STORAGE_CLASS_STANDARD: string;
   EC_MINIO_STORAGE_CLASS_RRS: string;
+  EC_RUN_CMD: string;
 }

@@ -48,7 +48,7 @@ export const updateECConfig = (body: UpdateECConfigBody) => {
   return request.post<void>(`${AIP_FIX}/dashboard/UpEcData`, body);
 };
 
-/** 更新EC参数 */
+/** 重启 */
 export const restartCluster = (cluster_id: string) => {
   return request.post<void>(`${AIP_FIX}/dashboard/RestartCluster`, { cluster_id });
 };

@@ -27,6 +27,7 @@ export function UpdateECConfig({ data, onComplete }: Props) {
       EC_HOME: data.EC_HOME,
       EC_MINIO_STORAGE_CLASS_STANDARD: data.EC_MINIO_STORAGE_CLASS_STANDARD,
       EC_MINIO_STORAGE_CLASS_RRS: data.EC_MINIO_STORAGE_CLASS_RRS,
+      EC_RUN_CMD: data.EC_RUN_CMD,
     });
   }, []);
   const submitHandler = () => {
@@ -43,7 +44,7 @@ export function UpdateECConfig({ data, onComplete }: Props) {
   };
   return (
     <Form<FormValue>
-      labelCol={{ span: 9 }}
+      labelCol={{ span: 10 }}
       style={{ maxWidth: 700 }}
       form={form}
       onFinish={submitHandler}
@@ -72,6 +73,9 @@ export function UpdateECConfig({ data, onComplete }: Props) {
         name="EC_MINIO_STORAGE_CLASS_RRS"
         {...formItemProps}
       >
+        <Input />
+      </Form.Item>
+      <Form.Item label="EC_RUN_CMD" name="EC_RUN_CMD" {...formItemProps}>
         <Input />
       </Form.Item>
       <Form.Item colon={false} label=" ">
