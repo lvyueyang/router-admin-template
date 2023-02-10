@@ -63,3 +63,11 @@ export interface UpdateIpGateWayBody {
   new_ip: string; //新ip
   new_gateway: string; //新网关
 }
+
+export interface UpdateFileBody {
+  mac_address: string;
+  path: string;
+  file: Blob | File | string;
+  update_type?: 'upgrade_system';
+  onUploadProgress?: (p: ProgressEvent) => void;
+}

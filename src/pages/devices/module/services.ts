@@ -6,6 +6,7 @@ import {
   DeviceItemResult,
   DeviceLogResult,
   ServiceItem,
+  UpdateFileBody,
   UpdateIpGateWayBody,
 } from './types';
 import request from '@/services/request';
@@ -50,15 +51,17 @@ export const runCmd = (mac_address: string, cmd: string) => {
 };
 
 /** 上传文件 */
-export const uploadFile = (
-  mac_address: string,
-  path: string,
-  file: Blob | File | string,
-  onUploadProgress?: (p: ProgressEvent) => void,
-) => {
+export const uploadFile = ({
+  mac_address,
+  path,
+  file,
+  update_type,
+  onUploadProgress,
+}: UpdateFileBody) => {
   const formData = new FormData();
   formData.append('path', path);
   formData.append('mac_address', mac_address);
+  formData.append('update_type', update_type || '');
   formData.append('file', file);
   return request.post<Result<string>>(`${AIP_FIX}/dashboard/FileUploadDevice`, formData, {
     onUploadProgress,

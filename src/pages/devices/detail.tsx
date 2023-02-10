@@ -36,7 +36,6 @@ import {
   updateClock,
   updateIpGateWay,
   updateServiceStatus,
-  updateSystem,
 } from './module';
 import { useParams } from 'umi';
 import styles from './index.module.less';
@@ -560,6 +559,7 @@ export default function DeviceDetailPage() {
             <DragUpload
               id={id!}
               path="/opt"
+              update_type="upgrade_system"
               desc="请上传符合要求的系统镜像文件，上传完毕后将会开始升级"
             />
           </ProCard>
