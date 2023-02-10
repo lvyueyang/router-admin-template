@@ -122,3 +122,12 @@ export const updateSystem = (mac_address: string) => {
 export const updateIpGateWay = (body: UpdateIpGateWayBody) => {
   return request.post<Result<void>>(`${AIP_FIX}/dashboard/UpIpGateWay`, body);
 };
+
+/** 硬盘重启休眠 */
+export const updateDisk = (mac_address: string, status: number, value?: number) => {
+  return request.post<Result<void>>(`${AIP_FIX}/dashboard/UpDiskStatus`, {
+    mac_address,
+    status,
+    value,
+  });
+};

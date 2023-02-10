@@ -1,15 +1,28 @@
-import { Input, Popconfirm, PopconfirmProps } from 'antd';
+import {
+  Input,
+  InputNumber,
+  InputNumberProps,
+  InputProps,
+  Popconfirm,
+  PopconfirmProps,
+} from 'antd';
 import { useEffect, useState } from 'react';
 
 interface EditPopoverProps extends Omit<PopconfirmProps, 'onConfirm'> {
   value?: string;
-  onConfirm?: (value: string) => void;
+  onConfirm?: (value: string | number) => void;
   inputStyle?: React.CSSProperties;
+  inputType?: 'number' | 'text';
+  inputProps?: InputProps;
+  inputNumberProps?: InputNumberProps;
 }
 
 export default function EditPopover({
   value = '',
   inputStyle,
+  inputType = 'text',
+  inputProps,
+  inputNumberProps,
   onConfirm,
   ...props
 }: EditPopoverProps) {
@@ -25,13 +38,26 @@ export default function EditPopover({
       icon={false}
       description={
         <>
-          <Input
-            style={{ marginLeft: -14, ...inputStyle }}
-            value={val}
-            onChange={(e) => {
-              setVal(e.target.value);
-            }}
-          />
+          {inputType === 'text' && (
+            <Input
+              {...inputProps}
+              style={{ marginLeft: -14, ...inputStyle, ...inputProps?.style }}
+              value={val}
+              onChange={(e) => {
+                setVal(e.target.value);
+              }}
+            />
+          )}
+          {inputType === 'number' && (
+            <InputNumber
+              {...inputNumberProps}
+              style={{ marginLeft: -14, ...inputStyle, ...inputNumberProps?.style }}
+              value={val}
+              onChange={(e) => {
+                setVal(e?.toString() || '');
+              }}
+            />
+          )}
         </>
       }
       onConfirm={() => {

@@ -34,6 +34,7 @@ import {
   getServiceList,
   rebootDevice,
   updateClock,
+  updateDisk,
   updateIpGateWay,
   updateServiceStatus,
 } from './module';
@@ -54,6 +55,17 @@ const cardProps: ProCardProps = {
   bordered: true,
   className: styles.card,
 };
+
+const DISK_OPERATE = [
+  {
+    value: '1',
+    label: '休眠',
+  },
+  {
+    value: '2',
+    label: '重启',
+  },
+];
 
 interface ServiceListProps {
   id?: string;
@@ -146,9 +158,48 @@ function DiskList({ id }: { id: string }) {
         direction="column"
         title="硬盘信息"
         extra={
-          <Button type="primary" ghost onClick={run}>
-            刷新
-          </Button>
+          <Space>
+            <EditPopover
+              title="请输入休眠时间"
+              inputType="number"
+              inputStyle={{ width: 200 }}
+              inputNumberProps={{ addonAfter: '秒' }}
+              onConfirm={(e) => {
+                const close = message.loading('休眠中...');
+                updateDisk(id!, 2, Number(e))
+                  .then(() => {
+                    message.success('操作成功');
+                  })
+                  .finally(() => {
+                    close();
+                  });
+              }}
+            >
+              <Button type="primary" ghost>
+                休眠
+              </Button>
+            </EditPopover>
+            <Popconfirm
+              title="确定要进行待机吗？"
+              onConfirm={() => {
+                const close = message.loading('待机中...');
+                updateDisk(id!, 2)
+                  .then(() => {
+                    message.success('操作成功');
+                  })
+                  .finally(() => {
+                    close();
+                  });
+              }}
+            >
+              <Button type="primary" ghost>
+                待机
+              </Button>
+            </Popconfirm>
+            <Button type="primary" ghost onClick={run}>
+              刷新
+            </Button>
+          </Space>
         }
       >
         {data?.map((disk) => {
@@ -168,25 +219,6 @@ function DiskList({ id }: { id: string }) {
                     <small> ℃</small>
                   </Tag>
                   <Tag color="red">{disk.hard_disk_status}</Tag>
-                </Space>
-              }
-              extra={
-                <Space>
-                  {/* <Tooltip title="智能预测">
-                    <Button type="primary" ghost>
-                      智能预测
-                    </Button>
-                  </Tooltip>
-                  <Tooltip title="备份扇区">
-                    <Button type="primary" ghost>
-                      备份扇区
-                    </Button>
-                  </Tooltip>
-                  <Tooltip title="格式化 (ext4)">
-                    <Button type="primary" danger ghost>
-                      格式化 (ext4)
-                    </Button>
-                  </Tooltip> */}
                 </Space>
               }
             >

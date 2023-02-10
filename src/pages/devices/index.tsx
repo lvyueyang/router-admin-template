@@ -49,7 +49,7 @@ export default function Devices() {
       title: '服务状态',
       hideInSearch: true,
       render: (_, row) => {
-        return row.network_status ? <Tag color="green">正常</Tag> : <Tag color="red">异常</Tag>;
+        return row.service_status ? <Tag color="green">正常</Tag> : <Tag color="red">异常</Tag>;
       },
     },
     {
