@@ -98,12 +98,12 @@ export const rebootDevice = (mac_address: string) => {
 /** 更改服务状态 */
 export const updateServiceStatus = (
   mac_address: string,
-  service_name: string,
+  service_value: string,
   status: DEVICE_SERVICE_STATUS_ENUM,
 ) => {
   return request.post<Result<void>>(`${AIP_FIX}/dashboard/UpServiceStatus`, {
     mac_address,
-    service_name,
+    service_value,
     status,
   });
 };

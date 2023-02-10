@@ -52,6 +52,8 @@ export interface DeviceLogResult {
 export interface ServiceItem {
   /** 服务名称 */
   service_name: string;
+  /** 服务编号 */
+  service_value: string;
   /** 状态 */
   status: boolean;
 }

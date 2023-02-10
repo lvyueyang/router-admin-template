@@ -102,7 +102,7 @@ function ServiceList({ id }: ServiceListProps) {
                         const close = message.loading(cname + '中...', 0);
                         updateServiceStatus(
                           id!,
-                          info.service_name,
+                          info.service_value,
                           e.key as DEVICE_SERVICE_STATUS_ENUM,
                         )
                           .then(() => {
@@ -203,7 +203,7 @@ function DiskList({ id }: { id: string }) {
 }
 
 function LogInfo({ id }: { id: string }) {
-  const { data, run } = useRequest(() => {
+  const { data, loading, run } = useRequest(() => {
     return getDeviceLog(id).then((res) => res.data.data);
   });
   return (
@@ -213,8 +213,16 @@ function LogInfo({ id }: { id: string }) {
           {...cardProps}
           title="内核日志"
           collapsible
+          loading={loading}
           extra={
-            <Button ghost type="primary" onClick={run}>
+            <Button
+              ghost
+              type="primary"
+              onClick={(e) => {
+                e.stopPropagation();
+                run();
+              }}
+            >
               刷新
             </Button>
           }
@@ -223,7 +231,24 @@ function LogInfo({ id }: { id: string }) {
         </ProCard>
       </Col>
       <Col {...colSpan} lg={24}>
-        <ProCard {...cardProps} title="系统日志" collapsible>
+        <ProCard
+          {...cardProps}
+          title="系统日志"
+          collapsible
+          loading={loading}
+          extra={
+            <Button
+              ghost
+              type="primary"
+              onClick={(e) => {
+                e.stopPropagation();
+                run();
+              }}
+            >
+              刷新
+            </Button>
+          }
+        >
           <LogView value={data?.system_log} />
         </ProCard>
       </Col>
@@ -235,7 +260,7 @@ export default function DeviceDetailPage() {
   const [customPath, setCustomPath] = useState('');
   const { id } = useParams();
   const pollingInterval = usePollingInterval();
-  const { colorSuccess, colorError } = useThemeToken();
+  const { colorSuccess } = useThemeToken();
   const {
     data: info,
     loading,
@@ -292,7 +317,7 @@ export default function DeviceDetailPage() {
             <ProCard>
               <Statistic
                 title="内存"
-                value={(info?.memory_use_rate || 0) * 100}
+                value={((info?.memory_use_rate || 0) * 100).toFixed(2)}
                 suffix={<small>%</small>}
               />
             </ProCard>
@@ -394,7 +419,7 @@ export default function DeviceDetailPage() {
             title="操作系统"
             extra={
               <Space>
-                <Popconfirm
+                {/* <Popconfirm
                   title="确定要进行系统升级吗？"
                   onConfirm={() => {
                     const close = message.loading('升级中...', 0);
@@ -410,7 +435,7 @@ export default function DeviceDetailPage() {
                   <Button type="primary" danger ghost icon={<ArrowUpOutlined />}>
                     升级
                   </Button>
-                </Popconfirm>
+                </Popconfirm> */}
                 <Popconfirm
                   title="确定要重启吗？"
                   onConfirm={() => {
@@ -531,8 +556,12 @@ export default function DeviceDetailPage() {
 
         {/* 上传 */}
         <Col {...colSpan} lg={24}>
-          <ProCard {...cardProps} title="上传系统镜像文件">
-            <DragUpload id={id!} path="/opt" desc="请上传符合要求的系统镜像文件" />
+          <ProCard {...cardProps} title="系统升级">
+            <DragUpload
+              id={id!}
+              path="/opt"
+              desc="请上传符合要求的系统镜像文件，上传完毕后将会开始升级"
+            />
           </ProCard>
         </Col>
         {/* 自定义上传文件 */}
