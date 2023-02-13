@@ -337,7 +337,7 @@ function IpUpdateModal({ id, data, onComplete, ...props }: IpUpdateModalProps) {
           <Input />
         </Form.Item>
         <Alert
-          message="注意！请和您的网络管理员确认网关和 IP 在同一网段且和管理平台是连通的！否则修改后可能会无法连接。"
+          message="注意！请和您的网络管理员确认网关和 IP 在同一网段且和管理平台是连通的！否则修改后将会导致无法连接。"
           type="warning"
         />
       </Form>
