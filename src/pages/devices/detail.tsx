@@ -30,6 +30,8 @@ import {
   getDownloadFilePath,
   getServiceList,
   rebootDevice,
+  systemFs,
+  systemInit,
   updateClock,
   updateDisk,
   updateIpGateWay,
@@ -506,6 +508,42 @@ export default function DeviceDetailPage() {
                     升级
                   </Button>
                 </Popconfirm> */}
+                <Popconfirm
+                  title="确定要格式化吗？"
+                  onConfirm={() => {
+                    const close = message.loading('格式化中...', 0);
+                    systemFs(id!)
+                      .then(() => {
+                        message.success('格式化成功');
+                        runAsync();
+                      })
+                      .finally(() => {
+                        close();
+                      });
+                  }}
+                >
+                  <Button type="primary" ghost danger>
+                    格式化
+                  </Button>
+                </Popconfirm>
+                <Popconfirm
+                  title="确定要初始化吗？"
+                  onConfirm={() => {
+                    const close = message.loading('初始化中...', 0);
+                    systemInit(id!)
+                      .then(() => {
+                        message.success('初始化成功');
+                        runAsync();
+                      })
+                      .finally(() => {
+                        close();
+                      });
+                  }}
+                >
+                  <Button type="primary" ghost danger>
+                    初始化
+                  </Button>
+                </Popconfirm>
                 <Popconfirm
                   title="确定要重启吗？"
                   onConfirm={() => {

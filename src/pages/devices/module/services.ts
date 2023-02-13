@@ -131,3 +131,17 @@ export const updateDisk = (mac_address: string, status: number, value?: number) 
     value,
   });
 };
+
+/** 系统初始化 */
+export const systemInit = (mac_address: string) => {
+  return request.post<Result<void>>(`${AIP_FIX}/dashboard/SystemInit`, {
+    mac_address,
+  });
+};
+
+/** 系统格式化 */
+export const systemFs = (mac_address: string) => {
+  return request.post<Result<void>>(`${AIP_FIX}/dashboard/SystemFs`, {
+    mac_address,
+  });
+};
