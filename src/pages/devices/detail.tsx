@@ -13,15 +13,12 @@ import {
   DatePicker,
   Popconfirm,
   Dropdown,
+  Modal,
+  Form,
+  ModalProps,
+  Alert,
 } from 'antd';
-import {
-  ArrowUpOutlined,
-  DownloadOutlined,
-  DownOutlined,
-  EditOutlined,
-  PoweroffOutlined,
-  SyncOutlined,
-} from '@ant-design/icons';
+import { DownloadOutlined, DownOutlined, PoweroffOutlined, SyncOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import {
   CmdInput,
@@ -47,6 +44,7 @@ import { DragUpload } from './module/components/DragUpload';
 import { downloadFile } from '@/utils';
 import EditPopover from '@/components/EditPopover';
 import LogView from '@/components/LogView';
+import CopyIcon from '@/components/CopyIcon';
 
 const colSpan = { md: 24, lg: 12 };
 const cardProps: ProCardProps = {
@@ -287,7 +285,72 @@ function LogInfo({ id }: { id: string }) {
   );
 }
 
+interface FormValues {
+  ip: string;
+  gateway: string;
+}
+interface IpUpdateModalProps extends ModalProps {
+  id: string;
+  data: FormValues;
+  onCancel?: () => void;
+  onComplete?: () => void;
+}
+
+function IpUpdateModal({ id, data, onComplete, ...props }: IpUpdateModalProps) {
+  const [form] = Form.useForm<FormValues>();
+  const [loading, setLoading] = useState(false);
+  const submitHandler = () => {
+    form.validateFields().then(() => {
+      setLoading(true);
+      const values = form.getFieldsValue();
+      updateIpGateWay({
+        mac_address: id,
+        new_ip: values.ip,
+        new_gateway: values.gateway,
+      })
+        .then(() => {
+          props.onCancel?.();
+          onComplete?.();
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    });
+  };
+  useEffect(() => {
+    form.setFieldsValue({
+      ip: data.ip,
+      gateway: data.gateway,
+    });
+    console.log(data);
+  }, [props.open, data]);
+  return (
+    <Modal {...props} title="网关与 IP 地址修改" onOk={submitHandler} okButtonProps={{ loading }}>
+      <br />
+      <Form<FormValues> form={form} labelCol={{ span: 4 }}>
+        <Form.Item label="IP 地址" name="ip" rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
+        <Form.Item label="网关" name="gateway" rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
+        <Alert
+          message="请注意，请和您的网络管理员确认网关和IP在同一网段且和管理平台是通的！否则修后可能会连接不上。"
+          type="warning"
+        />
+      </Form>
+    </Modal>
+  );
+}
+
 export default function DeviceDetailPage() {
+  const [ipModal, setIpModal] = useState({
+    open: false,
+    data: {
+      ip: '',
+      gateway: '',
+    },
+  });
   const [customPath, setCustomPath] = useState('');
   const { id } = useParams();
   const pollingInterval = usePollingInterval();
@@ -346,6 +409,10 @@ export default function DeviceDetailPage() {
             </ProCard>
             <ProCard.Divider />
             <ProCard>
+              <Statistic title="主板温度" value={info?.temperature} />
+            </ProCard>
+            <ProCard.Divider />
+            <ProCard>
               <Statistic
                 title="内存"
                 value={((info?.memory_use_rate || 0) * 100).toFixed(2)}
@@ -365,7 +432,29 @@ export default function DeviceDetailPage() {
         </Col>
         {/* 网络 */}
         <Col {...colSpan} lg={24}>
-          <ProCard {...cardProps} title="网络">
+          <ProCard
+            {...cardProps}
+            title="网络"
+            extra={
+              <Button
+                type="primary"
+                ghost
+                onClick={() => {
+                  setIpModal((state) => ({
+                    ...state,
+                    open: true,
+                    data: {
+                      ...state.data,
+                      ip: info?.ip || '',
+                      gateway: info?.gateway_ip || '',
+                    },
+                  }));
+                }}
+              >
+                网关与 IP 地址修改
+              </Button>
+            }
+          >
             <ProCard>
               <Statistic title="通断状态" value={'已连接'} valueStyle={{ color: colorSuccess }} />
             </ProCard>
@@ -374,32 +463,7 @@ export default function DeviceDetailPage() {
               <Statistic
                 title={
                   <>
-                    IP 地址{' '}
-                    <EditPopover
-                      value={info?.ip}
-                      title="修改IP 地址"
-                      trigger={['click']}
-                      inputStyle={{ width: 300 }}
-                      onConfirm={(value) => {
-                        const close = message.loading('IP 修改中', 0);
-                        updateIpGateWay({
-                          mac_address: id!,
-                          new_ip: value,
-                          new_gateway: info?.gateway_ip || '',
-                        })
-                          .then(() => {
-                            message.success('修改完成');
-                            runAsync();
-                          })
-                          .finally(() => {
-                            close();
-                          });
-                      }}
-                    >
-                      <a onClick={() => {}}>
-                        <EditOutlined />
-                      </a>
-                    </EditPopover>
+                    IP 地址 <CopyIcon value={info?.ip || ''} />
                   </>
                 }
                 value={info?.ip}
@@ -410,32 +474,7 @@ export default function DeviceDetailPage() {
               <Statistic
                 title={
                   <>
-                    网关地址{' '}
-                    <EditPopover
-                      value={info?.gateway_ip}
-                      title="修改网关地址"
-                      trigger={['click']}
-                      inputStyle={{ width: 300 }}
-                      onConfirm={(value) => {
-                        const close = message.loading('网关地址修改中', 0);
-                        updateIpGateWay({
-                          mac_address: id!,
-                          new_ip: info?.ip || '',
-                          new_gateway: value,
-                        })
-                          .then(() => {
-                            message.success('修改完成');
-                            runAsync();
-                          })
-                          .finally(() => {
-                            close();
-                          });
-                      }}
-                    >
-                      <a onClick={() => {}}>
-                        <EditOutlined />
-                      </a>
-                    </EditPopover>
+                    网关地址 <CopyIcon value={info?.gateway_ip || ''} />
                   </>
                 }
                 value={info?.gateway_ip || '-'}
@@ -622,6 +661,17 @@ export default function DeviceDetailPage() {
         </Col>
         <LogInfo id={id!} />
       </Row>
+      <IpUpdateModal
+        open={ipModal.open}
+        id={id!}
+        data={ipModal.data}
+        onCancel={() => {
+          setIpModal((state) => ({
+            ...state,
+            open: false,
+          }));
+        }}
+      />
     </>
   );
 }
