@@ -67,7 +67,6 @@ export default function Devices() {
       <Header />
       <PageContainer>
         <ProTable<TableItem>
-          size="small"
           columns={columns}
           rowKey="ip"
           bordered
