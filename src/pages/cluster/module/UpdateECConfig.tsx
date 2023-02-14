@@ -1,4 +1,4 @@
-import { Button, Form, Input, message } from 'antd';
+import { Button, Form, Input, message, Popconfirm } from 'antd';
 import { useEffect, useState } from 'react';
 import { updateECConfig } from './services';
 import { ClusterDetailResult, UpdateECConfigBody } from './types';
@@ -35,7 +35,7 @@ export function UpdateECConfig({ data, onComplete }: Props) {
     setLoading(true);
     updateECConfig(values)
       .then(() => {
-        message.success('EC 参数修改成功');
+        message.success('EC 参数修改成功，集群设备重启中');
         onComplete?.();
       })
       .finally(() => {
@@ -43,12 +43,7 @@ export function UpdateECConfig({ data, onComplete }: Props) {
       });
   };
   return (
-    <Form<FormValue>
-      labelCol={{ span: 10 }}
-      style={{ maxWidth: 700 }}
-      form={form}
-      onFinish={submitHandler}
-    >
+    <Form<FormValue> labelCol={{ span: 10 }} style={{ maxWidth: 700 }} form={form}>
       <Form.Item label="cluster_id" name="cluster_id" hidden>
         <Input />
       </Form.Item>
@@ -79,9 +74,11 @@ export function UpdateECConfig({ data, onComplete }: Props) {
         <Input />
       </Form.Item>
       <Form.Item colon={false} label=" ">
-        <Button type="primary" loading={loading} htmlType="submit">
-          提交修改
-        </Button>
+        <Popconfirm title="修改 EC 参数会使集群设备重启，确定要修改吗？" onConfirm={submitHandler}>
+          <Button type="primary" loading={loading} htmlType="submit">
+            提交修改
+          </Button>
+        </Popconfirm>
       </Form.Item>
     </Form>
   );

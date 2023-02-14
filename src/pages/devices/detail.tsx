@@ -300,6 +300,7 @@ function IpUpdateModal({ id, data, onComplete, ...props }: IpUpdateModalProps) {
       })
         .then(() => {
           props.onCancel?.();
+          message.success('修改成功，设备将会重启');
           onComplete?.();
         })
         .finally(() => {
@@ -315,7 +316,22 @@ function IpUpdateModal({ id, data, onComplete, ...props }: IpUpdateModalProps) {
     });
   }, [props.open]);
   return (
-    <Modal {...props} title="网关与 IP 地址修改" onOk={submitHandler} okButtonProps={{ loading }}>
+    <Modal
+      {...props}
+      title="网关与 IP 地址修改"
+      okButtonProps={{ loading }}
+      footer={
+        <Space>
+          <Button onClick={props.onCancel}>取消</Button>
+          <Popconfirm
+            title="修改 IP 与网关地址会使设备重启，确定要修改吗？"
+            onConfirm={submitHandler}
+          >
+            <Button type="primary">确定</Button>
+          </Popconfirm>
+        </Space>
+      }
+    >
       <br />
       <Form<FormValues> form={form} labelCol={{ span: 4 }}>
         <Form.Item label="IP 地址" name="ip" rules={[{ required: true }]}>
