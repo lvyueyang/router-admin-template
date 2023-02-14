@@ -56,23 +56,11 @@ const cardProps: ProCardProps = {
   className: styles.card,
 };
 
-const DISK_OPERATE = [
-  {
-    value: '1',
-    label: '休眠',
-  },
-  {
-    value: '2',
-    label: '重启',
-  },
-];
-
 interface ServiceListProps {
   id?: string;
 }
 
 function ServiceList({ id }: ServiceListProps) {
-  const { colorSuccess, colorError } = useThemeToken();
   const { data, loading, run } = useRequest(() => {
     return getServiceList(id!).then((res) => res.data.data);
   });
@@ -320,12 +308,12 @@ function IpUpdateModal({ id, data, onComplete, ...props }: IpUpdateModalProps) {
     });
   };
   useEffect(() => {
+    if (!props.open) return;
     form.setFieldsValue({
       ip: data.ip,
       gateway: data.gateway,
     });
-    console.log(data);
-  }, [props.open, data]);
+  }, [props.open]);
   return (
     <Modal {...props} title="网关与 IP 地址修改" onOk={submitHandler} okButtonProps={{ loading }}>
       <br />
