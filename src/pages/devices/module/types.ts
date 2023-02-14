@@ -55,7 +55,9 @@ export interface ServiceItem {
   /** 服务编号 */
   service_value: string;
   /** 状态 */
-  status: boolean;
+  status: string;
+  /** 状态颜色 */
+  color: string;
 }
 
 export interface UpdateIpGateWayBody {

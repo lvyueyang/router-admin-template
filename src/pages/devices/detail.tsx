@@ -135,8 +135,8 @@ function ServiceList({ id }: ServiceListProps) {
               <ProCard>
                 <Statistic
                   title="服务状态"
-                  value={info?.status ? '在线' : '离线'}
-                  valueStyle={{ color: info?.status ? colorSuccess : colorError }}
+                  value={info?.status || '-'}
+                  valueStyle={{ color: info?.color }}
                 />
               </ProCard>
             </ProCard>
@@ -621,7 +621,11 @@ export default function DeviceDetailPage() {
             </ProCard>
             <ProCard.Divider />
             <ProCard>
-              <Statistic title="系统盘容量" value={'10/100'} valueStyle={{ fontSize: 18 }} />
+              <Statistic
+                title="系统盘容量"
+                value={info?.system_disk_use}
+                valueStyle={{ fontSize: 18 }}
+              />
             </ProCard>
           </ProCard>
         </Col>
