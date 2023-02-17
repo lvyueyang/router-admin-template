@@ -60,9 +60,10 @@ export default function SideBar() {
       <Menu
         className={styles.menuList}
         defaultSelectedKeys={[location.pathname]}
+        defaultOpenKeys={['/' + location.pathname.split('/')[1]]}
         mode="inline"
         items={menus}
-        onSelect={(e) => {
+        onClick={(e) => {
           history.push(e.key);
         }}
       />

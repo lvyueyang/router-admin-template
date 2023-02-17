@@ -1,12 +1,4 @@
-import {
-  FundOutlined,
-  HddOutlined,
-  ClusterOutlined,
-  CodeOutlined,
-  FundFilled,
-  HddFilled,
-  CodeFilled,
-} from '@ant-design/icons';
+import { ClusterOutlined, FundFilled, HddFilled, CodeFilled } from '@ant-design/icons';
 
 const router = {
   routes: [
@@ -48,9 +40,36 @@ const router = {
         },
         {
           path: '/logger',
-          component: 'logger',
           title: '日志',
           icon: CodeFilled,
+          routes: [
+            {
+              path: '/logger/operate',
+              component: 'logger/operateLog',
+              title: '操作日志',
+            },
+            // {
+            //   path: '/logger/cluster',
+            //   component: 'logger/clusterLog',
+            //   title: '集群日志',
+            // },
+            {
+              path: '/logger/device',
+              component: 'logger/deviceLog',
+              title: '设备日志',
+            },
+            {
+              path: '/logger/device/:id',
+              component: 'devices/log',
+              title: '设备日志详情',
+              hideMenu: true,
+            },
+            {
+              path: 'xlsx',
+              href: 'https://www.baidu.com',
+              title: '报表',
+            },
+          ],
         },
       ],
     },

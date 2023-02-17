@@ -8,7 +8,11 @@ import { Link } from 'umi';
 
 type TableItem = DeviceItemResult;
 
-export default function Devices() {
+export default function Devices({
+  operateRender,
+}: {
+  operateRender?: (row: TableItem) => React.ReactNode;
+}) {
   const tableRef = useRef<ActionType>();
   const [searchParams, setSearchParams] = useState({ keywords: '' });
 
@@ -56,8 +60,11 @@ export default function Devices() {
       dataIndex: 'operate',
       title: '操作',
       hideInSearch: true,
-      render: (_, { mac_add_str }) => {
-        return <Link to={`/devices/${mac_add_str}`}>查看</Link>;
+      render: (_, row) => {
+        if (operateRender) {
+          return operateRender(row);
+        }
+        return <Link to={`/devices/${row.mac_add_str}`}>查看</Link>;
       },
     },
   ];

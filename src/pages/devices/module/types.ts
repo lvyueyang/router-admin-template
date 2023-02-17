@@ -47,6 +47,8 @@ export interface DeviceDiskItemResult {
 export interface DeviceLogResult {
   log_dmesg: string; //内核日志
   system_log: string; //系统日志
+  service_glusterd: string; // glusterd
+  service_minio_log: string; // minio
 }
 
 export interface ServiceItem {

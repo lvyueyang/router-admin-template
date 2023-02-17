@@ -31,8 +31,9 @@
   color: rgb(188, 199, 209);
   background: transparent;
   :global {
-    .ant-menu-item {
-      height: 63px;
+    .ant-menu-item,
+    .ant-menu-submenu-title {
+      height: 63px !important;
       &.ant-menu-item-selected {
         background: inherit;
         color: inherit;
@@ -58,6 +59,26 @@
         justify-content: center;
         align-items: center;
         font-size: 16px;
+      }
+    }
+
+    .ant-menu-submenu-selected {
+      .ant-menu-submenu-title {
+        background: inherit;
+        color: inherit;
+        .anticon {
+          border-color: #fff;
+        }
+      }
+    }
+    .ant-menu-submenu {
+      .ant-menu-item {
+        height: 45px !important;
+        padding-left: 75px !important;
+      }
+      .ant-menu-item-selected {
+        font-weight: 700;
+        text-decoration: underline;
       }
     }
   }
