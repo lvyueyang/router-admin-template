@@ -40,3 +40,15 @@ export function downloadFile(url: string, name: string) {
   a.click();
   a.remove();
 }
+
+export function isJson(value: string) {
+  try {
+    const obj = JSON.parse(value);
+    if (typeof obj === 'object' && !!obj) {
+      return obj;
+    }
+    return false;
+  } catch (e) {
+    return false;
+  }
+}

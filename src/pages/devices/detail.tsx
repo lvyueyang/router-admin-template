@@ -90,10 +90,17 @@ function ServiceList({ id }: ServiceListProps) {
                 <Space>
                   <Dropdown
                     menu={{
-                      items: Object.values(DEVICE_SERVICE_STATUS).map((item) => ({
-                        label: item.label,
-                        key: item.id,
-                      })),
+                      items: Object.values(DEVICE_SERVICE_STATUS)
+                        .filter((item) => {
+                          if (item.id === info.status) {
+                            return false;
+                          }
+                          return true;
+                        })
+                        .map((item) => ({
+                          label: item.label,
+                          key: item.id,
+                        })),
                       onClick: (e) => {
                         const cname =
                           Object.values(DEVICE_SERVICE_STATUS).find((item) => item.id === e.key)
@@ -123,7 +130,10 @@ function ServiceList({ id }: ServiceListProps) {
               <ProCard>
                 <Statistic
                   title="服务状态"
-                  value={info?.status || '-'}
+                  value={
+                    Object.values(DEVICE_SERVICE_STATUS).find((item) => item.id === info.status)
+                      ?.label || '-'
+                  }
                   valueStyle={{ color: info?.color }}
                 />
               </ProCard>

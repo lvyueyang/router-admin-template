@@ -46,12 +46,12 @@ const router = {
           title: '集群详情',
           hideMenu: true,
         },
-        // {
-        //   path: '/logger',
-        //   component: 'logger',
-        //   title: '日志',
-        //   icon: CodeFilled,
-        // },
+        {
+          path: '/logger',
+          component: 'logger',
+          title: '日志',
+          icon: CodeFilled,
+        },
       ],
     },
   ],
