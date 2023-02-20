@@ -1,4 +1,10 @@
-import { ClusterOutlined, FundFilled, HddFilled, CodeFilled } from '@ant-design/icons';
+import {
+  ClusterOutlined,
+  FundFilled,
+  HddFilled,
+  CodeFilled,
+  SettingFilled,
+} from '@ant-design/icons';
 
 const router = {
   routes: [
@@ -68,6 +74,18 @@ const router = {
               path: 'xlsx',
               href: 'https://www.baidu.com',
               title: '报表',
+            },
+          ],
+        },
+        {
+          path: '/system',
+          title: '系统配置',
+          icon: SettingFilled,
+          routes: [
+            {
+              path: '/system/email',
+              component: 'system/index',
+              title: '邮箱配置',
             },
           ],
         },

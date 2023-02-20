@@ -161,7 +161,7 @@ function DiskList({ id }: { id: string }) {
               title="请输入休眠时间"
               inputType="number"
               inputStyle={{ width: 200 }}
-              inputNumberProps={{ addonAfter: '秒' }}
+              inputNumberProps={{ addonAfter: 'x5秒', min: 0, max: 255, placeholder: '0 ~ 255' }}
               onConfirm={(e) => {
                 const close = message.loading('休眠中...');
                 updateDisk(id!, 2, Number(e))
@@ -177,7 +177,7 @@ function DiskList({ id }: { id: string }) {
                 休眠
               </Button>
             </EditPopover>
-            <Popconfirm
+            {/* <Popconfirm
               title="确定要进行待机吗？"
               onConfirm={() => {
                 const close = message.loading('待机中...');
@@ -193,7 +193,7 @@ function DiskList({ id }: { id: string }) {
               <Button type="primary" ghost>
                 待机
               </Button>
-            </Popconfirm>
+            </Popconfirm> */}
             <Button type="primary" ghost onClick={run}>
               刷新
             </Button>

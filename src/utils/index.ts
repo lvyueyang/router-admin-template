@@ -32,10 +32,10 @@ export const copyText = (text: string) => {
   });
 };
 
-export function downloadFile(url: string, name: string) {
+export function downloadFile(url: string, name?: string) {
   const a = document.createElement('a');
   a.href = url;
-  a.download = name;
+  a.download = name || url.split('/').reverse()[0];
   a.target = '_blank';
   a.click();
   a.remove();

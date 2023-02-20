@@ -1,11 +1,12 @@
 import PageContainer from '@/components/PageContainer';
 import { ProTable, ProColumns, ActionType, ProCard } from '@ant-design/pro-components';
-import { getOperateLogList, OperateLogItemResult } from './module';
+import { getOperateLogDownloadUrl, getOperateLogList, OperateLogItemResult } from './module';
 import { useRef } from 'react';
-import { Tag } from 'antd';
+import { Button, Tag } from 'antd';
 import Header from '@/components/Header';
 import ReactJson from 'react-json-view';
-import { isJson } from '@/utils';
+import { downloadFile, isJson } from '@/utils';
+import { DownloadOutlined } from '@ant-design/icons';
 
 type TableItem = OperateLogItemResult;
 
@@ -53,7 +54,18 @@ export default function Devices() {
 
   return (
     <>
-      <Header />
+      <Header>
+        {/* <Button
+          icon={<DownloadOutlined />}
+          onClick={() => {
+            getOperateLogDownloadUrl().then((res) => {
+              downloadFile(`/${res.data.data}`);
+            });
+          }}
+        >
+          下载
+        </Button> */}
+      </Header>
       <PageContainer>
         <ProTable<TableItem>
           columns={columns}

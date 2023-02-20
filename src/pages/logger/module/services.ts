@@ -9,3 +9,8 @@ export const getOperateLogList = (keywords = '') => {
     keywords,
   });
 };
+
+/** 获取操作日志-下载地址 */
+export const getOperateLogDownloadUrl = () => {
+  return request.get<Result<string>>(`${AIP_FIX}/log/GetOperationLogDownload`);
+};
