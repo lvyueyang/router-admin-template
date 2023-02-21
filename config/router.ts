@@ -71,8 +71,8 @@ const router = {
               hideMenu: true,
             },
             {
-              path: 'xlsx',
-              href: 'https://www.baidu.com',
+              path: '/logger/xlsx',
+              component: 'logger/xls',
               title: '报表',
             },
           ],

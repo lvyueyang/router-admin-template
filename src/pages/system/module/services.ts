@@ -12,3 +12,8 @@ export const getMailConfig = () => {
 export const updateMailConfig = (body: MailConfigResult) => {
   return request.post<Result<void>>(`${AIP_FIX}/log/SetSendMailConfig`, body);
 };
+
+/** 日志发送到邮箱 */
+export const sendEmail = () => {
+  return request.post<Result<void>>(`${AIP_FIX}/log/LogSendMail`);
+};

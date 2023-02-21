@@ -1,9 +1,9 @@
 import Header from '@/components/Header';
 import PageContainer from '@/components/PageContainer';
 import { useRequest } from 'ahooks';
-import { Button, Card, Form, Input, InputNumber, message, Select } from 'antd';
+import { Button, Card, Form, Input, InputNumber, message, Popconfirm, Select, Space } from 'antd';
 import { useEffect } from 'react';
-import { getMailConfig, MailConfigResult, updateMailConfig } from './module';
+import { getMailConfig, MailConfigResult, sendEmail, updateMailConfig } from './module';
 
 type FormValues = MailConfigResult;
 
@@ -23,13 +23,27 @@ export default function EmailConfig() {
     },
     { manual: true },
   );
-
+  const { run: sendEmailHandler, loading: sendLoading } = useRequest(
+    () => {
+      return sendEmail().then(() => {
+        message.success('发送成功');
+        return {};
+      });
+    },
+    { manual: true },
+  );
   useEffect(() => {
     form.setFieldsValue({ ...data, to_email_list: data?.to_email_list || [] });
   }, [data]);
   return (
     <>
-      <Header />
+      <Header>
+        <Popconfirm title="确定要发送报表邮件吗" onConfirm={sendEmailHandler}>
+          <Button type="primary" loading={sendLoading}>
+            发送邮件
+          </Button>
+        </Popconfirm>
+      </Header>
       <PageContainer>
         <Card style={{ maxWidth: 800 }}>
           <Form<FormValues> labelCol={{ span: 5 }} form={form} onFinish={submitHandler}>
@@ -49,9 +63,11 @@ export default function EmailConfig() {
               <Select mode="tags" />
             </Form.Item>
             <Form.Item label=" " colon={false}>
-              <Button type="primary" htmlType="submit" loading={loading}>
-                保存
-              </Button>
+              <Space>
+                <Button type="primary" htmlType="submit" loading={loading}>
+                  保存
+                </Button>
+              </Space>
             </Form.Item>
           </Form>
         </Card>
