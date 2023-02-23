@@ -370,7 +370,7 @@ export default function DeviceDetailPage() {
   const [customPath, setCustomPath] = useState('');
   const { id } = useParams();
   const pollingInterval = usePollingInterval();
-  const { colorSuccess } = useThemeToken();
+  const { colorSuccess, colorError } = useThemeToken();
   const {
     data: info,
     loading,
@@ -472,7 +472,11 @@ export default function DeviceDetailPage() {
             }
           >
             <ProCard>
-              <Statistic title="通断状态" value={'已连接'} valueStyle={{ color: colorSuccess }} />
+              <Statistic
+                title="通断状态"
+                value={info?.ip ? '已连接' : '已断开'}
+                valueStyle={{ color: info?.ip ? colorSuccess : colorError }}
+              />
             </ProCard>
             <ProCard.Divider />
             <ProCard>
