@@ -1,24 +1,13 @@
-import { getOperateLogDownloadUrl } from './module';
-
-import Header from '@/components/Header';
-import { useRequest } from 'ahooks';
+import { AIP_FIX } from '@/constants';
 
 export default function Devices() {
-  const { data } = useRequest(() => {
-    return getOperateLogDownloadUrl().then((res) => {
-      console.log(res.data.data);
-      return res.data.data;
-    });
-  });
-
   return (
     <>
-      <Header />
       <div style={{ margin: '-15px' }}>
         <iframe
-          src={`/${data}`}
+          src={`${AIP_FIX}/log/GetOperationLogDownload`}
           frameBorder="0"
-          style={{ width: '100%', height: 'calc(100vh - 73px)' }}
+          style={{ width: '100%', height: 'calc(100vh - 3px)' }}
         />
       </div>
     </>
