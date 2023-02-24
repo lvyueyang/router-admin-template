@@ -48,14 +48,14 @@ export default function Devices({
         return row.network_status ? <Tag color="green">正常</Tag> : <Tag color="red">异常</Tag>;
       },
     },
-    {
-      dataIndex: 'service_status',
-      title: '服务状态',
-      hideInSearch: true,
-      render: (_, row) => {
-        return row.service_status ? <Tag color="green">正常</Tag> : <Tag color="red">异常</Tag>;
-      },
-    },
+    // {
+    //   dataIndex: 'service_status',
+    //   title: '服务状态',
+    //   hideInSearch: true,
+    //   render: (_, row) => {
+    //     return row.service_status ? <Tag color="green">正常</Tag> : <Tag color="red">异常</Tag>;
+    //   },
+    // },
     {
       dataIndex: 'operate',
       title: '操作',
