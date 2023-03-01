@@ -57,7 +57,7 @@ export default function EmailConfig() {
               <Input />
             </Form.Item>
             <Form.Item label="邮箱密码" name="email_password" rules={[{ required: true }]}>
-              <Input />
+              <Input.Password />
             </Form.Item>
             <Form.Item label="收件人列表" name="to_email_list">
               <Select mode="tags" />
