@@ -1,7 +1,18 @@
 import Header from '@/components/Header';
 import PageContainer from '@/components/PageContainer';
 import { useRequest } from 'ahooks';
-import { Button, Card, Form, Input, InputNumber, message, Popconfirm, Select, Space } from 'antd';
+import {
+  Button,
+  Tooltip,
+  Card,
+  Form,
+  Input,
+  InputNumber,
+  message,
+  Popconfirm,
+  Select,
+  Space,
+} from 'antd';
 import { useEffect } from 'react';
 import { getMailConfig, MailConfigResult, sendEmail, updateMailConfig } from './module';
 
@@ -39,9 +50,11 @@ export default function EmailConfig() {
     <>
       <Header>
         <Popconfirm title="确定要发送报表邮件吗" onConfirm={sendEmailHandler}>
-          <Button type="primary" loading={sendLoading}>
-            发送邮件
-          </Button>
+          <Tooltip title="将日志报表发送给指的的收件人" placement="left">
+            <Button type="primary" loading={sendLoading}>
+              发送邮件
+            </Button>
+          </Tooltip>
         </Popconfirm>
       </Header>
       <PageContainer>
@@ -64,6 +77,7 @@ export default function EmailConfig() {
             </Form.Item>
             <Form.Item label=" " colon={false}>
               <Space>
+                <Button htmlType="reset">重置</Button>
                 <Button type="primary" htmlType="submit" loading={loading}>
                   保存
                 </Button>
