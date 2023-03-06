@@ -52,3 +52,17 @@ export function isJson(value: string) {
     return false;
   }
 }
+
+/** 计算冗余数 */
+export function redundancyCount(len: number) {
+  if (len <= 4) {
+    return 1;
+  }
+  if (len > 4 && len <= 9) {
+    return 2;
+  }
+  if (len > 9 && len <= 14) {
+    return 3;
+  }
+  return 4;
+}

@@ -20,7 +20,7 @@ export function SelectDevices(props: SelectProps) {
         const current = options.find((item) => item.mac_add_str === props.value);
         return (
           <Tooltip title={current?.ip}>
-            <Tag closable onClose={props.onClose}>
+            <Tag closable onClose={props.onClose} style={{ margin: 4 }}>
               {current?.host_name || props.value}
             </Tag>
           </Tooltip>
