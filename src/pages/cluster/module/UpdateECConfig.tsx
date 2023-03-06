@@ -47,34 +47,53 @@ export function UpdateECConfig({ data, onComplete }: Props) {
       <Form.Item label="cluster_id" name="cluster_id" hidden>
         <Input />
       </Form.Item>
-      <Form.Item label="EC_MINIO_ACCESS_KEY" name="EC_MINIO_ACCESS_KEY" {...formItemProps}>
-        <Input />
-      </Form.Item>
-      <Form.Item label="EC_MINIO_SECRET_KEY" name="EC_MINIO_SECRET_KEY" {...formItemProps}>
-        <Input />
-      </Form.Item>
-      <Form.Item label="EC_HOME" name="EC_HOME" {...formItemProps}>
+      <Form.Item
+        tooltip="EC_MINIO_ACCESS_KEY"
+        label="用户名"
+        name="EC_MINIO_ACCESS_KEY"
+        {...formItemProps}
+      >
         <Input />
       </Form.Item>
       <Form.Item
-        label="EC_MINIO_STORAGE_CLASS_STANDARD"
+        tooltip="EC_MINIO_SECRET_KEY"
+        label="密码"
+        name="EC_MINIO_SECRET_KEY"
+        {...formItemProps}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item tooltip="EC_HOME" label="根目录" name="EC_HOME" {...formItemProps}>
+        <Input />
+      </Form.Item>
+      <Form.Item
+        tooltip="EC_MINIO_STORAGE_CLASS_STANDARD"
         name="EC_MINIO_STORAGE_CLASS_STANDARD"
+        label="存储等级标准"
         {...formItemProps}
       >
         <Input />
       </Form.Item>
       <Form.Item
-        label="EC_MINIO_STORAGE_CLASS_RRS"
+        tooltip="EC_MINIO_STORAGE_CLASS_RRS"
         name="EC_MINIO_STORAGE_CLASS_RRS"
+        label="存储类别"
         {...formItemProps}
       >
         <Input />
       </Form.Item>
-      <Form.Item label="EC_RUN_CMD" name="EC_RUN_CMD" {...formItemProps}>
+      <Form.Item tooltip="EC_RUN_CMD" label="启动参数" name="EC_RUN_CMD" {...formItemProps}>
         <Input />
       </Form.Item>
       <Form.Item colon={false} label=" ">
-        <Popconfirm title="修改 EC 参数会使集群设备重启，确定要修改吗？" onConfirm={submitHandler}>
+        <Popconfirm
+          title="修改 EC 参数会使集群设备重启，确定要修改吗？"
+          onConfirm={() => {
+            form.validateFields().then(() => {
+              submitHandler();
+            });
+          }}
+        >
           <Button type="primary" loading={loading} htmlType="submit">
             提交修改
           </Button>

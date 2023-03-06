@@ -37,6 +37,7 @@ export interface CreateClusterBody {
   device_list: string[];
   cluster_url: string;
   cluster_type: CLUSTER_TYPE_ENUM;
+  redundancy_count?: number;
 }
 
 export interface DeviceItem {

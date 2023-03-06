@@ -10,7 +10,18 @@ import {
   deleteCluster,
 } from './module';
 import { useRef } from 'react';
-import { Button, Form, Input, message, Modal, Popconfirm, Select, Space, Tag } from 'antd';
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  message,
+  Modal,
+  Popconfirm,
+  Select,
+  Space,
+  Tag,
+} from 'antd';
 import Header from '@/components/Header';
 import { Link } from 'umi';
 import { ModalType, useFormModal } from '@/hooks/useFormModal';
@@ -38,6 +49,9 @@ export default function Devices() {
       },
     });
 
+  const cluster_type = Form.useWatch('cluster_type', form);
+  const device_list = Form.useWatch('device_list', form);
+  const redundancy_count = Form.useWatch('redundancy_count', form) || 1;
   const columns: ProColumns<TableItem>[] = [
     {
       dataIndex: 'name',
@@ -164,7 +178,7 @@ export default function Devices() {
         onOk={submitHandler}
       >
         <br />
-        <Form form={form} labelCol={{ span: 4 }}>
+        <Form form={form} labelCol={{ span: 4 }} initialValues={{ redundancy_count: 1 }}>
           {formModal.type === ModalType.UPDATE && (
             <Form.Item name="id" hidden>
               <Input />
@@ -192,6 +206,19 @@ export default function Devices() {
           >
             <SelectDevices />
           </Form.Item>
+          {cluster_type === CLUSTER_TYPE.GLUSTERD.id && (
+            <Form.Item name="redundancy_count" label="冗余盘数" rules={[{ required: true }]}>
+              <Space align="center">
+                <InputNumber min={1} defaultValue={1} max={device_list?.length} />
+                {device_list?.length && (
+                  <small>
+                    {device_list.length - redundancy_count} + {redundancy_count} ={' '}
+                    {device_list.length}
+                  </small>
+                )}
+              </Space>
+            </Form.Item>
+          )}
         </Form>
       </Modal>
     </>
