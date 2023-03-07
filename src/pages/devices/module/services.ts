@@ -145,3 +145,10 @@ export const systemFs = (mac_address: string) => {
     mac_address,
   });
 };
+
+/** 硬盘老化 */
+export const diskAging = (mac_address: string) => {
+  return request.post<Result<void>>(`${AIP_FIX}/tools/DiskAging`, {
+    mac_address,
+  });
+};

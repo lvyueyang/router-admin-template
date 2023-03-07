@@ -24,6 +24,7 @@ import {
   CmdInput,
   DEVICE_SERVICE_STATUS,
   DEVICE_SERVICE_STATUS_ENUM,
+  diskAging,
   getDeviceBaseInfo,
   getDeviceDiskList,
   getDeviceLog,
@@ -157,6 +158,23 @@ function DiskList({ id }: { id: string }) {
         title="硬盘信息"
         extra={
           <Space>
+            <Popconfirm
+              title="确定要进行硬盘老化操作吗？"
+              onConfirm={() => {
+                const close = message.loading('操作中...');
+                diskAging(id!)
+                  .then(() => {
+                    message.success('操作成功');
+                  })
+                  .finally(() => {
+                    close();
+                  });
+              }}
+            >
+              <Button type="primary" ghost>
+                硬盘老化
+              </Button>
+            </Popconfirm>
             <EditPopover
               title="请输入休眠时间"
               inputType="number"
@@ -177,6 +195,7 @@ function DiskList({ id }: { id: string }) {
                 休眠
               </Button>
             </EditPopover>
+
             {/* <Popconfirm
               title="确定要进行待机吗？"
               onConfirm={() => {
