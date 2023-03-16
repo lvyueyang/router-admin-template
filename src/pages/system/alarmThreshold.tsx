@@ -1,28 +1,9 @@
 import Header from '@/components/Header';
 import PageContainer from '@/components/PageContainer';
 import { useRequest } from 'ahooks';
-import {
-  Button,
-  Tooltip,
-  Card,
-  Form,
-  Input,
-  InputNumber,
-  message,
-  Popconfirm,
-  Select,
-  Space,
-} from 'antd';
+import { Button, Card, Form, InputNumber, message, Space } from 'antd';
 import { useEffect } from 'react';
-import {
-  AlarmThresholdResult,
-  getAlarmThreshold,
-  getMailConfig,
-  MailConfigResult,
-  sendEmail,
-  updateAlarmThreshold,
-  updateMailConfig,
-} from './module';
+import { AlarmThresholdResult, getAlarmThreshold, updateAlarmThreshold } from './module';
 
 type FormValues = AlarmThresholdResult;
 
@@ -54,10 +35,10 @@ export default function EmailConfig() {
         <Card style={{ maxWidth: 800 }}>
           <Form<FormValues> labelCol={{ span: 5 }} form={form} onFinish={submitHandler}>
             <Form.Item label="CPU使用率" name="cpu_use_rate" rules={[{ required: true }]}>
-              <InputNumber addonAfter="%" />
+              <InputNumber addonAfter="%" min={0} max={100} />
             </Form.Item>
             <Form.Item label="CPU温度" name="cpu_tem" rules={[{ required: true }]}>
-              <InputNumber addonAfter="摄氏度" />
+              <InputNumber addonAfter="摄氏度" min={0} />
             </Form.Item>
             <Form.Item label=" " colon={false}>
               <Space>
