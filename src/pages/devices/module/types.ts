@@ -75,3 +75,16 @@ export interface UpdateFileBody {
   update_type?: 'upgrade_system';
   onUploadProgress?: (p: ProgressEvent) => void;
 }
+
+export interface DistAgingResult {
+  /** 是否正在进行老化 */
+  disk_aging: boolean;
+  /** 最近一次老化开始时间 */
+  disk_aging_last_start_time: string;
+  /** 最近一次老化结束时间 */
+  disk_aging_last_end_time: string;
+  /** 最近一次老化是否成功 */
+  disk_aging_last_value_status: boolean;
+  /** /最近一次老化结果 */
+  disk_aging_last_value_str: string;
+}

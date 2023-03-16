@@ -5,6 +5,7 @@ import {
   DeviceDiskItemResult,
   DeviceItemResult,
   DeviceLogResult,
+  DistAgingResult,
   ServiceItem,
   UpdateFileBody,
   UpdateIpGateWayBody,
@@ -149,6 +150,13 @@ export const systemFs = (mac_address: string) => {
 /** 硬盘老化 */
 export const diskAging = (mac_address: string) => {
   return request.post<Result<void>>(`${AIP_FIX}/tools/DiskAging`, {
+    mac_address,
+  });
+};
+
+/** 硬盘老化信息 */
+export const getDiskAgingInfo = (mac_address: string) => {
+  return request.post<Result<DistAgingResult>>(`${AIP_FIX}/tools/DiskAgingInfo`, {
     mac_address,
   });
 };
