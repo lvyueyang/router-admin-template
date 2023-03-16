@@ -10,7 +10,7 @@ import {
   deleteCluster,
 } from './module';
 import { useRef } from 'react';
-import { Button, Form, Input, message, Modal, Popconfirm, Select, Space, Tag } from 'antd';
+import { Button, Form, Input, message, Modal, Popconfirm, Select, Space, Tag, Tooltip } from 'antd';
 import Header from '@/components/Header';
 import { Link } from 'umi';
 import { ModalType, useFormModal } from '@/hooks/useFormModal';
@@ -22,22 +22,29 @@ type TableItem = ClusterItemResult;
 export default function Devices() {
   const tableRef = useRef<ActionType>();
   // const [searchParams, setSearchParams] = useState({ search_keywords: '' });
-  const { form, formModal, formModalShow, formModalClose, submitHandler, formModalTitle } =
-    useFormModal<CreateClusterBody & { id?: string }>({
-      submit: (values, modal) => {
-        if (modal.type === ModalType.UPDATE) {
-          return updateCluster({
-            ...values,
-            id: values.id!,
-          }).then(() => {
-            tableRef.current?.reload();
-          });
-        }
-        return createCluster(values).then(() => {
+  const {
+    submitLoading,
+    form,
+    formModal,
+    formModalShow,
+    formModalClose,
+    submitHandler,
+    formModalTitle,
+  } = useFormModal<CreateClusterBody & { id?: string }>({
+    submit: (values, modal) => {
+      if (modal.type === ModalType.UPDATE) {
+        return updateCluster({
+          ...values,
+          id: values.id!,
+        }).then(() => {
           tableRef.current?.reload();
         });
-      },
-    });
+      }
+      return createCluster(values).then(() => {
+        tableRef.current?.reload();
+      });
+    },
+  });
 
   const cluster_type = Form.useWatch('cluster_type', form);
   const device_list = Form.useWatch('device_list', form);
@@ -52,6 +59,21 @@ export default function Devices() {
       dataIndex: 'cluster_type',
       title: '集群类型',
       hideInSearch: true,
+      render: (value, row) => {
+        const cname =
+          Object.values(CLUSTER_TYPE).find((item) => item.id === row.cluster_type)?.label || value;
+        if (value === CLUSTER_TYPE.GLUSTERD.id) {
+          return (
+            <>
+              {cname}{' '}
+              <Tooltip title="冗余盘数">
+                <Tag>{redundancyCount(row.device_list.length)}</Tag>
+              </Tooltip>
+            </>
+          );
+        }
+        return cname;
+      },
     },
     {
       dataIndex: 'cluster_url',
@@ -166,6 +188,9 @@ export default function Devices() {
         title={`${formModalTitle}集群`}
         onCancel={formModalClose}
         onOk={submitHandler}
+        okButtonProps={{
+          loading: submitLoading,
+        }}
       >
         <br />
         <Form form={form} labelCol={{ span: 4 }} initialValues={{ redundancy_count: 1 }}>
@@ -197,7 +222,7 @@ export default function Devices() {
             <SelectDevices />
           </Form.Item>
           {cluster_type === CLUSTER_TYPE.GLUSTERD.id && (
-            <Form.Item label="冗余盘数">
+            <Form.Item label="冗余盘数" name="redundancy_count">
               <Space align="center">{redundancy_count}</Space>
             </Form.Item>
           )}

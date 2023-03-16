@@ -24,6 +24,7 @@ interface Options<FormValue> {
 export function useFormModal<FormValue>(options?: Options<FormValue>) {
   const [formModal, setFormModal] = useState(new FormModal());
   const [form] = Form.useForm<FormValue>();
+  const [loading, setLoading] = useState(false);
 
   const formModalShow = (type: ModalType = ModalType.CREATE) => {
     setFormModal((state) => ({
@@ -39,6 +40,7 @@ export function useFormModal<FormValue>(options?: Options<FormValue>) {
     }));
   };
   const submitHandler = async () => {
+    setLoading(true);
     try {
       await form.validateFields();
       const values = form.getFieldsValue();
@@ -49,8 +51,10 @@ export function useFormModal<FormValue>(options?: Options<FormValue>) {
     } catch (e) {
       setFormModal((state) => ({ ...state, submitLoading: false }));
     }
+    setLoading(false);
   };
   return {
+    submitLoading: loading,
     form,
     formModal,
     formModalTitle: ModalTypeCname[formModal.type],
