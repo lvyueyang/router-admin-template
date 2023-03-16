@@ -87,6 +87,11 @@ const router = {
               component: 'system/index',
               title: '邮箱配置',
             },
+            {
+              path: '/system/alarmThreshold',
+              component: 'system/alarmThreshold',
+              title: '告警阈值配置',
+            },
           ],
         },
       ],

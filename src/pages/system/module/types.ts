@@ -6,3 +6,10 @@ export interface MailConfigResult {
   email_password: string; // 邮箱密码
   to_email_list: string[]; // 收件人列表
 }
+
+export interface AlarmThresholdResult {
+  /** CPU使用率 */
+  cpu_use_rate: number;
+  /** CPU温度 */
+  cpu_tem: number;
+}
