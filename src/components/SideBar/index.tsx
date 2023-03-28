@@ -70,12 +70,14 @@ export default function SideBar() {
       {/* 头像与退出 */}
       <Row className={styles.userContainer} align="middle">
         <Tooltip title={userInfo?.user_name}>
-          <Row align="middle">
-            <Avatar shape="square" src="">
-              {userInfo?.user_name?.substring(0, 1).toLocaleUpperCase()}
-            </Avatar>
-            <span className={styles.username}>{userInfo?.user_name}</span>
-          </Row>
+          <Link to="/userinfo">
+            <Row align="middle">
+              <Avatar shape="square" src="">
+                {userInfo?.user_name?.substring(0, 1).toLocaleUpperCase()}
+              </Avatar>
+              <span className={styles.username}>{userInfo?.user_name}</span>
+            </Row>
+          </Link>
         </Tooltip>
         <div>
           <Button

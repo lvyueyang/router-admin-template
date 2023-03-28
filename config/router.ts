@@ -94,6 +94,12 @@ const router = {
             },
           ],
         },
+        {
+          path: '/userinfo',
+          component: 'userinfo',
+          title: '用户信息',
+          hideMenu: true,
+        },
       ],
     },
   ],
