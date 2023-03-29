@@ -88,3 +88,18 @@ export interface DistAgingResult {
   /** /最近一次老化结果 */
   disk_aging_last_value_str: string;
 }
+
+export interface SMBItemResult {
+  user_name: string; //用户名
+}
+
+export interface CreateSMBBody {
+  mac_address: string;
+  user_name: string; //用户名
+  password: string; //密码
+}
+
+export interface RemoveSMBBody {
+  mac_address: string;
+  user_name: string; //用户名
+}

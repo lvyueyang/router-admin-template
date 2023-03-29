@@ -7,12 +7,8 @@ export interface ClusterItemResult {
   status: boolean;
   cluster_url: string;
   cluster_type: CLUSTER_TYPE_ENUM;
-}
-
-interface Disk {
-  hard_disk_name: string;
-  hard_disk_status: string;
-  hard_disk_heat: number;
+  /** 是否raid */
+  raid_status: boolean;
 }
 
 export interface ClusterDetailResult {
@@ -39,6 +35,8 @@ export interface CreateClusterBody {
   cluster_type: CLUSTER_TYPE_ENUM;
   /** 冗余盘数 */
   redundancy_count?: number;
+  /** 是否raid */
+  raid_status: boolean;
 }
 
 export interface DeviceItem {

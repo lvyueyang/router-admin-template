@@ -10,7 +10,19 @@ import {
   deleteCluster,
 } from './module';
 import { useRef } from 'react';
-import { Button, Form, Input, message, Modal, Popconfirm, Select, Space, Tag, Tooltip } from 'antd';
+import {
+  Button,
+  Form,
+  Input,
+  message,
+  Modal,
+  Popconfirm,
+  Select,
+  Space,
+  Switch,
+  Tag,
+  Tooltip,
+} from 'antd';
 import Header from '@/components/Header';
 import { Link } from 'umi';
 import { ModalType, useFormModal } from '@/hooks/useFormModal';
@@ -19,7 +31,7 @@ import { redundancyCount } from '@/utils';
 
 type TableItem = ClusterItemResult;
 
-export default function Devices() {
+export default function Cluster() {
   const tableRef = useRef<ActionType>();
   // const [searchParams, setSearchParams] = useState({ search_keywords: '' });
   const {
@@ -35,6 +47,7 @@ export default function Devices() {
       if (modal.type === ModalType.UPDATE) {
         return updateCluster({
           ...values,
+          raid_status: !!values.raid_status,
           id: values.id!,
         }).then(() => {
           tableRef.current?.reload();
@@ -73,6 +86,13 @@ export default function Devices() {
           );
         }
         return cname;
+      },
+    },
+    {
+      dataIndex: 'raid_status',
+      title: '是否 raid',
+      renderText: (_, row) => {
+        return row.raid_status ? '是' : '否';
       },
     },
     {
@@ -210,6 +230,9 @@ export default function Devices() {
                 label: item.label,
               }))}
             ></Select>
+          </Form.Item>
+          <Form.Item name="raid_status" label="是否raid" rules={[{ required: true }]}>
+            <Switch />
           </Form.Item>
           <Form.Item name="cluster_url" label="集群地址" rules={[{ required: true }]}>
             <Input />

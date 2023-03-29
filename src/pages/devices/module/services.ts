@@ -1,12 +1,15 @@
 import { AIP_FIX } from '@/constants';
 import { ListResult, Result } from '@/types';
 import {
+  CreateSMBBody,
   DeviceDetailBaseInfo,
   DeviceDiskItemResult,
   DeviceItemResult,
   DeviceLogResult,
   DistAgingResult,
+  RemoveSMBBody,
   ServiceItem,
+  SMBItemResult,
   UpdateFileBody,
   UpdateIpGateWayBody,
 } from './types';
@@ -159,4 +162,21 @@ export const getDiskAgingInfo = (mac_address: string) => {
   return request.post<Result<DistAgingResult>>(`${AIP_FIX}/tools/DiskAgingInfo`, {
     mac_address,
   });
+};
+
+/** SMB列表 */
+export const getSMBList = (mac_address: string) => {
+  return request.post<Result<SMBItemResult[]>>(`${AIP_FIX}/tools/GetSmbUserList`, {
+    mac_address,
+  });
+};
+
+/** 添加 SMB 用户 */
+export const createSMBUser = (body: CreateSMBBody) => {
+  return request.post<Result<void>>(`${AIP_FIX}/tools/AddSmbUser`, body);
+};
+
+/** 删除 SMB 用户 */
+export const removeSMBUser = (body: RemoveSMBBody) => {
+  return request.post<Result<void>>(`${AIP_FIX}/tools/DelSmbUser`, body);
 };
