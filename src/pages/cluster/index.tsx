@@ -231,7 +231,7 @@ export default function Cluster() {
               }))}
             ></Select>
           </Form.Item>
-          <Form.Item name="raid_status" label="是否raid" rules={[{ required: true }]}>
+          <Form.Item name="raid_status" label="是否raid">
             <Switch />
           </Form.Item>
           <Form.Item name="cluster_url" label="集群地址" rules={[{ required: true }]}>
