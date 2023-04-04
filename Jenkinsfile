@@ -29,12 +29,6 @@ pipeline {
             }
         }
         
-        stage('上传') {
-            steps {
-                sh '''
-                cp  -r ./dist/ /var/lib/jenkins/workspace/saturn-private-manage-api/'''
-            }
-        }
     }
     
     post {
