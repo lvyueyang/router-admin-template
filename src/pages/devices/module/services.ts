@@ -180,3 +180,8 @@ export const createSMBUser = (body: CreateSMBBody) => {
 export const removeSMBUser = (body: RemoveSMBBody) => {
   return request.post<Result<void>>(`${AIP_FIX}/tools/DelSmbUser`, body);
 };
+
+/** 修改 SMB 用户密码 */
+export const updatePasswordSMBUser = (body: CreateSMBBody) => {
+  return request.post<Result<void>>(`${AIP_FIX}/tools/UpSmbUserPassword`, body);
+};
