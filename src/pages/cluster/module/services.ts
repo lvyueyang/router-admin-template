@@ -1,4 +1,4 @@
-import { AIP_FIX } from '@/constants';
+import { AIP_FIX, CLUSTER_TYPE_ENUM } from '@/constants';
 import { Result } from '@/types';
 import {
   ClusterDetailResult,
@@ -39,8 +39,10 @@ export const deleteCluster = (id: string) => {
 };
 
 /** 获取未绑定集群的设备 */
-export const getDevicesList = () => {
-  return request.get<Result<DeviceItem[]>>(`${AIP_FIX}/dashboard/GetNoBindClusterDeviceList`);
+export const getDevicesList = (cluster_type: CLUSTER_TYPE_ENUM) => {
+  return request.post<Result<DeviceItem[]>>(`${AIP_FIX}/dashboard/GetNoBindClusterDeviceList`, {
+    cluster_type,
+  });
 };
 
 /** 更新EC参数 */

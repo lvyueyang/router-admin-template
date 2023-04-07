@@ -242,7 +242,7 @@ export default function Cluster() {
             label="设备"
             rules={[{ required: true, message: '请选择设备' }]}
           >
-            <SelectDevices />
+            <SelectDevices clusterType={cluster_type} />
           </Form.Item>
           {cluster_type === CLUSTER_TYPE.GLUSTERD.id && (
             <Form.Item label="冗余盘数" name="redundancy_count">

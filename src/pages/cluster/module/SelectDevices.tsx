@@ -2,20 +2,33 @@ import { Row, Select, SelectProps, Tag, Tooltip } from 'antd';
 import { useEffect, useState } from 'react';
 import { getDevicesList } from './services';
 import { DeviceItem } from './types';
+import { CLUSTER_TYPE_ENUM } from '@/constants';
+interface SelectDevicesProps extends SelectProps {
+  clusterType: CLUSTER_TYPE_ENUM;
+}
 
-export function SelectDevices(props: SelectProps) {
+export function SelectDevices({ clusterType, ...props }: SelectDevicesProps) {
   const [options, setOptions] = useState<DeviceItem[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    getDevicesList().then((res) => {
-      console.log(res);
-      setOptions(res.data.data);
-    });
-  }, []);
+    if (!clusterType) return;
+    setLoading(true);
+    getDevicesList(clusterType)
+      .then((res) => {
+        console.log(res);
+        setOptions(res.data.data);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [clusterType]);
   return (
     <Select
       {...props}
+      placeholder={loading ? '加载中...' : props.placeholder}
       mode="multiple"
+      loading={loading}
       tagRender={(props) => {
         const current = options.find((item) => item.mac_add_str === props.value);
         return (
