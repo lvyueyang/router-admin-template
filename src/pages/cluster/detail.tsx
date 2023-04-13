@@ -61,6 +61,14 @@ export default function ClusterDetailPage() {
             </ProCard>
             <ProCard.Divider />
             <ProCard>
+              <Statistic
+                title="Raid 状态"
+                value={data.raid_status ? '是' : '否'}
+                valueStyle={{ color: data.raid_status ? colorSuccess : colorError }}
+              />
+            </ProCard>
+            <ProCard.Divider />
+            <ProCard>
               <Statistic title="容量" value={data.capacity || '-'} />
             </ProCard>
           </ProCard>

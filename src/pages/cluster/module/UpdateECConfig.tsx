@@ -27,7 +27,7 @@ export function UpdateECConfig({ data, onComplete }: Props) {
       EC_HOME: data.EC_HOME,
       EC_MINIO_STORAGE_CLASS_STANDARD: data.EC_MINIO_STORAGE_CLASS_STANDARD,
       EC_MINIO_STORAGE_CLASS_RRS: data.EC_MINIO_STORAGE_CLASS_RRS,
-      EC_RUN_CMD: data.EC_RUN_CMD,
+      // EC_RUN_CMD: data.EC_RUN_CMD,
     });
   }, []);
   const submitHandler = () => {
@@ -82,9 +82,9 @@ export function UpdateECConfig({ data, onComplete }: Props) {
       >
         <Input />
       </Form.Item>
-      <Form.Item tooltip="EC_RUN_CMD" label="启动参数" name="EC_RUN_CMD" {...formItemProps}>
+      {/* <Form.Item tooltip="EC_RUN_CMD" label="启动参数" name="EC_RUN_CMD" {...formItemProps}>
         <Input />
-      </Form.Item>
+      </Form.Item> */}
       <Form.Item colon={false} label=" ">
         <Popconfirm
           title="修改 EC 参数会使集群设备重启，确定要修改吗？"

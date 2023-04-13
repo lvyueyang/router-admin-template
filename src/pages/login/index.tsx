@@ -40,7 +40,7 @@ export default function Login() {
             name="password"
             rules={[{ required: true, message: '请输入密码' }]}
           >
-            <Input type="password" placeholder="请输入您的密码" autoComplete="off" />
+            <Input.Password placeholder="请输入您的密码" autoComplete="off" />
           </Form.Item>
           <Form.Item label=" " colon={false}>
             <Button type="primary" htmlType="submit" loading={loading}>

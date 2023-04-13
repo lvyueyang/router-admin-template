@@ -11,6 +11,7 @@ import {
 } from './module';
 import { useRef } from 'react';
 import {
+  Alert,
   Button,
   Form,
   Input,
@@ -96,11 +97,6 @@ export default function Cluster() {
       },
     },
     {
-      dataIndex: 'cluster_url',
-      title: '集群地址',
-      hideInSearch: true,
-    },
-    {
       dataIndex: 'device_list',
       title: '设备数',
       hideInSearch: true,
@@ -121,7 +117,7 @@ export default function Cluster() {
       title: '操作',
       hideInSearch: true,
       width: 160,
-      render: (_, { name, device_list, id, cluster_type, cluster_url }) => {
+      render: (_, { name, device_list, id, cluster_type }) => {
         return (
           <Space>
             <a
@@ -131,7 +127,6 @@ export default function Cluster() {
                   device_list,
                   id,
                   cluster_type,
-                  cluster_url,
                 });
                 formModalShow(ModalType.UPDATE);
               }}
@@ -141,10 +136,15 @@ export default function Cluster() {
             <Popconfirm
               title="确定要删除这个集群吗？"
               onConfirm={() => {
-                deleteCluster(id).then(() => {
-                  message.success('删除成功');
-                  tableRef.current?.reload();
-                });
+                const close = message.loading('删除中...');
+                deleteCluster(id)
+                  .then(() => {
+                    message.success('删除成功');
+                    tableRef.current?.reload();
+                  })
+                  .finally(() => {
+                    close();
+                  });
               }}
             >
               <a>删除</a>
@@ -234,9 +234,6 @@ export default function Cluster() {
           <Form.Item name="raid_status" label="是否raid">
             <Switch />
           </Form.Item>
-          <Form.Item name="cluster_url" label="集群地址" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
           <Form.Item
             name="device_list"
             label="设备"
@@ -248,6 +245,9 @@ export default function Cluster() {
             <Form.Item label="冗余盘数" name="redundancy_count">
               <Space align="center">{redundancy_count}</Space>
             </Form.Item>
+          )}
+          {formModal.type === ModalType.CREATE && (
+            <Alert message="请先确保设备已初始化和格式化" type="warning" showIcon />
           )}
         </Form>
       </Modal>
