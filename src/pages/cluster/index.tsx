@@ -117,7 +117,7 @@ export default function Cluster() {
       title: '操作',
       hideInSearch: true,
       width: 160,
-      render: (_, { name, device_list, id, cluster_type }) => {
+      render: (_, { name, device_list, id, cluster_type, raid_status }) => {
         return (
           <Space>
             <a
@@ -127,6 +127,7 @@ export default function Cluster() {
                   device_list,
                   id,
                   cluster_type,
+                  raid_status,
                 });
                 formModalShow(ModalType.UPDATE);
               }}
@@ -231,7 +232,7 @@ export default function Cluster() {
               }))}
             ></Select>
           </Form.Item>
-          <Form.Item name="raid_status" label="是否raid">
+          <Form.Item name="raid_status" label="是否raid" valuePropName="checked">
             <Switch />
           </Form.Item>
           <Form.Item
