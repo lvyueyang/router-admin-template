@@ -2,6 +2,7 @@ import { Button, Form, Input, message, Popconfirm } from 'antd';
 import { useEffect, useState } from 'react';
 import { updateECConfig } from './services';
 import { ClusterDetailResult, UpdateECConfigBody } from './types';
+import { ECSelect } from './ECSelect';
 
 interface Props {
   data: ClusterDetailResult;
@@ -12,7 +13,12 @@ type FormValue = UpdateECConfigBody;
 
 const formItemProps = {
   rules: [{ required: true }],
-  normalize: (e: string) => e.trim(),
+  normalize: (e: string | number) => {
+    if (typeof e === 'string') {
+      return e.trim();
+    }
+    return e;
+  },
 };
 
 export function UpdateECConfig({ data, onComplete }: Props) {
@@ -43,7 +49,16 @@ export function UpdateECConfig({ data, onComplete }: Props) {
       });
   };
   return (
-    <Form<FormValue> labelCol={{ span: 10 }} style={{ maxWidth: 700 }} form={form}>
+    <Form<FormValue>
+      labelCol={{ span: 10 }}
+      style={{ maxWidth: 700 }}
+      form={form}
+      onValuesChange={(e) => {
+        if (e.EC_MINIO_STORAGE_CLASS_STANDARD) {
+          form.setFieldValue('EC_MINIO_STORAGE_CLASS_RRS', e.EC_MINIO_STORAGE_CLASS_STANDARD);
+        }
+      }}
+    >
       <Form.Item label="cluster_id" name="cluster_id" hidden>
         <Input />
       </Form.Item>
@@ -72,7 +87,7 @@ export function UpdateECConfig({ data, onComplete }: Props) {
         label="存储等级标准"
         {...formItemProps}
       >
-        <Input />
+        <ECSelect isRaid={data.raid_status} deviceTotal={data.device_list.length} />
       </Form.Item>
       <Form.Item
         tooltip="EC_MINIO_STORAGE_CLASS_RRS"
@@ -80,7 +95,7 @@ export function UpdateECConfig({ data, onComplete }: Props) {
         label="存储类别"
         {...formItemProps}
       >
-        <Input />
+        <Input readOnly />
       </Form.Item>
       {/* <Form.Item tooltip="EC_RUN_CMD" label="启动参数" name="EC_RUN_CMD" {...formItemProps}>
         <Input />
