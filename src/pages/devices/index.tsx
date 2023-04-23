@@ -72,7 +72,11 @@ export default function Devices({
   return (
     <>
       <Header>
-        <PingIpAddress onComplete={tableRef.current?.reload} />
+        <PingIpAddress
+          onComplete={() => {
+            tableRef.current?.reload?.();
+          }}
+        />
       </Header>
       <PageContainer>
         <ProTable<TableItem>
