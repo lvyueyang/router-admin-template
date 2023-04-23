@@ -1,6 +1,6 @@
 import PageContainer from '@/components/PageContainer';
 import { ProTable, ProColumns, ActionType } from '@ant-design/pro-components';
-import { DeviceItemResult, getDevicesList } from './module';
+import { DeviceItemResult, PingIpAddress, getDevicesList } from './module';
 import { useRef, useState } from 'react';
 import { Input, Tag } from 'antd';
 import Header from '@/components/Header';
@@ -71,7 +71,9 @@ export default function Devices({
 
   return (
     <>
-      <Header />
+      <Header>
+        <PingIpAddress onComplete={tableRef.current?.reload} />
+      </Header>
       <PageContainer>
         <ProTable<TableItem>
           columns={columns}

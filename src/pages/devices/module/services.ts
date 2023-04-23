@@ -7,6 +7,8 @@ import {
   DeviceItemResult,
   DeviceLogResult,
   DistAgingResult,
+  IP,
+  IPItemResult,
   RemoveSMBBody,
   ServiceItem,
   SMBItemResult,
@@ -184,4 +186,29 @@ export const removeSMBUser = (body: RemoveSMBBody) => {
 /** 修改 SMB 用户密码 */
 export const updatePasswordSMBUser = (body: CreateSMBBody) => {
   return request.post<Result<void>>(`${AIP_FIX}/tools/UpSmbUserPassword`, body);
+};
+
+/** IP 列表 */
+export const getIpList = () => {
+  return request.get<Result<IPItemResult[]>>(`${AIP_FIX}/tools/GetLocalIpList`);
+};
+
+/** 获取已选中的 IP 配置 */
+export const getIpConfig = () => {
+  return request.get<Result<IP[]>>(`${AIP_FIX}/tools/GetPingLocalIpConfig`);
+};
+
+/** 保存选中的 IP 配置 */
+export const saveIpConfig = (ip_list: IP[]) => {
+  return request.post<Result<void>>(`${AIP_FIX}/tools/SetPingLocalIpConfig`, { ip_list });
+};
+
+/** 执行探测 */
+export const runDevicePing = () => {
+  return request.post<Result<void>>(`${AIP_FIX}/tools/PingDeviceIpStr`);
+};
+
+/** 执行 raid 操作 */
+export const runRaid = (mac_address: string) => {
+  return request.post<Result<void>>(`${AIP_FIX}/tools/RunRaid`, { mac_address });
 };

@@ -103,3 +103,11 @@ export interface RemoveSMBBody {
   mac_address: string;
   user_name: string; //用户名
 }
+
+/** IP 地址 */
+export type IP = string;
+
+export interface IPItemResult {
+  ip: IP;
+  name: string;
+}
