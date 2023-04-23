@@ -53,7 +53,7 @@ export function PingIpAddress({ onComplete }: PingIpAddressProps) {
         mode="multiple"
         value={selectedIp}
         style={{ minWidth: 100 }}
-        options={ipList?.map((item) => ({ value: item.ip, label: item.name }))}
+        options={ipList?.map((item) => ({ value: item.ip, label: `${item.name} (${item.ip})` }))}
         loading={saveLoading}
         placeholder="请选择 IP"
         disabled={runLoading}
