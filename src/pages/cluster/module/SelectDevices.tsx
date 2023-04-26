@@ -30,7 +30,7 @@ export function SelectDevices({ clusterType, ...props }: SelectDevicesProps) {
       mode="multiple"
       loading={loading}
       tagRender={(props) => {
-        const current = options.find((item) => item.mac_add_str === props.value);
+        const current = options.find((item) => item.host_name === props.value);
         return (
           <Tooltip title={current?.ip}>
             <Tag closable onClose={props.onClose} style={{ margin: 4 }}>
@@ -42,7 +42,7 @@ export function SelectDevices({ clusterType, ...props }: SelectDevicesProps) {
     >
       {options?.map((item) => {
         return (
-          <Select.Option value={item.mac_add_str} key={item.mac_add_str} label={item.host_name}>
+          <Select.Option value={item.host_name} key={item.host_name} label={item.host_name}>
             <Row justify="space-between">
               <b>{item.host_name}</b>
               <span>{item.ip}</span>

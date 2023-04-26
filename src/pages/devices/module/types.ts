@@ -69,7 +69,7 @@ export interface UpdateIpGateWayBody {
 }
 
 export interface UpdateFileBody {
-  mac_address: string;
+  host_name: string;
   path: string;
   file: Blob | File | string;
   update_type?: 'upgrade_system';

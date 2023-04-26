@@ -64,7 +64,7 @@ export default function Devices({
         if (operateRender) {
           return operateRender(row);
         }
-        return <Link to={`/devices/${row.mac_add_str}`}>查看</Link>;
+        return <Link to={`/devices/${row.host_name}`}>查看</Link>;
       },
     },
   ];

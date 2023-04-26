@@ -233,7 +233,7 @@ export default function Cluster() {
             ></Select>
           </Form.Item>
           <Form.Item name="raid_status" label="是否raid" valuePropName="checked">
-            <Switch />
+            <Switch disabled={formModal.type === ModalType.UPDATE} />
           </Form.Item>
           <Form.Item
             name="device_list"

@@ -5,7 +5,7 @@ export default function DeviceLog() {
   return (
     <Devices
       operateRender={(row) => {
-        return <Link to={`/logger/device/${row.mac_add_str}`}>查看日志</Link>;
+        return <Link to={`/logger/device/${row.host_name}`}>查看日志</Link>;
       }}
     />
   );

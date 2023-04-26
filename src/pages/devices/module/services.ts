@@ -26,39 +26,39 @@ export const getDevicesList = (keywords = '') => {
 };
 
 /** 详情-指标数据 */
-export const getDeviceBaseInfo = (mac_address: string) => {
+export const getDeviceBaseInfo = (host_name: string) => {
   return request.post<Result<DeviceDetailBaseInfo>>(`${AIP_FIX}/dashboard/GetDeviceDetailData`, {
-    mac_address,
+    host_name,
   });
 };
 
 /** 详情-磁盘列表 */
-export const getDeviceDiskList = (mac_address: string) => {
+export const getDeviceDiskList = (host_name: string) => {
   return request.post<Result<DeviceDiskItemResult[]>>(
     `${AIP_FIX}/dashboard/GetDeviceDetailDiskList`,
     {
-      mac_address,
+      host_name,
     },
   );
 };
 /** 详情-日志*/
-export const getDeviceLog = (mac_address: string) => {
+export const getDeviceLog = (host_name: string) => {
   return request.post<Result<DeviceLogResult>>(`${AIP_FIX}/dashboard/GetDeviceDetailLog`, {
-    mac_address,
+    host_name,
   });
 };
 
 /** 执行命令 */
-export const runCmd = (mac_address: string, cmd: string) => {
+export const runCmd = (host_name: string, cmd: string) => {
   return request.post<Result<string>>(`${AIP_FIX}/dashboard/RunShellCmd`, {
-    mac_address,
+    host_name,
     cmd,
   });
 };
 
 /** 上传文件 */
 export const uploadFile = ({
-  mac_address,
+  host_name,
   path,
   file,
   update_type,
@@ -66,7 +66,7 @@ export const uploadFile = ({
 }: UpdateFileBody) => {
   const formData = new FormData();
   formData.append('path', path);
-  formData.append('mac_address', mac_address);
+  formData.append('host_name', host_name);
   formData.append('update_type', update_type || '');
   formData.append('file', file);
   return request.post<Result<string>>(`${AIP_FIX}/dashboard/FileUploadDevice`, formData, {
@@ -75,9 +75,9 @@ export const uploadFile = ({
 };
 
 /** 服务列表 */
-export const getServiceList = (mac_address: string) => {
+export const getServiceList = (host_name: string) => {
   return request.post<Result<ServiceItem[]>>(`${AIP_FIX}/dashboard/GetServiceList`, {
-    mac_address,
+    host_name,
   });
 };
 
@@ -90,37 +90,37 @@ export const updateClock = (id: string, date: string) => {
 };
 
 /** 获取下载文件地址 */
-export const getDownloadFilePath = (mac_address: string, path: string) => {
+export const getDownloadFilePath = (host_name: string, path: string) => {
   return request.post<Result<string>>(`${AIP_FIX}/dashboard/DownloadFile`, {
-    mac_address,
+    host_name,
     path,
   });
 };
 
 /** 重启设备 */
-export const rebootDevice = (mac_address: string) => {
+export const rebootDevice = (host_name: string) => {
   return request.post<Result<void>>(`${AIP_FIX}/dashboard/RebootDevice`, {
-    mac_address,
+    host_name,
   });
 };
 
 /** 更改服务状态 */
 export const updateServiceStatus = (
-  mac_address: string,
+  host_name: string,
   service_value: string,
   status: DEVICE_SERVICE_STATUS_ENUM,
 ) => {
   return request.post<Result<void>>(`${AIP_FIX}/dashboard/UpServiceStatus`, {
-    mac_address,
+    host_name,
     service_value,
     status,
   });
 };
 
 /** 升级 */
-export const updateSystem = (mac_address: string) => {
+export const updateSystem = (host_name: string) => {
   return request.post<Result<void>>(`${AIP_FIX}/dashboard/UpgradeSystem`, {
-    mac_address,
+    host_name,
   });
 };
 
@@ -130,46 +130,46 @@ export const updateIpGateWay = (body: UpdateIpGateWayBody) => {
 };
 
 /** 硬盘重启休眠 */
-export const updateDisk = (mac_address: string, status: number, value?: number) => {
+export const updateDisk = (host_name: string, status: number, value?: number) => {
   return request.post<Result<void>>(`${AIP_FIX}/dashboard/UpDiskStatus`, {
-    mac_address,
+    host_name,
     status,
     value,
   });
 };
 
 /** 系统初始化 */
-export const systemInit = (mac_address: string) => {
+export const systemInit = (host_name: string) => {
   return request.post<Result<void>>(`${AIP_FIX}/dashboard/SystemInit`, {
-    mac_address,
+    host_name,
   });
 };
 
 /** 系统格式化 */
-export const systemFs = (mac_address: string) => {
+export const systemFs = (host_name: string) => {
   return request.post<Result<void>>(`${AIP_FIX}/dashboard/SystemFs`, {
-    mac_address,
+    host_name,
   });
 };
 
 /** 硬盘老化 */
-export const diskAging = (mac_address: string) => {
+export const diskAging = (host_name: string) => {
   return request.post<Result<void>>(`${AIP_FIX}/tools/DiskAging`, {
-    mac_address,
+    host_name,
   });
 };
 
 /** 硬盘老化信息 */
-export const getDiskAgingInfo = (mac_address: string) => {
+export const getDiskAgingInfo = (host_name: string) => {
   return request.post<Result<DistAgingResult>>(`${AIP_FIX}/tools/DiskAgingInfo`, {
-    mac_address,
+    host_name,
   });
 };
 
 /** SMB列表 */
-export const getSMBList = (mac_address: string) => {
+export const getSMBList = (host_name: string) => {
   return request.post<Result<SMBItemResult[]>>(`${AIP_FIX}/tools/GetSmbUserList`, {
-    mac_address,
+    host_name,
   });
 };
 
@@ -209,6 +209,6 @@ export const runDevicePing = () => {
 };
 
 /** 执行 raid 操作 */
-export const runRaid = (mac_address: string) => {
-  return request.post<Result<void>>(`${AIP_FIX}/tools/RunRaid`, { mac_address });
+export const runRaid = (host_name: string) => {
+  return request.post<Result<void>>(`${AIP_FIX}/tools/RunRaid`, { host_name });
 };
