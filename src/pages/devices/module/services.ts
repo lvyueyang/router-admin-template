@@ -82,9 +82,9 @@ export const getServiceList = (host_name: string) => {
 };
 
 /** 更新时钟 */
-export const updateClock = (id: string, date: string) => {
+export const updateClock = (host_name: string, date: string) => {
   return request.post<Result<void>>(`${AIP_FIX}/dashboard/SetDeviceDate`, {
-    id,
+    host_name,
     date,
   });
 };
