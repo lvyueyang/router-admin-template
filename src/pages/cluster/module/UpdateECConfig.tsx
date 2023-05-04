@@ -78,9 +78,9 @@ export function UpdateECConfig({ data, onComplete }: Props) {
       >
         <Input />
       </Form.Item>
-      <Form.Item tooltip="EC_HOME" label="根目录" name="EC_HOME" {...formItemProps}>
+      {/* <Form.Item tooltip="EC_HOME" label="根目录" name="EC_HOME" {...formItemProps}>
         <Input />
-      </Form.Item>
+      </Form.Item> */}
       <Form.Item
         tooltip="EC_MINIO_STORAGE_CLASS_STANDARD"
         name="EC_MINIO_STORAGE_CLASS_STANDARD"

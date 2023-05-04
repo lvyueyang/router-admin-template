@@ -38,7 +38,7 @@ export function ECSelect({ isRaid, deviceTotal, ...props }: SelectDevicesProps) 
     const { min, max } = calcSelectOptions(isRaid, deviceTotal);
     const opt: OptionItem[] = [];
     for (let i = min; i <= max; i++) {
-      const value = `EC: ${i}`;
+      const value = `EC:${i}`;
       opt.push({
         value,
         label: value,

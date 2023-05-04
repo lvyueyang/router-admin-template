@@ -47,7 +47,7 @@ export interface UpdateECConfigBody {
   cluster_id: string;
   EC_MINIO_ACCESS_KEY: string;
   EC_MINIO_SECRET_KEY: string;
-  EC_HOME: string;
+  // EC_HOME: string;
   EC_MINIO_STORAGE_CLASS_STANDARD: string;
   EC_MINIO_STORAGE_CLASS_RRS: string;
   // EC_RUN_CMD: string;
