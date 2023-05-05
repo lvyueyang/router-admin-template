@@ -28,6 +28,9 @@ export default function ClusterDetailPage() {
       <Header title={`集群 ${data?.name || ''}`}>
         {data && (
           <Space>
+            <Link to={`/cluster/logger/${id}`}>
+              <Button>查看日志</Button>
+            </Link>
             <Popconfirm
               title="您确定要重启这个集群吗？"
               onConfirm={() => {

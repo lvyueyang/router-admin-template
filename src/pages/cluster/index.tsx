@@ -116,7 +116,7 @@ export default function Cluster() {
       dataIndex: 'operate',
       title: '操作',
       hideInSearch: true,
-      width: 160,
+      width: 240,
       render: (_, { name, device_list, id, cluster_type, raid_status }) => {
         return (
           <Space>
@@ -151,6 +151,7 @@ export default function Cluster() {
               <a>删除</a>
             </Popconfirm>
             <Link to={`/cluster/${id}`}>查看</Link>
+            <Link to={`/cluster/logger/${id}`}>查看日志</Link>
           </Space>
         );
       },

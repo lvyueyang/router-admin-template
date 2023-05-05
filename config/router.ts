@@ -45,6 +45,12 @@ const router = {
           hideMenu: true,
         },
         {
+          path: '/cluster/logger/:id',
+          component: 'cluster/logger',
+          title: '集群日志',
+          hideMenu: true,
+        },
+        {
           path: '/logger',
           title: '日志',
           icon: CodeFilled,

@@ -23,6 +23,13 @@ export const getClusterDetail = (cluster_id: string) => {
   });
 };
 
+/** 日志详情 */
+export const getClusterLogger = (cluster_id: string) => {
+  return request.post<Result<string>>(`${AIP_FIX}/dashboard/GetClusterLog`, {
+    cluster_id,
+  });
+};
+
 /** 创建集群 */
 export const createCluster = (body: CreateClusterBody) => {
   return request.post<void>(`${AIP_FIX}/dashboard/SetClusterInfo`, body);

@@ -49,6 +49,9 @@
 .content {
   flex: 1;
   padding: 15px;
+  width: calc(100% - var(--sidebar-width));
+  display: flex;
+  flex-direction: column;
   :global {
     .header {
       margin: -15px -15px 15px -15px;
