@@ -170,10 +170,9 @@ export default function OSInfo() {
             </>
           }
         >
-          {raid?.raid_status === RAID_STATUS.SUCCESS.id && (
-            <Alert type="warning" message="当前状态无法进行关机操作"></Alert>
+          {raid?.raid_status === RAID_STATUS.PENDING.id && (
+            <Alert message={raid?.raid_info}></Alert>
           )}
-          <div>{raid?.raid_info}</div>
         </ProCard>
       </Col>
     </>

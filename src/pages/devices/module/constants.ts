@@ -34,6 +34,10 @@ export const RAID_STATUS = {
     id: 0,
     label: '未 raid',
   },
+  PENDING: {
+    id: 1,
+    label: 'raid中',
+  },
   SUCCESS: {
     id: 2,
     label: '成功',
