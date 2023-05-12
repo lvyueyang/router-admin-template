@@ -1,3 +1,5 @@
+import { RAID_STATUS_ENUM } from './constants';
+
 export interface DeviceItemResult {
   /** 设备ip */
   ip: string;
@@ -13,10 +15,10 @@ export interface DeviceItemResult {
   service_status: boolean;
 }
 
-interface Disk {
-  hard_disk_name: string;
-  hard_disk_status: string;
-  hard_disk_heat: number;
+export interface RaidInfoResult {
+  raid_info: string; //raid过程中的信息
+  ip: string; //ip
+  raid_status: RAID_STATUS_ENUM; //0.未raid 2.raid成功 3.raid失败
 }
 
 export interface DeviceDetailBaseInfo {

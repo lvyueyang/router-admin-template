@@ -27,3 +27,15 @@ export const getAlarmThreshold = () => {
 export const updateAlarmThreshold = (body: AlarmThresholdResult) => {
   return request.post<Result<void>>(`${AIP_FIX}/tools/SetAlarmThreshold`, body);
 };
+
+// 日志定时发送到邮箱 获取
+export const getLoggerCron = () => {
+  return request.get<Result<{ value: string }>>(`${AIP_FIX}/config/GetSendLogMailCronDate`);
+};
+
+// 日志定时发送到邮箱 更新
+export const updateLoggerCron = (value: string) => {
+  return request.post<Result<void>>(`${AIP_FIX}/config/SetSendLogMailCronDate`, {
+    value,
+  });
+};

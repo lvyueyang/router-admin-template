@@ -9,6 +9,7 @@ import {
   DistAgingResult,
   IP,
   IPItemResult,
+  RaidInfoResult,
   RemoveSMBBody,
   ServiceItem,
   SMBItemResult,
@@ -23,6 +24,11 @@ export const getDevicesList = (keywords = '') => {
   return request.post<ListResult<DeviceItemResult>>(`${AIP_FIX}/dashboard/GetDeviceList`, {
     keywords,
   });
+};
+
+/** 获取raid信息 */
+export const getRaidInfo = (host_name: string) => {
+  return request.post<Result<RaidInfoResult>>(`${AIP_FIX}/tools/GetRaidStatus`, { host_name });
 };
 
 /** 详情-指标数据 */

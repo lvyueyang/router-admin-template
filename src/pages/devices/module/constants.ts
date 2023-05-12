@@ -27,3 +27,21 @@ export const cardProps: ProCardProps = {
   bordered: true,
   className: styles.card,
 };
+
+/** Raid 状态 */
+export const RAID_STATUS = {
+  NOT: {
+    id: 0,
+    label: '未 raid',
+  },
+  SUCCESS: {
+    id: 2,
+    label: '成功',
+  },
+  ERROR: {
+    id: 3,
+    label: '失败',
+  },
+} as const;
+
+export type RAID_STATUS_ENUM = TypeValue<typeof RAID_STATUS>['id'];

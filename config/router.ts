@@ -98,6 +98,11 @@ const router = {
               component: 'system/alarmThreshold',
               title: '告警阈值配置',
             },
+            {
+              path: '/system/loggerCron',
+              component: 'system/loggerCron',
+              title: '日志定时发送设置',
+            },
           ],
         },
         {
