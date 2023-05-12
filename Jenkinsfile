@@ -18,7 +18,7 @@ pipeline {
         stage('安装依赖') {
             steps {
                 sh '''
-                  yarn --registry=https://registry.npmmirror.com
+                  yarn
                 '''
             }
         }
