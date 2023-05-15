@@ -145,7 +145,12 @@ export default function OSInfo() {
           <ProCard>
             <Statistic
               title="版本号"
-              value={info?.current_system_version || '-'}
+              value={' '}
+              prefix={
+                <div
+                  dangerouslySetInnerHTML={{ __html: info?.current_system_version || '-' }}
+                ></div>
+              }
               valueStyle={{ fontSize: 18 }}
             />
           </ProCard>
