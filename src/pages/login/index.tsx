@@ -26,7 +26,7 @@ export default function Login() {
   };
   return (
     <div className={styles.loginContainer}>
-      <Card style={{ width: 400 }} title="欢迎使用土星云租户端管理系统">
+      <Card style={{ width: 400 }} title="欢迎使用土星云管理系统">
         <Form<LoginBody> labelCol={{ span: 5 }} onFinish={submitHandler}>
           <Form.Item
             label="用户名"

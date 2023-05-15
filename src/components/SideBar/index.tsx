@@ -53,8 +53,8 @@ export default function SideBar() {
   return (
     <div className={styles.sideBarContainer}>
       <Link to="/" className={styles.logoTitle}>
-        <img src={LOGO} alt="土星云" />
-        <span className={styles.title}>土星云</span>
+        <img src={LOGO} alt="土星云管理系统" />
+        <span className={styles.title}>土星云管理系统</span>
       </Link>
       {/* 导航菜单 */}
       <Menu
