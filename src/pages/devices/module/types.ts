@@ -32,6 +32,7 @@ export interface DeviceDetailBaseInfo {
   voltage: number; //电压
   power: number; //功率
   temperature: number; //主板温度
+  current_system_version: string; //备用系统信息
   system_version: string; //系统运行版本号
   system_partition: string; //当前系统分区
   system_disk_use: string; //系统使用量

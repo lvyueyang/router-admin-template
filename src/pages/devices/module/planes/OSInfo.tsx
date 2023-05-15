@@ -137,8 +137,15 @@ export default function OSInfo() {
           <ProCard.Divider />
           <ProCard>
             <Statistic
-              title="版本号"
+              title="操作系统"
               value={info?.system_version || '-'}
+              valueStyle={{ fontSize: 18 }}
+            />
+          </ProCard>
+          <ProCard>
+            <Statistic
+              title="版本号"
+              value={info?.current_system_version || '-'}
               valueStyle={{ fontSize: 18 }}
             />
           </ProCard>
