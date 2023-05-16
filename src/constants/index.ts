@@ -16,10 +16,10 @@ export const CLUSTER_TYPE = {
     id: 'glusterd',
     label: 'glusterd',
   },
-  ISCSI: {
-    id: 'iscsi',
-    label: 'iscsi',
-  },
+  // ISCSI: {
+  //   id: 'iscsi',
+  //   label: 'iscsi',
+  // },
 } as const;
 
 export type CLUSTER_TYPE_ENUM = TypeValue<typeof CLUSTER_TYPE>['id'];
