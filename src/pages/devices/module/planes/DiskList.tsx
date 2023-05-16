@@ -33,23 +33,6 @@ export default function DiskList() {
         title="硬盘信息"
         extra={
           <Space>
-            <Popconfirm
-              title="确定要进行硬盘老化操作吗？"
-              onConfirm={() => {
-                const close = message.loading('操作中...');
-                diskAging(id!)
-                  .then(() => {
-                    message.success('操作成功');
-                  })
-                  .finally(() => {
-                    close();
-                  });
-              }}
-            >
-              <Button type="primary" ghost>
-                硬盘老化
-              </Button>
-            </Popconfirm>
             <Popconfirm title="确定要进行 Raid 操作吗？" onConfirm={runRaidHandler}>
               <Button type="primary" ghost loading={raidLoading}>
                 Raid{raidLoading && '中...'}
