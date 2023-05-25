@@ -38,7 +38,7 @@ function IpUpdateModal({ id, data, onComplete, ...props }: IpUpdateModalProps) {
       setLoading(true);
       const values = form.getFieldsValue();
       updateIpGateWay({
-        mac_address: id,
+        host_name: id,
         new_ip: values.ip,
         new_gateway: values.gateway,
       })

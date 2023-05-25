@@ -66,7 +66,7 @@ export interface ServiceItem {
 }
 
 export interface UpdateIpGateWayBody {
-  mac_address: string; //mac地址
+  host_name: string; //mac地址
   new_ip: string; //新ip
   new_gateway: string; //新网关
 }
