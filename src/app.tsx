@@ -1,10 +1,10 @@
-import React from 'react';
-import dayjs from 'dayjs';
-import { RuntimeConfig } from 'umi';
-import 'dayjs/locale/zh-cn';
 import 'antd/dist/reset.css';
-import { ThemeProvider } from './theme';
+import dayjs from 'dayjs';
+import 'dayjs/locale/zh-cn';
+import React from 'react';
+import { RuntimeConfig } from 'umi';
 import pkg from '../package.json';
+import { ThemeProvider } from './theme';
 
 dayjs.locale('zh-cn');
 console.log('version:', pkg.version);

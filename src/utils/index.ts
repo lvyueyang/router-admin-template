@@ -1,4 +1,6 @@
-import { message } from 'antd';
+import { message } from '@/utils/message';
+import { ProFieldValueEnumType } from '@ant-design/pro-components';
+import { SortOrder } from 'antd/es/table/interface';
 
 interface TransformPaginationOption {
   current?: number;
@@ -7,9 +9,26 @@ interface TransformPaginationOption {
 /** antd-pro-table 分页参数格式化 */
 export function transformPagination({ current, pageSize }: TransformPaginationOption) {
   return {
-    page: current || 1,
+    current: current || 1,
     page_size: pageSize || 10,
   };
+}
+
+const ORDER_ENUM = {
+  descend: 'DESC',
+  ascend: 'ASC',
+};
+
+export function transformSort(sort: { [key: string]: SortOrder }) {
+  const res = Object.entries(sort).map(([key, value]) => {
+    if (!value) return {};
+    return {
+      order_key: key,
+      order_type: ORDER_ENUM[value],
+    };
+  });
+
+  return res[0];
 }
 
 /** 复制文字 */
@@ -66,3 +85,48 @@ export function redundancyCount(len: number) {
   }
   return 4;
 }
+
+/** 合并 className */
+export function cls(...classList: (string | undefined)[]) {
+  return classList.filter((i) => !!i).join(' ');
+}
+
+export function options2ValueEnum(
+  values: Record<string, { value: string | number; label: string; color?: string }>,
+) {
+  const res: ProFieldValueEnumType = {};
+  Object.values(values).forEach((item) => {
+    res[item.value] = {
+      status: item.color,
+      text: item.label,
+    };
+  });
+
+  return res;
+}
+
+/** options 转 optionsGroup */
+export function arrayGroupBy(arr: { value: string | number; label: string; type: string }[]) {
+  const res: { label: string; options: { label: string; value: string | number }[] }[] = [];
+  arr.forEach((item) => {
+    const group = res.find((i) => i.label === item.type);
+    if (group) {
+      group.options.push(item);
+    } else {
+      res.push({
+        label: item.type,
+        options: [{ label: item.label, value: item.value }],
+      });
+    }
+  });
+  return res;
+}
+
+function createUuid() {
+  let n = 0;
+  return () => {
+    n += 1;
+    return n + '';
+  };
+}
+export const uuid = createUuid();

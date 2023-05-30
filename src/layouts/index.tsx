@@ -1,14 +1,14 @@
+import UserInfoContext from '@/context/UserInfo';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
-import UserInfoContext from '@/context/UserInfo';
 
-import { Outlet } from 'umi';
-import { useEffect, useState } from 'react';
-import { UserInfo } from '@/services/interface';
+import { UserAdminInfo } from '@/interface/serverApi';
 import { getUserInfo } from '@/services';
+import { useEffect, useState } from 'react';
+import { Outlet } from 'umi';
 
 export default function DefaultLayout() {
-  const [userInfo, setUserInfo] = useState<UserInfo>();
+  const [userInfo, setUserInfo] = useState<UserAdminInfo>();
   const loadUserInfo = () => {
     getUserInfo().then(({ data }) => {
       setUserInfo(data.data);

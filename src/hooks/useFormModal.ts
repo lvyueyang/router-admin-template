@@ -1,14 +1,17 @@
+import { message } from '@/utils/message';
+import { Form } from 'antd';
 import { useState } from 'react';
-import { Form, message } from 'antd';
 
 export const enum ModalType {
   CREATE,
   UPDATE,
+  OTHER,
 }
 
 export const ModalTypeCname = {
   [ModalType.CREATE]: '创建',
   [ModalType.UPDATE]: '修改',
+  [ModalType.OTHER]: '操作',
 };
 
 class FormModal {

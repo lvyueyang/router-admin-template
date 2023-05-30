@@ -1,81 +1,51 @@
-import { Avatar, Button, Menu, Row, Tooltip } from 'antd';
 import LOGO from '@/assets/logo.png';
-import {} from '@ant-design/icons';
-import styles from './index.module.less';
-import { history, Link } from 'umi';
-import { TOKEN_COOKIE_KEY } from '@/constants';
-import Cookies from 'js-cookie';
 import useUserInfo from '@/hooks/useUserInfo';
-import router from '../../../config/router';
+import { outLogin } from '@/services';
+import { Avatar, Button, Menu, Row, Tooltip } from 'antd';
+import { useEffect, useState } from 'react';
+import { Link, history } from 'umi';
+import { getDefaultOpenKeys, getNavMenu } from './getNavMenu';
+import styles from './index.module.less';
 
-interface RouterItem {
-  path: string;
-  icon?: React.ForwardRefExoticComponent<any>;
-  title: string;
-  routes?: RouterItem[];
-  hideMenu?: boolean;
-}
-
-interface Item {
-  label: string;
-  icon?: JSX.Element;
-  key: string;
-  children?: Item[];
-}
-
-function routers2menu(routers: RouterItem[]) {
-  let menuList: Item[] = [];
-  function loop(menus: Item[], children: RouterItem[]) {
-    children.forEach((route) => {
-      if (route.hideMenu) return;
-      const Icon = route.icon;
-      const item: Item = {
-        label: route.title,
-        icon: Icon ? <Icon /> : void 0,
-        key: route.path,
-      };
-      if (route.routes) {
-        item.children = [];
-        loop(item.children, route.routes);
-      }
-      menus.push(item);
-    });
-  }
-  loop(menuList, routers);
-  return menuList;
-}
-
-const menuRouters = router.routes.find((r) => r.path === '/' && r.routes)?.routes || [];
-const menus = routers2menu(menuRouters);
+const menuItems = getNavMenu();
 
 export default function SideBar() {
-  const { userInfo } = useUserInfo();
+  const [selectKeys, setSelectKeys] = useState<string[]>(() => {
+    return [location.pathname];
+  });
+  const [openKeys, setOpenKeys] = useState<string[]>(() => {
+    return getDefaultOpenKeys();
+  });
+  useEffect(() => {
+    const openKeys = getDefaultOpenKeys();
+    setOpenKeys(openKeys);
+    setSelectKeys(openKeys);
+  }, [location.pathname]);
   return (
     <div className={styles.sideBarContainer}>
-      <Link to="/" className={styles.logoTitle}>
-        <img src={LOGO} alt="土星云管理系统" />
-        <span className={styles.title}>土星云管理系统</span>
-      </Link>
-      {/* 导航菜单 */}
       <Menu
-        className={styles.menuList}
-        defaultSelectedKeys={[location.pathname]}
-        defaultOpenKeys={['/' + location.pathname.split('/')[1]]}
         mode="inline"
-        items={menus}
+        className={styles.menuList}
+        items={menuItems}
+        openKeys={openKeys}
+        selectedKeys={selectKeys}
         onClick={(e) => {
+          setSelectKeys([e.key]);
           history.push(e.key);
+        }}
+        onOpenChange={(e) => {
+          setOpenKeys(e);
         }}
       />
       {/* 头像与退出 */}
-      <Row className={styles.userContainer} align="middle">
-        <Tooltip title={userInfo?.user_name}>
+      {/* <Row className={styles.userContainer} align="middle">
+        <Tooltip title={userInfo?.username}>
           <Link to="/userinfo">
             <Row align="middle">
               <Avatar shape="square" src="">
-                {userInfo?.user_name?.substring(0, 1).toLocaleUpperCase()}
+                {userInfo?.cname?.substring(0, 1).toLocaleUpperCase()}
               </Avatar>
-              <span className={styles.username}>{userInfo?.user_name}</span>
+              <span className={styles.username}>{userInfo?.cname}</span>
             </Row>
           </Link>
         </Tooltip>
@@ -83,14 +53,14 @@ export default function SideBar() {
           <Button
             type="text"
             onClick={() => {
-              Cookies.remove(TOKEN_COOKIE_KEY);
+              outLogin();
               history.push('/login');
             }}
           >
             退出
           </Button>
         </div>
-      </Row>
+      </Row> */}
     </div>
   );
 }

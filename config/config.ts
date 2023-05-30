@@ -4,15 +4,14 @@ import router from './router';
 export default defineConfig({
   npmClient: 'yarn',
   proxy: {
-    '/admin-api': {
-      target: 'http://192.168.31.18:8085/',
+    '/api': {
+      target: 'http://127.0.0.1:7003/',
       changeOrigin: true,
       secure: false,
     },
   },
-  hash: true,
   routes: router.routes,
-  title: '土星云管理系统',
+  title: 'template',
   // mfsu: false,
   // targets: {
   //   ie: 11,

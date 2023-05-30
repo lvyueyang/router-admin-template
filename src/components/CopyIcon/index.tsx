@@ -1,6 +1,7 @@
 import { copyText } from '@/utils';
+import { message } from '@/utils/message';
 import { CopyFilled } from '@ant-design/icons';
-import { message, Tooltip } from 'antd';
+import { Tooltip } from 'antd';
 
 interface IProps {
   title?: string;

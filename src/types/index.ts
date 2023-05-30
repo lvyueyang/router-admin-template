@@ -8,7 +8,7 @@ export type TypeValue<T> = T[keyof T];
 
 export interface Pagination {
   /** 当前页码 */
-  page: number;
+  current: number;
   /** 每页条数 */
   page_size: number;
 }
@@ -16,7 +16,7 @@ export interface Pagination {
 export interface Result<T> {
   code: number;
   data: T;
-  msg: string;
+  message: string;
 }
 
 export type ListResult<T> = Result<{

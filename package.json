@@ -1,12 +1,14 @@
 {
-  "name": "saturn-private-manage",
-  "version": "2.0.10",
+  "name": "router-admin-template",
+  "version": "1.0.0",
   "private": true,
-  "author": "yueyang.lv <yueyang.lv@ucas.com.cn>",
+  "description": "路由式后台管理系统模板",
+  "author": "lvyueyang <975794403@qq.com>",
   "scripts": {
     "analyze": "cross-env ANALYZE=1 umi build",
     "build": "umi build",
-    "dev": "cross-env PORT=8808 umi dev",
+    "dev": "cross-env PORT=8001 umi dev",
+    "gapi": "node generateSwagger.js",
     "postinstall": "umi setup",
     "lint": "umi lint",
     "prepare": "husky install",
@@ -21,24 +23,31 @@
     "@ant-design/icons": "^4.8.0",
     "@ant-design/pro-card": "^2.1.1",
     "@ant-design/pro-components": "^2.3.39",
+    "@wangeditor/editor": "^5.1.23",
+    "@wangeditor/editor-for-react": "^1.0.6",
+    "@wangeditor/plugin-upload-attachment": "^1.1.0",
     "ahooks": "^3.7.4",
     "antd": "^5.1.2",
     "axios": "^0.27.2",
     "js-cookie": "^3.0.1",
     "react-js-cron": "^3.2.0",
-    "react-json-view": "^1.21.3",
-    "umi": "^4.0.34"
+    "react-json-view": "^1.21.3"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@umijs/lint": "^4.0.8",
+    "@wangeditor/editor": "^5.1.23",
+    "@wangeditor/editor-for-react": "^1.0.6",
+    "@wangeditor/plugin-upload-attachment": "^1.1.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.20.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "stylelint": "^14.9.1",
-    "typescript": "^4.1.2"
+    "swagger-typescript-api": "^12.0.4",
+    "typescript": "^4.1.2",
+    "umi": "^4.0.34"
   }
 }

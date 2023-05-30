@@ -1,8 +1,8 @@
-import { UserInfo } from '@/services/interface';
+import { UserAdminInfo } from '@/interface/serverApi';
 import { createContext } from 'react';
 
 interface Options {
-  data?: UserInfo;
+  data?: UserAdminInfo;
   loadInfo?: () => void;
 }
 

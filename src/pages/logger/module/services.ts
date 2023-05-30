@@ -1,16 +1,33 @@
 import { AIP_FIX } from '@/constants';
-import { Result } from '@/types';
-import { OperateLogItemResult } from './types';
+import { LoggerListResponseDto } from '@/interface/serverApi';
 import request from '@/services/request';
+import { Result } from '@/types';
 
-/** 操作日志列表 */
-export const getOperateLogList = (keywords = '') => {
-  return request.post<Result<OperateLogItemResult[]>>(`${AIP_FIX}/log/GetOperationLatelyList`, {
-    keywords,
-  });
+export interface LoggerItem {
+  context: string;
+  level: string;
+  message: string;
+  trace: string;
+}
+
+/** 列表 */
+export const getListApi = () => {
+  return request.get<LoggerListResponseDto>(`${AIP_FIX}/logger`);
 };
 
-/** 获取操作日志-下载地址 */
-export const getOperateLogDownloadUrl = () => {
-  return request.get<Result<string>>(`${AIP_FIX}/log/GetOperationLogDownload`);
+/** 详情 */
+export const getDetailApi = async (date: string) => {
+  const res = await request.get<Result<string[]>>(`${AIP_FIX}/logger/${date}`);
+  return {
+    ...res,
+    data: {
+      ...res.data,
+      data: res.data.data
+        .filter((i) => i.trim())
+        .map((item) => {
+          const obj = JSON.parse(item);
+          return obj as LoggerItem;
+        }),
+    },
+  };
 };
