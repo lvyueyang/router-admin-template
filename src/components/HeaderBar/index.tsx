@@ -1,13 +1,28 @@
 import LOGO from '@/assets/logo.png';
 import useUserInfo from '@/hooks/useUserInfo';
 import { outLogin } from '@/services';
-import { DownOutlined } from '@ant-design/icons';
+import { DownOutlined, FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons';
+import { useFullscreen } from 'ahooks';
 import { Avatar, Dropdown } from 'antd';
+import { useRef } from 'react';
 import { Link, history } from 'umi';
 import styles from './index.module.less';
 
+function PageFullscreenButton(props: React.HTMLAttributes<HTMLDivElement>) {
+  const ref = useRef(document.body);
+  const [isFullscreen, { toggleFullscreen }] = useFullscreen(ref);
+  console.log('isFullscreen: ', isFullscreen);
+
+  return (
+    <div {...props} onClick={toggleFullscreen}>
+      {!isFullscreen ? <FullscreenOutlined /> : <FullscreenExitOutlined />}
+    </div>
+  );
+}
+
 export default function HeaderBar() {
   const { userInfo } = useUserInfo();
+
   return (
     <div className={`${styles.headerContainer} header`}>
       <Link to="/" className={styles.logoTitle}>
@@ -16,6 +31,9 @@ export default function HeaderBar() {
         </span>
       </Link>
       <div className={styles.userContainer}>
+        <div className={styles.item}>
+          <PageFullscreenButton />
+        </div>
         <Dropdown
           menu={{
             items: [
