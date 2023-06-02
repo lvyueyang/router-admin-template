@@ -60,7 +60,7 @@ export default function HeaderBar() {
               Avatar
             </Avatar>
             <span className={styles.username}>{userInfo?.cname || 'Admin'}</span>
-            <DownOutlined />
+            <DownOutlined style={{ fontSize: 12 }} />
           </div>
         </Dropdown>
       </div>
