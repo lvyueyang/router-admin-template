@@ -1,4 +1,4 @@
-// import { FundFilled } from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 
 const router = {
   routes: [
@@ -21,6 +21,7 @@ const router = {
         {
           path: '/user-admin',
           title: '后台账户管理',
+          icon: UserOutlined,
           routes: [
             {
               path: '/user-admin/user-list',

@@ -87,7 +87,7 @@ export function redundancyCount(len: number) {
 }
 
 /** 合并 className */
-export function cls(...classList: (string | undefined)[]) {
+export function cls(...classList: (string | undefined | boolean)[]) {
   return classList.filter((i) => !!i).join(' ');
 }
 

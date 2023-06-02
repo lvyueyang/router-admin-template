@@ -1,9 +1,8 @@
-import LOGO from '@/assets/logo.png';
-import useUserInfo from '@/hooks/useUserInfo';
-import { outLogin } from '@/services';
-import { Avatar, Button, Menu, Row, Tooltip } from 'antd';
+import { cls } from '@/utils';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { Menu } from 'antd';
 import { useEffect, useState } from 'react';
-import { Link, history } from 'umi';
+import { history } from 'umi';
 import { getDefaultOpenKeys, getNavMenu } from './getNavMenu';
 import styles from './index.module.less';
 
@@ -16,14 +15,20 @@ export default function SideBar() {
   const [openKeys, setOpenKeys] = useState<string[]>(() => {
     return getDefaultOpenKeys();
   });
+  const [collapsed, setCollapsed] = useState(false);
+
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed);
+  };
   useEffect(() => {
     const openKeys = getDefaultOpenKeys();
     setOpenKeys(openKeys);
     setSelectKeys(openKeys);
   }, [location.pathname]);
   return (
-    <div className={styles.sideBarContainer}>
+    <div className={cls(styles.sideBarContainer, collapsed && styles.collapsed)}>
       <Menu
+        inlineCollapsed={collapsed}
         mode="inline"
         className={styles.menuList}
         items={menuItems}
@@ -37,30 +42,11 @@ export default function SideBar() {
           setOpenKeys(e);
         }}
       />
-      {/* 头像与退出 */}
-      {/* <Row className={styles.userContainer} align="middle">
-        <Tooltip title={userInfo?.username}>
-          <Link to="/userinfo">
-            <Row align="middle">
-              <Avatar shape="square" src="">
-                {userInfo?.cname?.substring(0, 1).toLocaleUpperCase()}
-              </Avatar>
-              <span className={styles.username}>{userInfo?.cname}</span>
-            </Row>
-          </Link>
-        </Tooltip>
-        <div>
-          <Button
-            type="text"
-            onClick={() => {
-              outLogin();
-              history.push('/login');
-            }}
-          >
-            退出
-          </Button>
+      <div className={styles.operate}>
+        <div className={styles.item} onClick={toggleCollapsed}>
+          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
         </div>
-      </Row> */}
+      </div>
     </div>
   );
 }
