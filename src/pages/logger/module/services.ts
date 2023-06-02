@@ -1,7 +1,6 @@
 import { AIP_FIX } from '@/constants';
 import { LoggerListResponseDto } from '@/interface/serverApi';
-import request from '@/services/request';
-import { Result } from '@/types';
+import { Result, request } from '@/request';
 
 export interface LoggerItem {
   context: string;

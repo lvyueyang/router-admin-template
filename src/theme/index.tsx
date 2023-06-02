@@ -1,4 +1,4 @@
-import MessageRoot from '@/utils/message';
+import MessageRoot from '@/utils/notice';
 import { App, ConfigProvider, theme as antdTheme } from 'antd';
 import { OverrideToken } from 'antd/es/theme/interface';
 import { AliasToken } from 'antd/lib/theme/interface';

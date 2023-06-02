@@ -7,8 +7,7 @@ import {
   AdminRoleUpdateDto,
   AdminRoleUpdatePermissionCodeDto,
 } from '@/interface/serverApi';
-import request from '@/services/request';
-import { Pagination } from '@/types';
+import { Pagination, request } from '@/request';
 
 /** 列表 */
 export const getListApi = (params: Pagination) => {

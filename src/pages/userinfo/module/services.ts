@@ -1,7 +1,4 @@
-import { AIP_FIX } from '@/constants';
-import request from '@/services/request';
-
-import { Result } from '@/types';
+import { AIP_FIX, Result, request } from '@/request';
 import { UpdatePasswordBody } from './types';
 
 /** 修改密码 */

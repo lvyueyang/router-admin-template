@@ -1,4 +1,4 @@
-import { message } from '@/utils/message';
+import { message } from '@/utils/notice';
 import { ProFieldValueEnumType } from '@ant-design/pro-components';
 import { SortOrder } from 'antd/es/table/interface';
 

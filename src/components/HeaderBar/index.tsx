@@ -1,19 +1,19 @@
-import { Link, history } from 'umi';
 import LOGO from '@/assets/logo.png';
-import styles from './index.module.less';
-import { Avatar, Button, Dropdown, Row, Space, Tooltip } from 'antd';
 import useUserInfo from '@/hooks/useUserInfo';
 import { outLogin } from '@/services';
+import { DownOutlined } from '@ant-design/icons';
+import { Avatar, Dropdown } from 'antd';
+import { Link, history } from 'umi';
+import styles from './index.module.less';
 
 export default function HeaderBar() {
   const { userInfo } = useUserInfo();
   return (
     <div className={`${styles.headerContainer} header`}>
       <Link to="/" className={styles.logoTitle}>
-        {/* <span className={styles.title}>
+        <span className={styles.title}>
           <img src={LOGO} alt="" />
-        </span> */}
-        <span>管理系统</span>
+        </span>
       </Link>
       <div className={styles.userContainer}>
         <Dropdown
@@ -42,6 +42,7 @@ export default function HeaderBar() {
               Avatar
             </Avatar>
             <span className={styles.username}>{userInfo?.cname || 'Admin'}</span>
+            <DownOutlined />
           </div>
         </Dropdown>
       </div>

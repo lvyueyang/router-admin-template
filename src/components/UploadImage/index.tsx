@@ -1,5 +1,5 @@
 import { uploadFile } from '@/services';
-import { message } from '@/utils/message';
+import { message } from '@/utils/notice';
 import { PlusOutlined } from '@ant-design/icons';
 import { Upload, UploadProps } from 'antd';
 interface UploadImageProps {

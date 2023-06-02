@@ -1,5 +1,5 @@
 import { TOKEN_COOKIE_KEY } from '@/constants';
-import { notification } from '@/utils/message';
+import { notification } from '@/utils/notice';
 import axios, { AxiosRequestConfig } from 'axios';
 import { history } from 'umi';
 

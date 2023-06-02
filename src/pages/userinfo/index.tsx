@@ -2,11 +2,11 @@ import Header from '@/components/Header';
 import PageContainer from '@/components/PageContainer';
 import useUserInfo from '@/hooks/useUserInfo';
 import { UserAdminInfo } from '@/interface/serverApi';
-import { message } from '@/utils/message';
+import { message } from '@/utils/notice';
 import { useRequest } from 'ahooks';
 import { Button, Card, Form, Input, Space } from 'antd';
 import { useEffect } from 'react';
-import { updatePassword, UpdatePasswordBody } from './module';
+import { UpdatePasswordBody, updatePassword } from './module';
 
 type FormValues = UserAdminInfo;
 

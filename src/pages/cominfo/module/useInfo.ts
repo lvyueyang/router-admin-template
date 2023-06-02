@@ -1,6 +1,6 @@
-import { CominfoUpdateDto } from '@/interface/serverApi';
-import { message } from '@/utils/message';
 import { COMINFO_TYPE_ENUM } from '@/constants';
+import { CominfoUpdateDto } from '@/interface/serverApi';
+import { message } from '@/utils/notice';
 import { useRequest } from 'ahooks';
 import { Form } from 'antd';
 import { useEffect, useState } from 'react';

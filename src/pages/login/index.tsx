@@ -2,10 +2,10 @@ import LoginContainer from '@/components/LoginContainer';
 import { TOKEN_COOKIE_KEY } from '@/constants';
 import useUserInfo from '@/hooks/useUserInfo';
 import { UserAdminLoginBody } from '@/interface/serverApi';
-import { message } from '@/utils/message';
+import { message } from '@/utils/notice';
 import { Button, Form, Input, Row, Space } from 'antd';
 import { useEffect, useState } from 'react';
-import { history, Link } from 'umi';
+import { Link, history } from 'umi';
 import { login } from './modules';
 
 type LoginBody = UserAdminLoginBody;

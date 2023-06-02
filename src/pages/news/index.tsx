@@ -5,7 +5,7 @@ import { NewsInfo } from '@/interface/serverApi';
 
 import { options2ValueEnum, transformPagination, transformSort } from '@/utils';
 
-import { message } from '@/utils/message';
+import { message } from '@/utils/notice';
 
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 

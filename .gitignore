@@ -7,4 +7,4 @@
 /dist
 .vscode
 /build_deploy
-dist.zip
+./yarn-error.log

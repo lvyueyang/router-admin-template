@@ -1,5 +1,5 @@
 import { uploadFile } from '@/services';
-import { message } from '@/utils/message';
+import { message } from '@/utils/notice';
 import { PlusOutlined } from '@ant-design/icons';
 import { Modal, Upload } from 'antd';
 import type { RcFile, UploadProps } from 'antd/es/upload';

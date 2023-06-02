@@ -1,8 +1,6 @@
-import { AIP_FIX } from '@/constants';
+import { AIP_FIX, COMINFO_TYPE_ENUM } from '@/constants';
 import { CominfoDetailResponseDto, CominfoUpdateDto } from '@/interface/serverApi';
-import request from '@/services/request';
-import { Result } from '@/types';
-import { COMINFO_TYPE_ENUM } from '@/constants';
+import { Result, request } from '@/request';
 
 /** 详情 */
 export const getDetailApi = (type: COMINFO_TYPE_ENUM) => {

@@ -6,8 +6,7 @@ import {
   NewsQueryListDto,
   NewsUpdateDto,
 } from '@/interface/serverApi';
-import request from '@/services/request';
-import { Result } from '@/types';
+import { Result, request } from '@/request';
 
 /** 列表 */
 export const getListApi = (params: NewsQueryListDto) => {

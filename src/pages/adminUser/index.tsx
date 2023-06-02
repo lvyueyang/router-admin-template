@@ -4,7 +4,7 @@ import PageContainer from '@/components/PageContainer';
 import { ModalType, useFormModal } from '@/hooks/useFormModal';
 import { UserAdminCreateDto, UserAdminInfo } from '@/interface/serverApi';
 import { transformPagination } from '@/utils';
-import { message } from '@/utils/message';
+import { message } from '@/utils/notice';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { useRequest } from 'ahooks';
 import { Button, Form, Input, Modal, Space, Spin, Tag, Transfer } from 'antd';

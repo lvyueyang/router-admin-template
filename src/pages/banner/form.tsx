@@ -1,9 +1,9 @@
 import Header from '@/components/Header';
 import PageContainer from '@/components/PageContainer';
 import UploadImage from '@/components/UploadImage';
-import { BannerUpdateDto } from '@/interface/serverApi';
-import { message } from '@/utils/message';
 import { BANNER_POSITION, BANNER_STATUS } from '@/constants';
+import { BannerUpdateDto } from '@/interface/serverApi';
+import { message } from '@/utils/notice';
 import { useRequest } from 'ahooks';
 import { Button, Card, Form, Input, Row, Select } from 'antd';
 import { useEffect } from 'react';

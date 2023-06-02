@@ -8,6 +8,9 @@ const router = {
     {
       path: '/',
       component: '@/layouts/main',
+      meta: {
+        isMenuRoot: true,
+      },
       routes: [
         {
           path: '/userinfo',
@@ -21,7 +24,7 @@ const router = {
           routes: [
             {
               path: '/user-admin/user-list',
-              component: 'user-admin',
+              component: 'adminUser',
               title: '用户列表',
             },
             {

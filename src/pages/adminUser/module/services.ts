@@ -8,8 +8,7 @@ import {
   UserAdminUpdatePasswordDto,
   UserAdminUpdateRolesDto,
 } from '@/interface/serverApi';
-import request from '@/services/request';
-import { Pagination, Result } from '@/types';
+import { Pagination, Result, request } from '@/request';
 
 /** 用户列表 */
 export const getUserList = (pagination: Pagination) => {
