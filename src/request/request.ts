@@ -1,4 +1,4 @@
-import { TOKEN_COOKIE_KEY } from '@/constants';
+import { TOKEN_KEY } from '@/constants';
 import { notification } from '@/utils/notice';
 import axios, { AxiosRequestConfig } from 'axios';
 import { history } from 'umi';
@@ -18,7 +18,7 @@ const ignoreLoginPaths = ['/login', '/nopassword'].map((p) => `/${p}`);
 
 /** 请求拦截 */
 request.interceptors.request.use((config) => {
-  const token = localStorage.getItem(TOKEN_COOKIE_KEY);
+  const token = localStorage.getItem(TOKEN_KEY);
   if (token) {
     // @ts-ignore
     config.headers.set('token', token);

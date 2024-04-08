@@ -1,12 +1,12 @@
 import { AIP_FIX } from '@/constants';
+import { Result, request } from '@/request';
 import {
   NewsCreateDto,
   NewsDetailResponseDto,
   NewsListResponseDto,
   NewsQueryListDto,
   NewsUpdateDto,
-} from '@/interface/serverApi';
-import { Result, request } from '@/request';
+} from 'interface/serverApi';
 
 /** 列表 */
 export const getListApi = (params: NewsQueryListDto) => {

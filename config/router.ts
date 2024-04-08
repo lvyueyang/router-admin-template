@@ -1,10 +1,7 @@
-import { UserOutlined } from '@ant-design/icons';
-
 const router = {
   routes: [
     { path: '/login', component: 'login' },
     { path: '/nopassword', component: 'nopassword' },
-    { path: '/', redirect: '/user-admin/user-list' },
     {
       path: '/',
       component: '@/layouts/main',
@@ -13,40 +10,22 @@ const router = {
       },
       routes: [
         {
+          path: '/',
+          component: 'home',
+          title: '首页',
+        },
+        {
           path: '/userinfo',
           component: 'userinfo',
           title: '用户信息',
           menuHide: true,
         },
         {
-          path: '/user-admin',
-          title: '后台账户管理',
-          icon: UserOutlined,
-          routes: [
-            {
-              path: '/user-admin/user-list',
-              component: 'adminUser',
-              title: '用户列表',
-            },
-            {
-              path: '/user-admin/role-list',
-              component: 'adminRole',
-              title: '角色管理',
-            },
-          ],
-        },
-        {
-          path: '/logger',
-          component: 'logger',
-          title: '系统日志',
-        },
-
-        {
           path: '/news',
           title: '新闻管理',
           routes: [
             {
-              path: '/news',
+              path: '/news/list',
               title: '新闻列表',
               component: 'news',
             },
@@ -60,41 +39,6 @@ const router = {
               component: 'news/form',
               title: '修改新闻',
               menuHide: true,
-            },
-          ],
-        },
-
-        {
-          path: '/banner',
-          title: '广告位管理',
-          routes: [
-            {
-              path: '/banner',
-              title: '广告列表',
-              component: 'banner',
-            },
-            {
-              path: '/banner/create',
-              title: '新增广告',
-              component: 'banner/form',
-            },
-            {
-              path: '/banner/update/:id',
-              component: 'banner/form',
-              title: '修改广告',
-              menuHide: true,
-            },
-          ],
-        },
-
-        {
-          path: '/cominfo',
-          title: '信息管理',
-          routes: [
-            {
-              path: '/cominfo/info',
-              component: 'cominfo/info',
-              title: '公司介绍',
             },
           ],
         },

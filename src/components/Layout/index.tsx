@@ -1,7 +1,7 @@
 import React from 'react';
+import HeaderBar from './HeaderBar';
+import SideBar from './SideBar';
 import styles from './index.module.less';
-import SideBar from '../SideBar';
-import HeaderBar from '../HeaderBar';
 
 interface IProps {
   children: React.ReactNode;
@@ -9,12 +9,12 @@ interface IProps {
 
 export default function Layout({ children }: IProps) {
   return (
-    <>
-      <HeaderBar />
-      <div style={{ display: 'flex' }}>
-        <SideBar />
+    <div className={styles.mainLayout}>
+      <SideBar />
+      <div className={styles.contentWrap}>
+        <HeaderBar />
         <div className={styles.content}>{children}</div>
       </div>
-    </>
+    </div>
   );
 }

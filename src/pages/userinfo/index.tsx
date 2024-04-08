@@ -1,14 +1,12 @@
-import Header from '@/components/Header';
-import PageContainer from '@/components/PageContainer';
-import useUserInfo from '@/hooks/useUserInfo';
-import { UserAdminInfo } from '@/interface/serverApi';
+import { ModelAdminUser } from '@/interface/serverApi';
+import { useUserinfoStore } from '@/store/userinfo';
 import { message } from '@/utils/notice';
 import { useRequest } from 'ahooks';
 import { Button, Card, Form, Input, Space } from 'antd';
 import { useEffect } from 'react';
 import { UpdatePasswordBody, updatePassword } from './module';
 
-type FormValues = UserAdminInfo;
+type FormValues = ModelAdminUser;
 
 function UpdatePassword() {
   const [form] = Form.useForm<UpdatePasswordBody>();
@@ -71,8 +69,7 @@ function UpdatePassword() {
   );
 }
 export default function UserInfoPage() {
-  const { userInfo, loadUser } = useUserInfo();
-
+  const { data: userInfo, load: loadUser } = useUserinfoStore();
   const [form] = Form.useForm<FormValues>();
 
   useEffect(() => {
@@ -85,30 +82,27 @@ export default function UserInfoPage() {
 
   return (
     <>
-      <Header />
-      <PageContainer>
-        <Card style={{ maxWidth: 600, margin: '0 auto' }}>
-          <Form<FormValues> labelCol={{ span: 4 }} form={form} colon={false}>
-            <Form.Item label="用户名">
-              <Space>
-                <Input readOnly style={{ width: 300 }} value={userInfo?.username} />
-              </Space>
-            </Form.Item>
-            <Form.Item label="邮箱">
-              <Space>
-                <Input readOnly style={{ width: 300 }} value={userInfo?.email} />
-              </Space>
-            </Form.Item>
-            <Form.Item label="姓名">
-              <Space>
-                <Input readOnly style={{ width: 300 }} value={userInfo?.cname} />
-              </Space>
-            </Form.Item>
-          </Form>
-        </Card>
-        {/* <UpdatePassword /> */}
-        <div style={{ height: 200 }}></div>
-      </PageContainer>
+      <Card style={{ maxWidth: 600, margin: '0 auto' }}>
+        <Form<FormValues> labelCol={{ flex: '100px' }} form={form} colon={false}>
+          <Form.Item label="用户名">
+            <Space>
+              <Input readOnly style={{ width: 300 }} value={userInfo?.username} />
+            </Space>
+          </Form.Item>
+          <Form.Item label="邮箱">
+            <Space>
+              <Input readOnly style={{ width: 300 }} value={userInfo?.email} />
+            </Space>
+          </Form.Item>
+          <Form.Item label="姓名">
+            <Space>
+              <Input readOnly style={{ width: 300 }} value={userInfo?.name} />
+            </Space>
+          </Form.Item>
+        </Form>
+      </Card>
+      {/* <UpdatePassword /> */}
+      <div style={{ height: 200 }}></div>
     </>
   );
 }
